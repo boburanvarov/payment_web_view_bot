@@ -1,0 +1,98 @@
+.screen {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px;
+    padding-bottom: 100px;
+    background: #F8F9FA;
+}
+
+.screen-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    h2 {
+        font-size: 20px;
+        font-weight: 600;
+        color: #1F2937;
+        margin: 0;
+    }
+}
+
+.icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1F2937;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: none;
+    cursor: pointer;
+}
+
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.credit-card {
+    border-radius: 16px;
+    padding: 24px;
+    color: white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 32px;
+}
+
+.card-logo {
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.card-balance-label {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.card-balance {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.card-number {
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    font-family: 'Courier New', monospace;
+}
+
+.card-holder {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

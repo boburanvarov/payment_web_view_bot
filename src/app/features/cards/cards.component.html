@@ -1,0 +1,32 @@
+<div class="screen cards-screen">
+    <div class="screen-header">
+        <button class="icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" />
+            </svg>
+        </button>
+        <h2>My Card</h2>
+        <button class="icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="cards-list">
+        <div class="credit-card" *ngFor="let card of cards" [style.background]="card.gradient">
+            <div class="card-header">
+                <span class="card-logo">VISA</span>
+                <div class="card-balance-label">Current Balance</div>
+            </div>
+            <div class="card-balance">${{ card.balance.toFixed(2) }}</div>
+            <div class="card-number">{{ card.number }}</div>
+            <div class="card-holder">{{ userName }}</div>
+        </div>
+    </div>
+
+    <app-bottom-nav></app-bottom-nav>
+</div>

@@ -1,0 +1,70 @@
+<div class="screen add-screen">
+    <div class="screen-header">
+        <button class="icon-btn" (click)="goBack()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+        <h2>Add</h2>
+        <button class="icon-btn"></button>
+    </div>
+
+    <div class="transaction-type-toggle">
+        <button class="type-btn" [class.active]="transactionType === 'income'" (click)="setTransactionType('income')">
+            <span class="type-icon">📥</span>
+            Add Income
+        </button>
+        <button class="type-btn" [class.active]="transactionType === 'expense'" (click)="setTransactionType('expense')">
+            <span class="type-icon">📤</span>
+            Add Expense
+        </button>
+    </div>
+
+    <div class="form-section">
+        <div class="form-group">
+            <label>{{ transactionType === 'income' ? 'Income' : 'Expense' }} Title</label>
+            <input type="text" [(ngModel)]="transactionTitle" placeholder="Enter title" class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label>Amount</label>
+            <div class="amount-input">
+                <span class="currency">$</span>
+                <input type="number" [(ngModel)]="transactionAmount" placeholder="0" class="form-input">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <div class="category-chips">
+                <button *ngFor="let category of categories" class="category-chip"
+                    [class.active]="transactionCategory === category" (click)="transactionCategory = category">
+                    {{ category }}
+                </button>
+            </div>
+        </div>
+
+        <button class="btn-primary full-width" (click)="addTransaction()">
+            Add {{ transactionType === 'income' ? 'Income' : 'Expense' }}
+        </button>
+    </div>
+
+    <div class="last-added-section">
+        <h3>Last Added</h3>
+        <div class="last-added-list">
+            <div class="last-added-item" *ngFor="let transaction of recentTransactions">
+                <div class="item-icon">{{ transaction.icon }}</div>
+                <div class="item-info">
+                    <div class="item-title">{{ transaction.title }}</div>
+                    <div class="item-date">{{ transaction.time }}</div>
+                </div>
+                <div class="item-amount" [class.income]="transaction.type === 'income'">
+                    {{ transaction.type === 'income' ? '+' : '-' }}${{ transaction.amount }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <app-bottom-nav></app-bottom-nav>
+</div>

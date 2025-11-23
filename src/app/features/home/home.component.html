@@ -1,0 +1,67 @@
+<div class="screen home-screen" *ngIf="userData">
+    <div class="screen-header">
+        <button class="icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" />
+            </svg>
+        </button>
+        <h2>Home</h2>
+        <button class="icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="2" fill="currentColor" />
+                <circle cx="12" cy="5" r="2" fill="currentColor" />
+                <circle cx="12" cy="19" r="2" fill="currentColor" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="balance-card">
+        <div class="balance-header">
+            <span>Total Balance</span>
+            <button class="more-btn">⋯</button>
+        </div>
+        <div class="balance-amount">${{ userData.balance.toFixed(2) }}</div>
+        <div class="balance-stats">
+            <div class="stat">
+                <span class="stat-icon income-icon">↓</span>
+                <div>
+                    <div class="stat-label">Income</div>
+                    <div class="stat-value">${{ userData.income.toFixed(2) }}</div>
+                </div>
+            </div>
+            <div class="stat">
+                <span class="stat-icon expense-icon">↑</span>
+                <div>
+                    <div class="stat-label">Expenses</div>
+                    <div class="stat-value">${{ userData.expenses.toFixed(2) }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="transactions-section">
+        <div class="section-header">
+            <h3>Transactions</h3>
+            <button class="link-btn" (click)="navigateToOverview()">See All</button>
+        </div>
+
+        <div class="transactions-list">
+            <div class="transaction-item" *ngFor="let transaction of recentTransactions">
+                <div class="transaction-icon">{{ transaction.icon }}</div>
+                <div class="transaction-info">
+                    <div class="transaction-title">{{ transaction.title }}</div>
+                    <div class="transaction-time">{{ transaction.time }}</div>
+                </div>
+                <div class="transaction-amount" [class.income]="transaction.type === 'income'"
+                    [class.expense]="transaction.type === 'expense'">
+                    {{ transaction.type === 'income' ? '+' : '-' }}${{ transaction.amount }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <app-bottom-nav></app-bottom-nav>
+</div>

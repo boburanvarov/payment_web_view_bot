@@ -1,0 +1,81 @@
+<div class="screen overview-screen" *ngIf="userData">
+    <div class="screen-header">
+        <button class="icon-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" />
+                <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" />
+            </svg>
+        </button>
+        <h2>Overview</h2>
+        <button class="icon-btn"></button>
+    </div>
+
+    <div class="income-expense-cards">
+        <div class="info-card">
+            <div class="info-icon purple">💰</div>
+            <div class="info-label">Total Income</div>
+            <div class="info-value">${{ userData.income.toFixed(0) }}</div>
+        </div>
+        <div class="info-card">
+            <div class="info-icon orange">💸</div>
+            <div class="info-label">Total Expenses</div>
+            <div class="info-value">${{ userData.expenses.toFixed(0) }}</div>
+        </div>
+    </div>
+
+    <div class="statistics-section">
+        <div class="section-header">
+            <h3>Statistics</h3>
+            <select class="period-select">
+                <option>Monthly</option>
+                <option>Weekly</option>
+                <option>Yearly</option>
+            </select>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-y-axis">
+                <span>$4k</span>
+                <span>$3k</span>
+                <span>$2k</span>
+                <span>$1k</span>
+                <span>$0</span>
+            </div>
+            <div class="chart-bars">
+                <div class="bar-group" *ngFor="let stat of weeklyStats">
+                    <div class="bars">
+                        <div class="bar income-bar" [style.height.%]="getBarHeight(stat.income)"></div>
+                        <div class="bar expense-bar" [style.height.%]="getBarHeight(stat.expenses)"></div>
+                    </div>
+                    <div class="bar-label">{{ stat.week }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-legend">
+            <div class="legend-item">
+                <span class="legend-color income"></span>
+                <span>Income</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-color expense"></span>
+                <span>Expenses</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="expenses-list">
+        <div class="expense-item" *ngFor="let transaction of userData.transactions.slice(0, 3)">
+            <div class="expense-icon">{{ transaction.icon }}</div>
+            <div class="expense-info">
+                <div class="expense-title">{{ transaction.title }}</div>
+                <div class="expense-date">{{ transaction.time }}</div>
+            </div>
+            <div class="expense-amount">-${{ transaction.amount }}</div>
+        </div>
+    </div>
+
+    <app-bottom-nav></app-bottom-nav>
+</div>
