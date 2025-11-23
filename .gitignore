@@ -45,3 +45,11 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Ngrok
+ngrok
+ngrok.exe
+ngrok.zip
+
+# Vercel
+.vercel
