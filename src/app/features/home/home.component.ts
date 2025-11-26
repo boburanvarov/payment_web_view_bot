@@ -5,11 +5,12 @@ import { UserService } from '../../core/services/user.service';
 import { TransactionService } from '../../core/services/transaction.service';
 import { UserData, Transaction } from '../../core/models';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
+import { BalanceCardCarouselComponent } from '../../shared/components/balance-card-carousel/balance-card-carousel.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, BottomNavComponent],
+    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

@@ -1,115 +1,46 @@
 <div class="screen home-screen" *ngIf="userData">
-    <div class="app-header">
-        <div class="brand-name">Expenzor</div>
-        <div class="header-actions">
-            <button class="notification-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-                <span class="notification-dot"></span>
-            </button>
-            <button class="settings-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M12 1v6m0 6v6"></path>
-                </svg>
-            </button>
-        </div>
+    <div class="simple-header">
+        <button class="menu-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="4" y="4" width="7" height="7" rx="2" />
+                <rect x="13" y="4" width="7" height="7" rx="2" />
+                <rect x="4" y="13" width="7" height="7" rx="2" />
+                <rect x="13" y="13" width="7" height="7" rx="2" />
+            </svg>
+        </button>
+        <h1 class="page-title">Home</h1>
+        <button class="notification-btn">
+            <i class="fas fa-bell"></i>
+            <span class="notification-dot"></span>
+        </button>
     </div>
 
-    <div class="user-greeting">
-        <div class="greeting-text">Good afternoon,</div>
-        <div class="user-name">Enjelni Morganis</div>
-    </div>
-
-    <div class="balance-card">
-        <div class="world-map-bg"></div>
-        <div class="card-content">
-            <div class="balance-header">
-                <span>Total Balance</span>
-                <button class="dropdown-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="balance-amount">₹{{ (userData.balance * 83).toFixed(2) }}</div>
-            <div class="balance-stats">
-                <div class="stat income-stat">
-                    <div class="stat-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M12 19V5M5 12l7-7 7 7"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <div class="stat-label">Income</div>
-                        <div class="stat-value">₹ {{ (userData.income * 83).toFixed(2) }}</div>
-                    </div>
-                </div>
-                <div class="stat expense-stat">
-                    <div class="stat-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M12 5v14M5 12l7 7 7-7"></path>
-                        </svg>
-                    </div>
-                    <div class="stat-details">
-                        <div class="stat-label">Expenses</div>
-                        <div class="stat-value">₹ {{ (userData.expenses * 83).toFixed(2) }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="period-tabs">
-        <button class="period-tab" [class.active]="selectedPeriod === 'today'"
-            (click)="selectedPeriod = 'today'">Today</button>
-        <button class="period-tab" [class.active]="selectedPeriod === 'week'"
-            (click)="selectedPeriod = 'week'">Week</button>
-        <button class="period-tab" [class.active]="selectedPeriod === 'month'"
-            (click)="selectedPeriod = 'month'">Month</button>
-        <button class="period-tab" [class.active]="selectedPeriod === 'year'"
-            (click)="selectedPeriod = 'year'">Year</button>
-    </div>
+    <app-balance-card-carousel [cards]="userData.cards" [totalBalance]="userData.balance" [income]="userData.income"
+        [expenses]="userData.expenses">
+    </app-balance-card-carousel>
 
     <div class="transactions-section">
-        <div class="section-header">
-            <h3>Recent Transactions</h3>
-            <button class="link-btn" (click)="navigateToOverview()">View All</button>
+        <div class="section-header-simple">
+            <h2>Transactions</h2>
+            <button class="see-all-btn" (click)="navigateToOverview()">See All</button>
         </div>
 
-        <div class="transactions-list">
-            <div class="transaction-item" *ngFor="let transaction of recentTransactions">
-                <div class="transaction-icon"
-                    [ngStyle]="{'background': transaction.color || 'rgba(168, 85, 247, 0.2)'}">
-                    {{ transaction.icon }}
+        <div class="transactions-list-modern">
+            <div class="transaction-card" *ngFor="let transaction of recentTransactions">
+                <div class="transaction-left">
+                    <div class="transaction-avatar" [ngStyle]="{'background': transaction.color || '#E5E7EB'}">
+                        <span class="transaction-emoji">{{ transaction.icon }}</span>
+                    </div>
+                    <div class="transaction-details">
+                        <div class="transaction-name">{{ transaction.title }}</div>
+                        <div class="transaction-timestamp">{{ transaction.time }}</div>
+                    </div>
                 </div>
-                <div class="transaction-info">
-                    <div class="transaction-title">{{ transaction.title }}</div>
-                    <div class="transaction-time">{{ transaction.time }}</div>
-                </div>
-                <div class="transaction-amount" [class.income]="transaction.type === 'income'"
-                    [class.expense]="transaction.type === 'expense'">
-                    {{ transaction.type === 'income' ? '+' : '-' }}₹{{ (transaction.amount * 83).toFixed(2) }}
+                <div class="transaction-amount-right" [class.positive]="transaction.type === 'income'"
+                    [class.negative]="transaction.type === 'expense'">
+                    {{ transaction.type === 'income' ? '+' : '-' }}${{ transaction.amount }}
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="wallet-section">
-        <div class="section-header">
-            <h3>Wallet Transactions</h3>
-            <button class="link-btn">See All</button>
-        </div>
-        <div class="wallet-list">
-            <button class="wallet-item" *ngFor="let wallet of walletItems">
-                <div class="wallet-icon">
-                    <span class="wallet-emoji">{{ wallet.icon }}</span>
-                </div>
-            </button>
         </div>
     </div>
 

@@ -1,0 +1,8 @@
+<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Humo Logo - Simplified representation -->
+  <rect width="80" height="50" rx="4" fill="white"/>
+  <path d="M15 20 L15 30 M15 25 L22 25 M22 20 L22 30" stroke="#0066CC" stroke-width="2.5" fill="none"/>
+  <path d="M28 20 L28 30 M28 20 L33 30 M33 20 L33 30" stroke="#0066CC" stroke-width="2.5" fill="none"/>
+  <path d="M37 20 L37 30 M37 25 L42 20 L42 30 M42 25 L47 20 L47 30" stroke="#0066CC" stroke-width="2.5" fill="none"/>
+  <circle cx="54" cy="25" r="5.5" stroke="#0066CC" stroke-width="2.5" fill="none"/>
+</svg>

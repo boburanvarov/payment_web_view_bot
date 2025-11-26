@@ -1,34 +1,17 @@
 <div class="bottom-nav">
     <button class="nav-item" [class.active]="isActive('/home')" (click)="navigateTo('/home')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" />
-        </svg>
+        <i class="fas fa-home"></i>
     </button>
     <button class="nav-item" [class.active]="isActive('/overview')" (click)="navigateTo('/overview')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-            <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-            <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-            <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" />
-        </svg>
+        <i class="fas fa-chart-line"></i>
     </button>
     <button class="fab" (click)="openAddTransaction()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="white" stroke-width="2" stroke-linecap="round" />
-        </svg>
+        <i class="fas fa-plus"></i>
     </button>
     <button class="nav-item" [class.active]="isActive('/cards')" (click)="navigateTo('/cards')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2" />
-            <path d="M2 10h20" stroke="currentColor" stroke-width="2" />
-        </svg>
+        <i class="fas fa-wallet"></i>
     </button>
     <button class="nav-item" [class.active]="isActive('/profile')" (click)="navigateTo('/profile')">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="2" />
-            <path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" />
-        </svg>
+        <i class="fas fa-user"></i>
     </button>
 </div>

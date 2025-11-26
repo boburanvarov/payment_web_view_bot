@@ -1,0 +1,178 @@
+.carousel-container {
+    padding: 16px 0 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    width: 100%;
+}
+
+.card-slide {
+    min-width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.bank-card {
+    border-radius: 20px;
+    padding: 24px;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+    &.total {
+        background: linear-gradient(135deg, #667eea 0%, #d946ef 50%, #fb923c 100%);
+        color: white;
+    }
+
+    &.card {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        color: white;
+    }
+
+    .bank-logo {
+        position: absolute;
+        top: 20px;
+        left: 24px;
+        width: 60px;
+        height: 40px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+// Total Balance Card
+.total-balance-card {
+    .balance-label {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        i {
+            font-size: 12px;
+        }
+    }
+
+    .balance-value {
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 24px;
+        letter-spacing: -1px;
+    }
+
+    .stats-row {
+        display: flex;
+        gap: 12px;
+
+        .stat {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+
+            i {
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+
+            .stat-label {
+                font-size: 11px;
+                opacity: 0.9;
+                margin-bottom: 4px;
+            }
+
+            .stat-value {
+                font-size: 16px;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+// Individual Card
+.card-details {
+    .chip-icon {
+        margin-top: 40px;
+        margin-bottom: 24px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .fa-microchip {
+            font-size: 32px;
+        }
+
+        .wifi-icon {
+            font-size: 20px;
+            transform: rotate(90deg);
+        }
+    }
+
+    .card-number {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: space-between;
+
+        .label {
+            font-size: 8px;
+            opacity: 0.7;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+}
+
+// Indicators
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+
+    .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #D1D5DB;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+            background: #9CA3AF;
+        }
+
+        &.active {
+            width: 24px;
+            border-radius: 4px;
+            background: #7C3AED;
+        }
+    }
+}

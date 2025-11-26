@@ -1,0 +1,66 @@
+<div class="carousel-container">
+    <div class="carousel-track" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'"
+        (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+
+        <div class="card-slide" *ngFor="let card of allCards; let i = index">
+            <div class="bank-card" [ngClass]="card.type">
+                <!-- Bank Logo -->
+                <div class="bank-logo" *ngIf="card.type !== 'total'">
+                    <img *ngIf="getCardType(card.number) === 'uzcard'" src="uzcard-logo.svg" alt="UzCard">
+                    <img *ngIf="getCardType(card.number) === 'humo'" src="humo-logo.svg" alt="Humo">
+                </div>
+
+                <!-- Total Balance Card -->
+                <div class="total-balance-card" *ngIf="card.type === 'total'">
+                    <div class="balance-label">
+                        Total Balance
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="balance-value">${{ totalBalance.toFixed(2) }}</div>
+                    <div class="stats-row">
+                        <div class="stat income-stat">
+                            <i class="fas fa-arrow-up"></i>
+                            <div>
+                                <div class="stat-label">Income</div>
+                                <div class="stat-value">${{ income.toFixed(2) }}</div>
+                            </div>
+                        </div>
+                        <div class="stat expense-stat">
+                            <i class="fas fa-arrow-down"></i>
+                            <div>
+                                <div class="stat-label">Expenses</div>
+                                <div class="stat-value">${{ expenses.toFixed(2) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Individual Card -->
+                <div class="card-details" *ngIf="card.type !== 'total'">
+                    <div class="chip-icon">
+                        <i class="fas fa-microchip"></i>
+                        <i class="fas fa-wifi wifi-icon"></i>
+                    </div>
+                    <div class="card-number">{{ formatCardNumber(card.number) }}</div>
+                    <div class="card-footer">
+                        <div class="card-holder">
+                            <div class="label">CARDHOLDER NAME</div>
+                            <div class="value">CARD HOLDER</div>
+                        </div>
+                        <div class="card-expiry">
+                            <div class="label">VALID THRU</div>
+                            <div class="value">03/25</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+        <button *ngFor="let card of allCards; let i = index" class="indicator" [class.active]="currentIndex === i"
+            (click)="goToCard(i)">
+        </button>
+    </div>
+</div>

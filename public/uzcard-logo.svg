@@ -1,0 +1,9 @@
+<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- UzCard Logo - Simplified representation -->
+  <rect width="80" height="50" rx="4" fill="white"/>
+  <path d="M15 20 L20 30 L25 20" stroke="#00A86B" stroke-width="2.5" fill="none"/>
+  <path d="M28 20 L28 30 M28 25 L35 25 L35 20 L28 20" stroke="#00A86B" stroke-width="2.5" fill="none"/>
+  <circle cx="42" cy="25" r="5.5" stroke="#00A86B" stroke-width="2.5" fill="none"/>
+  <path d="M49 20 L49 30 M49 20 L54 25 L59 20" stroke="#00A86B" stroke-width="2.5" fill="none"/>
+  <path d="M62 20 L62 30 M62 20 L67 30" stroke="#00A86B" stroke-width="2.5" fill="none"/>
+</svg>
