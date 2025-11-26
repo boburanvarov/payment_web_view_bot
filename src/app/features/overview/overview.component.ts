@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { UserService } from '../../core/services/user.service';
 import { TransactionService } from '../../core/services/transaction.service';
@@ -14,6 +15,7 @@ import { UserData, WeeklyStat } from '../../core/models';
 })
 export class OverviewComponent implements OnInit {
   userData: UserData | null = null;
+  activeTab: string = 'expense';
 
   weeklyStats: WeeklyStat[] = [
     { week: 'Week 1', income: 800, expenses: 600 },
@@ -23,6 +25,7 @@ export class OverviewComponent implements OnInit {
   ];
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private transactionService: TransactionService
   ) { }
@@ -31,6 +34,10 @@ export class OverviewComponent implements OnInit {
     this.userService.getCurrentUser().subscribe(user => {
       this.userData = user;
     });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/home']);
   }
 
   getMaxStat(): number {

@@ -16,6 +16,12 @@ import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-na
 export class HomeComponent implements OnInit {
     userData: UserData | null = null;
     recentTransactions: Transaction[] = [];
+    selectedPeriod: string = 'today';
+    walletItems: any[] = [
+        { name: 'Wallet 1', icon: '💳' },
+        { name: 'Wallet 2', icon: '💰' },
+        { name: 'Wallet 3', icon: '🏦' }
+    ];
 
     constructor(
         private router: Router,

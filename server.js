@@ -32,11 +32,11 @@ bot.onText(/\/start/, (msg) => {
             income: 2350.00,
             expenses: 950.00,
             transactions: [
-                { id: 1, type: 'expense', title: 'Money Transfer', amount: 450, time: '12:35 PM', icon: '👤' },
-                { id: 2, type: 'income', title: 'Paypal', amount: 1200, time: '10:20 AM', icon: '💳' },
-                { id: 3, type: 'expense', title: 'Uber', amount: 150, time: '08:40 AM', icon: '🚗' },
-                { id: 4, type: 'expense', title: 'Bata Store', amount: 200, time: 'Yesterday', icon: '👟' },
-                { id: 5, type: 'expense', title: 'Bank Transfer', amount: 600, time: 'Yesterday', icon: '🏦' }
+                { id: 1, type: 'expense', title: 'Restaurant', amount: 450, time: '12:35 PM', icon: '🍽️', color: 'rgba(239, 68, 68, 0.2)' },
+                { id: 2, type: 'income', title: 'Shopping', amount: 1200, time: '10:20 AM', icon: '�️', color: 'rgba(16, 185, 129, 0.2)' },
+                { id: 3, type: 'expense', title: 'Transport', amount: 150, time: '08:40 AM', icon: '🚗', color: 'rgba(249, 115, 22, 0.2)' },
+                { id: 4, type: 'expense', title: 'Restaurant', amount: 200, time: 'Yesterday', icon: '🍽️', color: 'rgba(239, 68, 68, 0.2)' },
+                { id: 5, type: 'expense', title: 'Shopping', amount: 600, time: 'Yesterday', icon: '🛍️', color: 'rgba(168, 85, 247, 0.2)' }
             ],
             cards: [
                 { id: 1, number: '4836 7489 4562 1258', balance: 2310.00, gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
@@ -46,10 +46,10 @@ bot.onText(/\/start/, (msg) => {
         });
     }
 
-    bot.sendMessage(chatId, `Salom, ${firstName}! 👋\n\nExpense Tracker botiga xush kelibsiz!\n\nPul oqimingizni kuzatish va moliyaviy maqsadlaringizga erishish uchun ilovani oching.`, {
+    bot.sendMessage(chatId, `Salom, ${firstName}! 👋\n\nExpenzor - Moliyaviy menejment ilovasiga xush kelibsiz!\n\nPul oqimingizni kuzatish va moliyaviy maqsadlaringizga erishish uchun ilovani oching.`, {
         reply_markup: {
             inline_keyboard: [
-                [{ text: '💰 Ilovani ochish', web_app: { url: webAppUrl } }]
+                [{ text: '💰 Ilovani ochish', web_app: { url: `${webAppUrl}/home` } }]
             ]
         }
     });
@@ -61,7 +61,7 @@ bot.onText(/\/app/, (msg) => {
     bot.sendMessage(chatId, 'Ilovani ochish uchun quyidagi tugmani bosing:', {
         reply_markup: {
             inline_keyboard: [
-                [{ text: '💰 Ilovani ochish', web_app: { url: webAppUrl } }]
+                [{ text: '💰 Ilovani ochish', web_app: { url: `${webAppUrl}/home` } }]
             ]
         }
     });

@@ -25,6 +25,7 @@ export interface Transaction {
   time: string;
   icon: string;
   category?: string;
+  color?: string;
 }
 
 export type TransactionType = 'income' | 'expense';

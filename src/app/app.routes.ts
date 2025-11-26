@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { OnboardingComponent } from './features/onboarding/onboarding.component';
 import { HomeComponent } from './features/home/home.component';
 import { OverviewComponent } from './features/overview/overview.component';
 import { AddTransactionComponent } from './features/add-transaction/add-transaction.component';
@@ -10,12 +9,8 @@ import { SettingsComponent } from './features/settings/settings.component';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/onboarding',
+        redirectTo: '/home',
         pathMatch: 'full'
-    },
-    {
-        path: 'onboarding',
-        component: OnboardingComponent
     },
     {
         path: 'home',
