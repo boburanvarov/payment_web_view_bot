@@ -1,6 +1,7 @@
 <div class="carousel-container">
     <div class="carousel-track" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'"
-        (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
+        (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)" (mousedown)="onMouseDown($event)"
+        (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseLeave()">
 
         <div class="card-slide" *ngFor="let card of allCards; let i = index">
             <div class="bank-card" [ngClass]="card.type">

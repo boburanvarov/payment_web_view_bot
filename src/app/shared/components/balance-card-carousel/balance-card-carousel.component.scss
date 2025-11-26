@@ -8,6 +8,12 @@
     display: flex;
     transition: transform 0.3s ease-out;
     width: 100%;
+    cursor: grab;
+    user-select: none;
+
+    &:active {
+        cursor: grabbing;
+    }
 }
 
 .card-slide {

@@ -21,8 +21,15 @@ export class BalanceCardCarouselComponent implements OnInit {
 
   allCards: CarouselCard[] = [];
   currentIndex: number = 0;
+
+  // Touch support
   touchStartX: number = 0;
   touchEndX: number = 0;
+
+  // Mouse support
+  mouseStartX: number = 0;
+  mouseEndX: number = 0;
+  isDragging: boolean = false;
 
   ngOnInit(): void {
     // First card is total balance
@@ -45,6 +52,7 @@ export class BalanceCardCarouselComponent implements OnInit {
     return cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
   }
 
+  // Touch events (mobile)
   onTouchStart(event: TouchEvent) {
     this.touchStartX = event.changedTouches[0].screenX;
   }
@@ -54,16 +62,49 @@ export class BalanceCardCarouselComponent implements OnInit {
     this.handleSwipe();
   }
 
+  // Mouse events (desktop)
+  onMouseDown(event: MouseEvent) {
+    this.isDragging = true;
+    this.mouseStartX = event.clientX;
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (!this.isDragging) return;
+    this.mouseEndX = event.clientX;
+  }
+
+  onMouseUp(event: MouseEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    this.mouseEndX = event.clientX;
+    this.handleMouseDrag();
+  }
+
+  onMouseLeave() {
+    this.isDragging = false;
+  }
+
   handleSwipe() {
     const swipeThreshold = 50;
     const diff = this.touchStartX - this.touchEndX;
 
     if (Math.abs(diff) > swipeThreshold) {
       if (diff > 0) {
-        // Swipe left - next card
         this.next();
       } else {
-        // Swipe right - previous card
+        this.prev();
+      }
+    }
+  }
+
+  handleMouseDrag() {
+    const dragThreshold = 50;
+    const diff = this.mouseStartX - this.mouseEndX;
+
+    if (Math.abs(diff) > dragThreshold) {
+      if (diff > 0) {
+        this.next();
+      } else {
         this.prev();
       }
     }
