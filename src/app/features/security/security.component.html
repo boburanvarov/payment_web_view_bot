@@ -1,0 +1,122 @@
+<div class="screen security-screen">
+    <div class="screen-header">
+        <button class="icon-btn" (click)="goBack()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+        </button>
+        <h2>Security Code</h2>
+        <div class="icon-btn"></div>
+    </div>
+
+    <div class="security-content">
+        <div class="info-card">
+            <div class="card-header">
+                <div class="icon-wrapper purple">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z" stroke="currentColor"
+                            stroke-width="2" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <h3>Telegram WebApp Data</h3>
+            </div>
+            <p class="card-description">Bu ma'lumotlar Telegram bot orqali yuborilgan</p>
+        </div>
+
+        <div class="data-section" *ngIf="user">
+            <h4>👤 User Information</h4>
+            <div class="data-item">
+                <span class="label">User ID:</span>
+                <span class="value">{{ user.id }}</span>
+                <button class="copy-btn" (click)="copyToClipboard(user.id.toString())">📋</button>
+            </div>
+            <div class="data-item">
+                <span class="label">First Name:</span>
+                <span class="value">{{ user.first_name }}</span>
+            </div>
+            <div class="data-item" *ngIf="user.last_name">
+                <span class="label">Last Name:</span>
+                <span class="value">{{ user.last_name }}</span>
+            </div>
+            <div class="data-item" *ngIf="user.username">
+                <span class="label">Username:</span>
+                <span class="value">&#64;{{ user.username }}</span>
+            </div>
+            <div class="data-item" *ngIf="user.language_code">
+                <span class="label">Language:</span>
+                <span class="value">{{ user.language_code }}</span>
+            </div>
+            <div class="data-item" *ngIf="user.is_premium !== undefined">
+                <span class="label">Premium:</span>
+                <span class="value">{{ user.is_premium ? '✅ Yes' : '❌ No' }}</span>
+            </div>
+        </div>
+
+        <div class="data-section" *ngIf="initDataUnsafe">
+            <h4>🔑 Session Information</h4>
+            <div class="data-item" *ngIf="initDataUnsafe.query_id">
+                <span class="label">Query ID:</span>
+                <span class="value code">{{ initDataUnsafe.query_id }}</span>
+                <button class="copy-btn" (click)="copyToClipboard(initDataUnsafe.query_id)">📋</button>
+            </div>
+            <div class="data-item" *ngIf="initDataUnsafe.auth_date">
+                <span class="label">Auth Date:</span>
+                <span class="value">{{ initDataUnsafe.auth_date * 1000 | date:'medium' }}</span>
+            </div>
+            <div class="data-item" *ngIf="initDataUnsafe.hash">
+                <span class="label">Hash:</span>
+                <span class="value code">{{ initDataUnsafe.hash }}</span>
+                <button class="copy-btn" (click)="copyToClipboard(initDataUnsafe.hash)">📋</button>
+            </div>
+            <div class="data-item" *ngIf="initDataUnsafe.start_param">
+                <span class="label">Start Param:</span>
+                <span class="value">{{ initDataUnsafe.start_param }}</span>
+            </div>
+            <div class="data-item" *ngIf="initDataUnsafe.chat_type">
+                <span class="label">Chat Type:</span>
+                <span class="value">{{ initDataUnsafe.chat_type }}</span>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h4>📱 Platform Information</h4>
+            <div class="data-item">
+                <span class="label">Platform:</span>
+                <span class="value">{{ platform }}</span>
+            </div>
+            <div class="data-item">
+                <span class="label">Version:</span>
+                <span class="value">{{ version }}</span>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h4>🔐 Raw initData</h4>
+            <div class="code-block">
+                <pre>{{ initData }}</pre>
+                <button class="copy-btn-block" (click)="copyToClipboard(initData)">
+                    📋 Copy
+                </button>
+            </div>
+        </div>
+
+        <div class="data-section">
+            <h4>📦 initDataUnsafe (JSON)</h4>
+            <div class="code-block">
+                <pre>{{ formatJson(initDataUnsafe) }}</pre>
+                <button class="copy-btn-block" (click)="copyToClipboard(formatJson(initDataUnsafe))">
+                    📋 Copy
+                </button>
+            </div>
+        </div>
+
+        <div class="warning-card">
+            <div class="warning-icon">⚠️</div>
+            <div>
+                <h4>Xavfsizlik eslatmasi</h4>
+                <p>Bu ma'lumotlarni hech kimga ko'rsatmang. Ular sizning Telegram hisobingizga kirish uchun ishlatilishi
+                    mumkin.</p>
+            </div>
+        </div>
+    </div>
+</div>

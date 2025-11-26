@@ -43,6 +43,10 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/settings']);
     }
 
+    goToSecurity(): void {
+        this.router.navigate(['/security']);
+    }
+
     logout(): void {
         this.router.navigate(['/onboarding']);
     }

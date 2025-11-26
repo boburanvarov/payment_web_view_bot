@@ -3,13 +3,47 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 declare const Telegram: any;
 
+// Telegram WebApp User Interface
+export interface TelegramUser {
+    id: number;
+    first_name: string;
+    last_name?: string;
+    username?: string;
+    language_code?: string;
+    is_premium?: boolean;
+    photo_url?: string;
+}
+
+// Telegram WebApp Chat Interface
+export interface TelegramChat {
+    id: number;
+    type: 'group' | 'supergroup' | 'channel';
+    title: string;
+    username?: string;
+    photo_url?: string;
+}
+
+// Telegram WebApp InitDataUnsafe Interface
+export interface TelegramInitDataUnsafe {
+    query_id?: string;
+    user?: TelegramUser;
+    receiver?: TelegramUser;
+    chat?: TelegramChat;
+    chat_type?: 'sender' | 'private' | 'group' | 'supergroup' | 'channel';
+    chat_instance?: string;
+    start_param?: string;
+    can_send_after?: number;
+    auth_date: number;
+    hash: string;
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class TelegramService {
     private tg: any;
     private telegramReady$ = new BehaviorSubject<boolean>(false);
-    private userData$ = new BehaviorSubject<any>(null);
+    private userData$ = new BehaviorSubject<TelegramUser | null>(null);
 
     constructor() {
         this.initializeTelegram();
@@ -21,8 +55,21 @@ export class TelegramService {
             this.tg.ready();
             this.tg.expand();
 
+            // Log Telegram WebApp data for debugging
+            console.group(' Telegram WebApp Data');
+            console.log(' initData (raw string):', this.tg.initData);
+            console.log(' initDataUnsafe (parsed object):', this.tg.initDataUnsafe);
+            console.log(' User:', this.tg.initDataUnsafe?.user);
+            console.log(' Chat:', this.tg.initDataUnsafe?.chat);
+            console.log(' Query ID:', this.tg.initDataUnsafe?.query_id);
+            console.log(' Start Param:', this.tg.initDataUnsafe?.start_param);
+            console.log(' Platform:', this.tg.platform);
+            console.log(' Version:', this.tg.version);
+            console.groupEnd();
+
             // Get user data from Telegram
             const user = this.tg.initDataUnsafe?.user;
+
             if (user) {
                 this.userData$.next(user);
             }

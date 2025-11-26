@@ -5,6 +5,7 @@ import { AddTransactionComponent } from './features/add-transaction/add-transact
 import { CardsComponent } from './features/cards/cards.component';
 import { ProfileComponent } from './features/profile/profile.component';
 import { SettingsComponent } from './features/settings/settings.component';
+import { SecurityComponent } from './features/security/security.component';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: 'settings',
         component: SettingsComponent
+    },
+    {
+        path: 'security',
+        component: SecurityComponent
     }
 ];
