@@ -1,1 +1,24 @@
-// Global app styles - most styles are in component-specific SCSS files
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
+    padding: 8px 16px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.app-version {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(10px);
+}

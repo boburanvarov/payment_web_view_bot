@@ -4,6 +4,7 @@ import { TelegramService } from './core/services/telegram.service';
 import { UserService } from './core/services/user.service';
 import { TransactionService } from './core/services/transaction.service';
 import { CardService } from './core/services/card.service';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { CardService } from './core/services/card.service';
 })
 export class AppComponent implements OnInit {
   title = 'Expense Tracker';
+  version = environment.version;
 
   constructor(
     private telegramService: TelegramService,

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-bottom-nav',
@@ -12,7 +11,6 @@ import { environment } from '../../../../environments/environment';
 })
 export class BottomNavComponent {
     activeRoute: string = '';
-    version: string = environment.version;
 
     constructor(private router: Router) {
         this.activeRoute = this.router.url;
