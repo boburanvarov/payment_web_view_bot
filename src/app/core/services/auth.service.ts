@@ -18,11 +18,7 @@ export class AuthService {
 
     constructor(private http: HttpClient) { }
 
-    /**
-     * Authenticate user with Telegram init data
-     * @param initData The raw initData string from Telegram WebApp
-     * @returns Observable with authentication response
-     */
+
     authenticateWithTelegram(initData: string): Observable<TelegramAuthResponse> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
