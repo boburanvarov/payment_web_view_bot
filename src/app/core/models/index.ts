@@ -30,11 +30,42 @@ export interface Transaction {
 
 export type TransactionType = 'income' | 'expense';
 
+export interface CardApiResponse {
+  id: number;
+  userId: number;
+  phoneNumber: string;
+  cardId: string;
+  maskPan: string;
+  cardType: string;
+  active: boolean;
+  balance: number;
+  cardDesignInfo: {
+    cardType: string;
+    bankName: string;
+    bankLogo: string;
+    bankLogoMini: string;
+    processingLogo: string;
+    processingLogoMini: string;
+  };
+}
+
 export interface Card {
   id: number;
+  userId?: number;
+  phoneNumber?: string;
+  cardId?: string;
   number: string;
+  cardType?: string;
   balance: number;
   gradient: string;
+  bankName?: string;
+  expiryDate?: string;
+  active?: boolean;
+  // Logos - rangli versiyalar
+  bankLogo?: string;
+  bankLogoMini?: string;
+  processingLogo?: string;
+  processingLogoMini?: string;
 }
 
 export interface WeeklyStat {

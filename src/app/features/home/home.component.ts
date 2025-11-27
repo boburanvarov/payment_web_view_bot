@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { UserService } from '../../core/services/user.service';
-import { TransactionService } from '../../core/services/transaction.service';
-import { UserData, Transaction } from '../../core/models';
+import { CardService } from '../../core/services/card.service';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { BalanceCardCarouselComponent } from '../../shared/components/balance-card-carousel/balance-card-carousel.component';
 
@@ -15,29 +13,28 @@ import { BalanceCardCarouselComponent } from '../../shared/components/balance-ca
     styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-    userData: UserData | null = null;
-    recentTransactions: Transaction[] = [];
-    selectedPeriod: string = 'today';
-    walletItems: any[] = [
-        { name: 'Wallet 1', icon: '💳' },
-        { name: 'Wallet 2', icon: '💰' },
-        { name: 'Wallet 3', icon: '🏦' }
-    ];
+    // Access signals from CardService
+    cards;
+    totalBalance;
+    loading;
+
+    // Mock data for income/expenses
+    income = 0;
+    expenses = 0;
+    recentTransactions: any[] = [];
 
     constructor(
         private router: Router,
-        private userService: UserService,
-        private transactionService: TransactionService
-    ) { }
+        public cardService: CardService
+    ) {
+        // Initialize signal accessors
+        this.cards = this.cardService.cards;
+        this.totalBalance = this.cardService.totalBalance;
+        this.loading = this.cardService.loading;
+    }
 
     ngOnInit(): void {
-        this.userService.getCurrentUser().subscribe(user => {
-            this.userData = user;
-        });
-
-        this.transactionService.getTransactions().subscribe(transactions => {
-            this.recentTransactions = transactions.slice(0, 5);
-        });
+        // Cards are already loaded in AppComponent
     }
 
     navigateToAddTransaction(): void {

@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
-import { UserService } from '../../core/services/user.service';
-import { TransactionService } from '../../core/services/transaction.service';
-import { UserData, WeeklyStat } from '../../core/models';
+import { WeeklyStat } from '../../core/models';
 
 @Component({
   selector: 'app-overview',
@@ -14,7 +12,7 @@ import { UserData, WeeklyStat } from '../../core/models';
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent implements OnInit {
-  userData: UserData | null = null;
+  userData: any = null; // Temporary any type
   activeTab: string = 'expense';
 
   weeklyStats: WeeklyStat[] = [
@@ -25,15 +23,12 @@ export class OverviewComponent implements OnInit {
   ];
 
   constructor(
-    private router: Router,
-    private userService: UserService,
-    private transactionService: TransactionService
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(user => {
-      this.userData = user;
-    });
+    // Mock data
+    this.userData = { balance: 0, income: 0, expenses: 0 };
   }
 
   goBack(): void {

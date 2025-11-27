@@ -1,4 +1,4 @@
-<div class="screen home-screen" *ngIf="userData">
+<div class="screen home-screen">
     <div class="simple-header">
         <button class="menu-btn">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -14,33 +14,20 @@
             <span class="notification-dot"></span>
         </button>
     </div>
-    <app-balance-card-carousel [cards]="userData.cards" [totalBalance]="userData.balance" [income]="userData.income"
-        [expenses]="userData.expenses">
+
+    <!-- Loading -->
+    <div *ngIf="loading()" class="loading-state">
+        <p>Loading...</p>
+    </div>
+
+    <!-- Cards carousel -->
+    <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
+        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses">
     </app-balance-card-carousel>
 
-    <div class="transactions-section">
-        <div class="section-header-simple">
-            <h2>Transactions</h2>
-            <button class="see-all-btn" (click)="navigateToOverview()">See All</button>
-        </div>
-
-        <div class="transactions-list-modern">
-            <div class="transaction-card" *ngFor="let transaction of recentTransactions">
-                <div class="transaction-left">
-                    <div class="transaction-avatar" [ngStyle]="{'background': transaction.color || '#E5E7EB'}">
-                        <span class="transaction-emoji">{{ transaction.icon }}</span>
-                    </div>
-                    <div class="transaction-details">
-                        <div class="transaction-name">{{ transaction.title }}</div>
-                        <div class="transaction-timestamp">{{ transaction.time }}</div>
-                    </div>
-                </div>
-                <div class="transaction-amount-right" [class.positive]="transaction.type === 'income'"
-                    [class.negative]="transaction.type === 'expense'">
-                    {{ transaction.type === 'income' ? '+' : '-' }}${{ transaction.amount }}
-                </div>
-            </div>
-        </div>
+    <!-- Empty state -->
+    <div *ngIf="!loading() && cards().length === 0" class="empty-state">
+        <p>No cards found</p>
     </div>
 
     <app-bottom-nav></app-bottom-nav>

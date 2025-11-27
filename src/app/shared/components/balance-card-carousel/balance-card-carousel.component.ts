@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../../core/models';
+import {MoneyPipe} from '../../pipe/money.pipe';
 
 interface CarouselCard extends Card {
   type: 'total' | 'card';
@@ -11,7 +12,7 @@ interface CarouselCard extends Card {
 @Component({
   selector: 'app-balance-card-carousel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MoneyPipe],
   templateUrl: './balance-card-carousel.component.html',
   styleUrl: './balance-card-carousel.component.scss'
 })
@@ -35,37 +36,18 @@ export class BalanceCardCarouselComponent implements OnInit {
 
   ngOnInit(): void {
     // First card is total balance
+    console.log(
+      this.cards
+    )
     this.allCards = [
       { id: 0, number: '', balance: this.totalBalance, gradient: '', type: 'total' } as any,
-      ...this.cards.map(card => ({ 
-        ...card, 
+      ...this.cards.map(card => ({
+        ...card,
         type: 'card' as const,
-        bankName: this.getBankName(card.number),
-        expiryDate: '09/27' // You can make this dynamic based on card data
+        bankName: card.bankName,
+        expiryDate: card.expiryDate,
       }))
     ];
-  }
-
-  getBankName(cardNumber: string): string {
-    if (cardNumber.startsWith('8600')) {
-      return 'IPOTEKA BANK';
-    } else if (cardNumber.startsWith('9860')) {
-      return 'IPOTEKA BANK';
-    }
-    return 'BANK';
-  }
-
-  getCardType(cardNumber: string): 'uzcard' | 'humo' | 'unknown' {
-    if (cardNumber.startsWith('8600')) {
-      return 'uzcard';
-    } else if (cardNumber.startsWith('9860')) {
-      return 'humo';
-    }
-    return 'unknown';
-  }
-
-  formatCardNumber(cardNumber: string): string {
-    return cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
   }
 
   formatCardNumberWithMask(cardNumber: string): string {
@@ -78,11 +60,10 @@ export class BalanceCardCarouselComponent implements OnInit {
     const last4 = cardNumber.substring(12, 16);
     return `${first4} ${next2}** **** ${last4}`;
   }
-
   copyCardNumber(cardNumber: string): void {
     // Remove spaces for copying
     const cleanNumber = cardNumber.replace(/\s/g, '');
-    
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(cleanNumber).then(() => {
         console.log('Card number copied to clipboard');
@@ -99,14 +80,14 @@ export class BalanceCardCarouselComponent implements OnInit {
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
-      
+
       try {
         document.execCommand('copy');
         console.log('Card number copied to clipboard');
       } catch (err) {
         console.error('Failed to copy card number:', err);
       }
-      
+
       document.body.removeChild(textArea);
     }
   }

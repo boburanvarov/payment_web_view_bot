@@ -8,23 +8,23 @@
                 <!-- Total Balance Card -->
                 <div class="total-balance-card" *ngIf="card.type === 'total'">
                     <div class="balance-label">
-                        Total Balance
+                        Umumiy hisob
                         <i class="fas fa-chevron-down"></i>
                     </div>
-                    <div class="balance-value">${{ totalBalance.toFixed(2) }}</div>
+                    <div class="balance-value">{{ totalBalance | money }} <span class="currency">so'm</span></div>
                     <div class="stats-row">
                         <div class="stat income-stat">
                             <i class="fas fa-arrow-up"></i>
                             <div>
                                 <div class="stat-label">Income</div>
-                                <div class="stat-value">${{ income.toFixed(2) }}</div>
+                                <div class="stat-value">{{ income | money}} <span class="currency">so'm</span></div>
                             </div>
                         </div>
                         <div class="stat expense-stat">
                             <i class="fas fa-arrow-down"></i>
                             <div>
                                 <div class="stat-label">Expenses</div>
-                                <div class="stat-value">${{ expenses.toFixed(2) }}</div>
+                                <div class="stat-value">{{ expenses | money }} <span class="currency">so'm</span></div>
                             </div>
                         </div>
                     </div>
@@ -35,36 +35,36 @@
                     <!-- Bank Logo and Name -->
                     <div class="bank-header">
                         <div class="bank-logo-wrapper">
-                            <div class="bank-logo-circle"></div>
-                            <span class="bank-name">{{ card.bankName || 'IPOTEKA BANK' }}</span>
+                            <img *ngIf="card.bankLogoMini" [src]="card.bankLogoMini" alt="Bank Logo"
+                                style="width: 24px; height: 24px; object-fit: contain;">
+                            <div *ngIf="!card.bankLogoMini" class="bank-logo-circle"></div>
+                            <span class="bank-name">{{ card.bankName || 'BANK' }}</span>
                         </div>
                     </div>
 
                     <!-- Card Details -->
                     <div class="card-info">
-                        <div class="bank-label">{{ card.bankName || 'Ipoteka' }}</div>
+                        <div class="bank-label">{{ card.bankName || 'Bank' }}</div>
 
                         <div class="card-number-row">
                             <div class="card-left">
                                 <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
-                                <button class="copy-btn" (click)="copyCardNumber(card.number)">
-                                    <i class="far fa-copy"></i>
-                                </button>
+<!--                                <button class="copy-btn" (click)="copyCardNumber(card.number)">-->
+<!--                                    <i class="far fa-copy"></i>-->
+<!--                                </button>-->
                             </div>
                             <div class="card-right">
-                                <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>
+                                <!--                                <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>-->
                             </div>
                         </div>
-
                     </div>
 
                     <!-- Balance Section -->
                     <div class="balance-section">
-                        <div class="balance-amount">{{ card.balance || 0 }} <span class="currency">so'm</span></div>
+                        <div class="balance-amount">{{ card.balance | money}} <span class="currency">so'm</span></div>
                         <div class="card-type-logo">
-                            <img *ngIf="getCardType(card.number) === 'uzcard'" src="/assets/uzcard-logo.svg"
-                                alt="UzCard">
-                            <img *ngIf="getCardType(card.number) === 'humo'" src="/assets/humo-logo.svg" alt="Humo">
+                            <img *ngIf="card.processingLogoMini" [src]="card.processingLogoMini" [alt]="card.cardType"
+                                style="height: 32px; object-fit: contain;">
                         </div>
                     </div>
                 </div>

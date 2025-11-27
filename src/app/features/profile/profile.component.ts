@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
-import { UserService } from '../../core/services/user.service';
 import { TelegramService } from '../../core/services/telegram.service';
 
 @Component({
@@ -18,17 +17,10 @@ export class ProfileComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private userService: UserService,
         private telegramService: TelegramService
     ) { }
 
     ngOnInit(): void {
-        // Get user data
-        this.userService.getCurrentUser().subscribe(user => {
-            if (user) {
-                this.userName = user.firstName;
-            }
-        });
 
         // Get Telegram user data
         this.telegramService.getUserData().subscribe(user => {

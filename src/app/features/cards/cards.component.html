@@ -16,16 +16,33 @@
         </button>
     </div>
 
-    <div class="cards-list">
-        <div class="credit-card" *ngFor="let card of cards" [style.background]="card.gradient">
+    <!-- Loading state -->
+    <div *ngIf="loading()" class="loading-state">
+        <p>Loading cards...</p>
+    </div>
+
+    <!-- Cards list -->
+    <div class="cards-list" *ngIf="!loading() && cards().length > 0">
+        <div class="credit-card" *ngFor="let card of cards()" [style.background]="card.gradient">
             <div class="card-header">
-                <span class="card-logo">VISA</span>
+                <img *ngIf="card.processingLogo" [src]="card.processingLogo" [alt]="card.cardType"
+                    style="height: 40px; object-fit: contain;">
+                <span *ngIf="!card.processingLogo" class="card-logo">{{ card.cardType }}</span>
                 <div class="card-balance-label">Current Balance</div>
             </div>
-            <div class="card-balance">${{ card.balance.toFixed(2) }}</div>
+            <div class="card-balance">{{ card.balance.toFixed(2) }} UZS</div>
             <div class="card-number">{{ card.number }}</div>
-            <div class="card-holder">{{ userName }}</div>
+            <div class="card-holder">
+                <img *ngIf="card.bankLogoMini" [src]="card.bankLogoMini" alt="Bank"
+                    style="height: 20px; margin-right: 8px; object-fit: contain;">
+                <span>{{ card.bankName }}</span>
+            </div>
         </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading() && cards().length === 0" class="empty-state">
+        <p>No cards found</p>
     </div>
 
     <app-bottom-nav></app-bottom-nav>
