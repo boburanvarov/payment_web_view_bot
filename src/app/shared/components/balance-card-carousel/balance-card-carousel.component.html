@@ -4,13 +4,7 @@
         (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseLeave()">
 
         <div class="card-slide" *ngFor="let card of allCards; let i = index">
-            <div class="bank-card" [ngClass]="card.type">
-                <!-- Bank Logo -->
-                <div class="bank-logo" *ngIf="card.type !== 'total'">
-                    <img *ngIf="getCardType(card.number) === 'uzcard'" src="uzcard-logo.svg" alt="UzCard">
-                    <img *ngIf="getCardType(card.number) === 'humo'" src="humo-logo.svg" alt="Humo">
-                </div>
-
+            <div class="bank-card" [ngClass]="{'total-card': card.type === 'total'}">
                 <!-- Total Balance Card -->
                 <div class="total-balance-card" *ngIf="card.type === 'total'">
                     <div class="balance-label">
@@ -37,20 +31,35 @@
                 </div>
 
                 <!-- Individual Card -->
-                <div class="card-details" *ngIf="card.type !== 'total'">
-                    <div class="chip-icon">
-                        <i class="fas fa-microchip"></i>
-                        <i class="fas fa-wifi wifi-icon"></i>
-                    </div>
-                    <div class="card-number">{{ formatCardNumber(card.number) }}</div>
-                    <div class="card-footer">
-                        <div class="card-holder">
-                            <div class="label">CARDHOLDER NAME</div>
-                            <div class="value">CARD HOLDER</div>
+                <div class="card-content" *ngIf="card.type !== 'total'">
+                    <!-- Bank Logo and Name -->
+                    <div class="bank-header">
+                        <div class="bank-logo-wrapper">
+                            <div class="bank-logo-circle"></div>
+                            <span class="bank-name">{{ card.bankName || 'IPOTEKA BANK' }}</span>
                         </div>
-                        <div class="card-expiry">
-                            <div class="label">VALID THRU</div>
-                            <div class="value">03/25</div>
+                    </div>
+
+                    <!-- Card Details -->
+                    <div class="card-info">
+                        <div class="bank-label">{{ card.bankName || 'Ipoteka' }}</div>
+                        
+                        <div class="card-number-row">
+                            <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
+                            <button class="copy-btn" (click)="copyCardNumber(card.number)">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+
+                        <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>
+                    </div>
+
+                    <!-- Balance Section -->
+                    <div class="balance-section">
+                        <div class="balance-amount">{{ card.balance || 0 }} <span class="currency">so'm</span></div>
+                        <div class="card-type-logo">
+                            <img *ngIf="getCardType(card.number) === 'uzcard'" src="/assets/uzcard-logo.svg" alt="UzCard">
+                            <img *ngIf="getCardType(card.number) === 'humo'" src="/assets/humo-logo.svg" alt="Humo">
                         </div>
                     </div>
                 </div>
@@ -60,8 +69,10 @@
 
     <!-- Indicators -->
     <div class="carousel-indicators">
-        <button *ngFor="let card of allCards; let i = index" class="indicator" [class.active]="currentIndex === i"
-            (click)="goToCard(i)">
+        <button *ngFor="let card of allCards; let i = index" 
+                class="indicator" 
+                [class.active]="currentIndex === i"
+                (click)="goToCard(i)">
         </button>
     </div>
 </div>

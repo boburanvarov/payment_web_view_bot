@@ -4,6 +4,8 @@ import { Card } from '../../../core/models';
 
 interface CarouselCard extends Card {
   type: 'total' | 'card';
+  bankName?: string;
+  expiryDate?: string;
 }
 
 @Component({
@@ -35,8 +37,22 @@ export class BalanceCardCarouselComponent implements OnInit {
     // First card is total balance
     this.allCards = [
       { id: 0, number: '', balance: this.totalBalance, gradient: '', type: 'total' } as any,
-      ...this.cards.map(card => ({ ...card, type: 'card' as const }))
+      ...this.cards.map(card => ({ 
+        ...card, 
+        type: 'card' as const,
+        bankName: this.getBankName(card.number),
+        expiryDate: '09/27' // You can make this dynamic based on card data
+      }))
     ];
+  }
+
+  getBankName(cardNumber: string): string {
+    if (cardNumber.startsWith('8600')) {
+      return 'IPOTEKA BANK';
+    } else if (cardNumber.startsWith('9860')) {
+      return 'IPOTEKA BANK';
+    }
+    return 'BANK';
   }
 
   getCardType(cardNumber: string): 'uzcard' | 'humo' | 'unknown' {
@@ -50,6 +66,49 @@ export class BalanceCardCarouselComponent implements OnInit {
 
   formatCardNumber(cardNumber: string): string {
     return cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+  }
+
+  formatCardNumberWithMask(cardNumber: string): string {
+    if (!cardNumber || cardNumber.length < 16) {
+      return cardNumber;
+    }
+    // Format: 9860 01** **** 0545
+    const first4 = cardNumber.substring(0, 4);
+    const next2 = cardNumber.substring(4, 6);
+    const last4 = cardNumber.substring(12, 16);
+    return `${first4} ${next2}** **** ${last4}`;
+  }
+
+  copyCardNumber(cardNumber: string): void {
+    // Remove spaces for copying
+    const cleanNumber = cardNumber.replace(/\s/g, '');
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(cleanNumber).then(() => {
+        console.log('Card number copied to clipboard');
+        // You can add a toast notification here
+      }).catch(err => {
+        console.error('Failed to copy card number:', err);
+      });
+    } else {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = cleanNumber;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        console.log('Card number copied to clipboard');
+      } catch (err) {
+        console.error('Failed to copy card number:', err);
+      }
+      
+      document.body.removeChild(textArea);
+    }
   }
 
   // Touch events (mobile)
