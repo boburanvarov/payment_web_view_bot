@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AuthService } from './auth.service';
 
 declare const Telegram: any;
 
@@ -44,6 +45,7 @@ export class TelegramService {
     private tg: any;
     private telegramReady$ = new BehaviorSubject<boolean>(false);
     private userData$ = new BehaviorSubject<TelegramUser | null>(null);
+    private authService = inject(AuthService);
 
     constructor() {
         this.initializeTelegram();
@@ -72,6 +74,22 @@ export class TelegramService {
 
             if (user) {
                 this.userData$.next(user);
+            }
+
+            // Authenticate with backend API
+            const initData = this.tg.initData;
+            if (initData) {
+                console.log(' Initiating authentication with API...');
+                this.authService.authenticateWithTelegram(initData).subscribe({
+                    next: (response) => {
+                        console.log('Successfully authenticated with API');
+                    },
+                    error: (error) => {
+                        console.error(' Failed to authenticate with API:', error);
+                    }
+                });
+            } else {
+                console.warn(' No initData available for authentication');
             }
 
             this.telegramReady$.next(true);

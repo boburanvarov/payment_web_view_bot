@@ -43,22 +43,27 @@
                     <!-- Card Details -->
                     <div class="card-info">
                         <div class="bank-label">{{ card.bankName || 'Ipoteka' }}</div>
-                        
+
                         <div class="card-number-row">
-                            <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
-                            <button class="copy-btn" (click)="copyCardNumber(card.number)">
-                                <i class="fas fa-copy"></i>
-                            </button>
+                            <div class="card-left">
+                                <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
+                                <button class="copy-btn" (click)="copyCardNumber(card.number)">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                            <div class="card-right">
+                                <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>
+                            </div>
                         </div>
 
-                        <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>
                     </div>
 
                     <!-- Balance Section -->
                     <div class="balance-section">
                         <div class="balance-amount">{{ card.balance || 0 }} <span class="currency">so'm</span></div>
                         <div class="card-type-logo">
-                            <img *ngIf="getCardType(card.number) === 'uzcard'" src="/assets/uzcard-logo.svg" alt="UzCard">
+                            <img *ngIf="getCardType(card.number) === 'uzcard'" src="/assets/uzcard-logo.svg"
+                                alt="UzCard">
                             <img *ngIf="getCardType(card.number) === 'humo'" src="/assets/humo-logo.svg" alt="Humo">
                         </div>
                     </div>
@@ -69,10 +74,8 @@
 
     <!-- Indicators -->
     <div class="carousel-indicators">
-        <button *ngFor="let card of allCards; let i = index" 
-                class="indicator" 
-                [class.active]="currentIndex === i"
-                (click)="goToCard(i)">
+        <button *ngFor="let card of allCards; let i = index" class="indicator" [class.active]="currentIndex === i"
+            (click)="goToCard(i)">
         </button>
     </div>
 </div>
