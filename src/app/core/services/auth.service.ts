@@ -28,8 +28,8 @@ export class AuthService {
             initData: initData
         };
 
-        console.log('🔐 Sending authentication request to:', this.apiUrl);
-        console.log('📤 Init data:', initData);
+        console.log(' Sending authentication request to:', this.apiUrl);
+        console.log(' Init data:', initData);
 
         return this.http.post<TelegramAuthResponse>(this.apiUrl, body, { headers }).pipe(
             tap(response => {
