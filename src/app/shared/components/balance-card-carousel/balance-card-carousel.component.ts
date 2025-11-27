@@ -54,7 +54,6 @@ export class BalanceCardCarouselComponent implements OnInit {
     if (!cardNumber || cardNumber.length < 16) {
       return cardNumber;
     }
-    // Format: 9860 01** **** 0545
     const first4 = cardNumber.substring(0, 4);
     const next2 = cardNumber.substring(4, 6);
     const last4 = cardNumber.substring(12, 16);
