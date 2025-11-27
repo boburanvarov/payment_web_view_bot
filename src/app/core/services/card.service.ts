@@ -20,8 +20,7 @@ export class CardService {
     constructor(private http: HttpClient) { }
 
     loadCardsFromAPI(): void {
-        const { phoneNumber } = environment.cardsApi;
-        const url = `${environment.apiUrl}/api/cards?phoneNumber=${phoneNumber}`;
+        const url = `${environment.apiUrl}/api/cards?phoneNumber=998916637744`;
 
         console.log('🃏 Loading cards from API:', url);
         this.loading.set(true);
