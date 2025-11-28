@@ -46,10 +46,6 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Environment files - ignore to prevent auto-updates
-/src/environments/environment.ts
-/src/environments/environment.prod.ts
-
 # Ngrok
 ngrok
 ngrok.exe

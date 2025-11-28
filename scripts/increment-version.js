@@ -28,33 +28,33 @@ fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n', '
 
 console.log(`✅ Version incremented: ${currentVersion} → ${newVersion}`);
 
-// Update environment files with new version
+// Update environment files with new version (preserve existing apiUrl)
 const envPath = path.join(__dirname, '..', 'src', 'environments', 'environment.ts');
 const envProdPath = path.join(__dirname, '..', 'src', 'environments', 'environment.prod.ts');
 
-const envContent = `export const environment = {
-  production: false,
-  apiUrl: 'https://api.kartaxabar.uz',
-  version: '${newVersion}'
-};
-`;
+// Function to update only version in environment file
+function updateVersionInFile(filePath, newVersion) {
+  try {
+    let content = fs.readFileSync(filePath, 'utf8');
+    // Replace only the version line, preserve apiUrl and other settings
+    content = content.replace(/version:\s*['"][^'"]*['"]/g, `version: '${newVersion}'`);
+    fs.writeFileSync(filePath, content, 'utf8');
+    return true;
+  } catch (error) {
+    console.warn(`⚠️  Could not update ${filePath}:`, error.message);
+    return false;
+  }
+}
 
-const envProdContent = `export const environment = {
-  production: true,
-  apiUrl: 'https://api.kartaxabar.uz',
-  version: '${newVersion}'
-};
-`;
+updateVersionInFile(envPath, newVersion);
+updateVersionInFile(envProdPath, newVersion);
 
-fs.writeFileSync(envPath, envContent, 'utf8');
-fs.writeFileSync(envProdPath, envProdContent, 'utf8');
-
-console.log(`📝 Updated environment files with version ${newVersion}`);
+console.log(`📝 Updated environment files with version ${newVersion} (apiUrl preserved)`);
 
 // Stage the updated files
 try {
-    execSync('git add package.json src/environments/environment.ts src/environments/environment.prod.ts', { stdio: 'inherit' });
-    console.log('✅ Version files staged for commit');
+  execSync('git add package.json src/environments/environment.ts src/environments/environment.prod.ts', { stdio: 'inherit' });
+  console.log('✅ Version files staged for commit');
 } catch (error) {
-    console.log('⚠️  Not in a git repository or git not available');
+  console.log('⚠️  Not in a git repository or git not available');
 }
