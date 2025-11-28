@@ -20,10 +20,8 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Load cards from API
     this.cardService.loadCardsFromAPI();
 
-    // Initialize Telegram WebApp in background
     this.telegramService.isReady().subscribe(isReady => {
       if (isReady) {
         this.telegramService.getUserData().subscribe(user => {
