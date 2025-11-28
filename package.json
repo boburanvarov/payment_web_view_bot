@@ -1,6 +1,6 @@
 {
   "name": "payment-webview",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
