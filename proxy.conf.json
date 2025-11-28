@@ -1,0 +1,11 @@
+{
+    "/api": {
+        "target": "https://api.kartaxabar.uz",
+        "secure": true,
+        "changeOrigin": true,
+        "logLevel": "silent",
+        "pathRewrite": {
+            "^/api": "/api"
+        }
+    }
+}

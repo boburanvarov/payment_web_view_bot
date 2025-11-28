@@ -21,19 +21,15 @@ export class CardService {
 
     loadCardsFromAPI(): void {
         const url = `${environment.apiUrl}/api/cards?phoneNumber=998916637744`;
-
-        console.log('🃏 Loading cards from API:', url);
         this.loading.set(true);
 
         this.http.get<CardApiResponse[]>(url).pipe(
             tap(apiCards => {
-                console.log('✅ Cards loaded from API:', apiCards);
                 const cards = apiCards.map(apiCard => this.mapApiCardToCard(apiCard));
                 this.cards.set(cards);
                 this.loading.set(false);
             }),
             catchError(error => {
-                console.error('❌ Failed to load cards from API:', error);
                 this.cards.set([]);
                 this.loading.set(false);
                 return of([]);
@@ -42,7 +38,6 @@ export class CardService {
     }
 
     private mapApiCardToCard(apiCard: CardApiResponse): Card {
-        // Clean bank name - remove 'AO ' prefix
         const bankName = (apiCard.cardDesignInfo?.bankName || 'BANK').replace(/^AO\s+/i, '');
 
         return {

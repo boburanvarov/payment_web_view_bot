@@ -4,7 +4,6 @@ import { AuthService } from './auth.service';
 
 declare const Telegram: any;
 
-// Telegram WebApp User Interface
 export interface TelegramUser {
     id: number;
     first_name: string;
@@ -15,7 +14,6 @@ export interface TelegramUser {
     photo_url?: string;
 }
 
-// Telegram WebApp Chat Interface
 export interface TelegramChat {
     id: number;
     type: 'group' | 'supergroup' | 'channel';
@@ -24,7 +22,6 @@ export interface TelegramChat {
     photo_url?: string;
 }
 
-// Telegram WebApp InitDataUnsafe Interface
 export interface TelegramInitDataUnsafe {
     query_id?: string;
     user?: TelegramUser;
@@ -57,49 +54,25 @@ export class TelegramService {
             this.tg.ready();
             this.tg.expand();
 
-            // Log Telegram WebApp data for debugging
-            console.group(' Telegram WebApp Data');
-            console.log(' initData (raw string):', this.tg.initData);
-            console.log(' initDataUnsafe (parsed object):', this.tg.initDataUnsafe);
-            console.log(' User:', this.tg.initDataUnsafe?.user);
-            console.log(' Chat:', this.tg.initDataUnsafe?.chat);
-            console.log(' Query ID:', this.tg.initDataUnsafe?.query_id);
-            console.log(' Start Param:', this.tg.initDataUnsafe?.start_param);
-            console.log(' Platform:', this.tg.platform);
-            console.log(' Version:', this.tg.version);
-            console.groupEnd();
-
-            // Get user data from Telegram
             const user = this.tg.initDataUnsafe?.user;
 
             if (user) {
                 this.userData$.next(user);
             }
 
-            // Authenticate with backend API
             const initData = this.tg.initData;
             if (initData) {
-                console.log(' Initiating authentication with API...');
                 this.authService.authenticateWithTelegram(initData).subscribe({
-                    next: (response) => {
-                        console.log('Successfully authenticated with API');
-                    },
-                    error: (error) => {
-                        console.error(' Failed to authenticate with API:', error);
-                    }
+                    next: (response) => { },
+                    error: (error) => { }
                 });
-            } else {
-                console.warn(' No initData available for authentication');
             }
 
             this.telegramReady$.next(true);
 
-            // Set theme colors
             this.tg.setHeaderColor('#8B5CF6');
             this.tg.setBackgroundColor('#F8F9FA');
         } else {
-            // For testing outside Telegram
-            console.log('Telegram WebApp not available - running in demo mode');
             this.telegramReady$.next(false);
         }
     }
