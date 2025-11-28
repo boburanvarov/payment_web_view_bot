@@ -35,10 +35,7 @@
                     <!-- Bank Logo and Name -->
                     <div class="bank-header">
                         <div class="bank-logo-wrapper">
-                            <img *ngIf="card.bankLogoMini" [src]="card.bankLogoMini" alt="Bank Logo"
-                                style="width: 24px; height: 24px; object-fit: contain;">
-                            <div *ngIf="!card.bankLogoMini" class="bank-logo-circle"></div>
-                            <span class="bank-name">{{ card.bankName || 'BANK' }}</span>
+                            <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
                         </div>
                     </div>
 
