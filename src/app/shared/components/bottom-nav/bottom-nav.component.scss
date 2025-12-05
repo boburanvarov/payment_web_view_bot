@@ -3,66 +3,89 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #FFFFFF;
-    padding: 12px 20px 20px;
+    background: #ffffff;
+    padding: 12px 0 20px;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
     z-index: 100;
     border-radius: 20px 20px 0 0;
+    transition: background-color 0.3s ease;
+
+    // Dark mode support
+    :root.dark-mode & {
+        background: var(--card-bg);
+    }
 }
 
 .nav-buttons {
     width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 0 20px;
 }
 
 .nav-item {
     background: none;
     border: none;
-    color: #9CA3AF;
-    padding: 8px;
+    color: #8e8e93;
+    padding: 8px 12px;
     transition: all 0.3s;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    max-width: 80px;
 
     &.active {
-        color: #7C3AED;
+        color: #2970FF;
+
+        .nav-label {
+            color: #2970FF;
+        }
+
+        img {
+            /* Recolor gray SVG icons toward #2970FF when active */
+            filter: brightness(0) saturate(100%) invert(30%) sepia(96%) saturate(1517%) hue-rotate(214deg) brightness(95%) contrast(101%);
+        }
     }
 
     i {
-        font-size: 24px;
+        font-size: 22px;
+        transition: all 0.3s;
+    }
+
+    .nav-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #8e8e93;
+        transition: color 0.3s;
+        margin-top: 2px;
     }
 }
 
-.fab {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -32px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: none;
-    cursor: pointer;
-    color: white;
+/* Dark mode active state */
+:root.dark-mode .nav-item {
+    color: var(--secondary-text);
 
-    &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 10px 32px rgba(139, 92, 246, 0.6);
+    &.active {
+        color: #2970FF !important;
+
+        .nav-label {
+            color: #2970FF !important;
+        }
+
+        img {
+            filter: brightness(0) saturate(100%) invert(30%) sepia(96%) saturate(1517%) hue-rotate(214deg) brightness(95%) contrast(101%);
+        }
     }
 
-    &:active {
-        transform: scale(0.95);
-    }
-
-    i {
-        font-size: 28px;
-        font-weight: bold;
+    .nav-label {
+        color: var(--secondary-text);
     }
 }

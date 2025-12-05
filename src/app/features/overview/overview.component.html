@@ -1,99 +1,27 @@
-<div class="screen overview-screen" *ngIf="userData">
+<div class="screen overview-screen">
     <div class="screen-header">
         <button class="back-btn" (click)="goBack()">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
         </button>
-        <h2>Statistics</h2>
-        <button class="menu-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 12h18M3 6h18M3 18h18"></path>
-            </svg>
+        <h2>Hisobot</h2>
+        <button class="clock-btn">
+          <img src="assets/img/chart2.png" alt="chart">
         </button>
     </div>
 
-    <div class="period-selector">
-        <select class="period-dropdown">
-            <option>Jan 2024</option>
-            <option>Feb 2024</option>
-            <option>Mar 2024</option>
-        </select>
-    </div>
-
-    <div class="chart-section">
-        <div class="chart-container">
-            <canvas id="statsChart"></canvas>
-            <div class="chart-overlay">
-                <div class="chart-y-labels">
-                    <span>4k</span>
-                    <span>3k</span>
-                    <span>2k</span>
-                    <span>1k</span>
-                    <span>0</span>
-                </div>
-                <div class="chart-curves">
-                    <svg viewBox="0 0 300 200" preserveAspectRatio="none">
-                        <path class="income-curve" d="M 0,150 Q 50,120 75,100 T 150,80 T 225,60 T 300,40" fill="none"
-                            stroke="#8B5CF6" stroke-width="3" />
-                        <path class="expense-curve" d="M 0,180 Q 50,160 75,140 T 150,120 T 225,100 T 300,90" fill="none"
-                            stroke="#F97316" stroke-width="3" />
-                    </svg>
-                </div>
-                <div class="chart-x-labels">
-                    <span>Sun</span>
-                    <span>Mon</span>
-                    <span>Tue</span>
-                    <span>Wed</span>
-                    <span>Thu</span>
-                    <span>Fri</span>
-                    <span>Sat</span>
-                </div>
-            </div>
+    <div class="overview-content">
+        <div *ngIf="loading()" class="loading-state">
+            <p>Loading...</p>
         </div>
 
-        <div class="chart-legend">
-            <div class="legend-item">
-                <span class="legend-dot income"></span>
-                <span>Expenses</span>
-            </div>
-            <div class="legend-item">
-                <span class="legend-dot expense"></span>
-                <span>Income</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="view-monthly-report">
-        <button class="report-btn">
-            <span>See your monthly financial report</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-        </button>
-    </div>
-
-    <div class="tabs-section">
-        <div class="tabs">
-            <button class="tab" [class.active]="activeTab === 'expense'"
-                (click)="activeTab = 'expense'">Expense</button>
-            <button class="tab" [class.active]="activeTab === 'income'" (click)="activeTab = 'income'">Income</button>
-            <button class="tab" [class.active]="activeTab === 'transactions'"
-                (click)="activeTab = 'transactions'">Transactions</button>
-        </div>
-    </div>
-
-    <div class="transactions-list">
-        <div class="transaction-item" *ngFor="let transaction of userData.transactions.slice(0, 5)">
-            <div class="transaction-icon" [style.background]="transaction.color">
-                {{ transaction.icon }}
-            </div>
-            <div class="transaction-info">
-                <div class="transaction-title">{{ transaction.title }}</div>
-                <div class="transaction-time">{{ transaction.time }}</div>
-            </div>
-            <div class="transaction-amount expense">-₹{{ (transaction.amount * 83).toFixed(2) }}</div>
-        </div>
+        <app-report-card
+            *ngIf="!loading() && overviewReport()"
+            [reportData]="overviewReport()!"
+            [showFilters]="true"
+            [showSeeAll]="true">
+        </app-report-card>
     </div>
 
     <app-bottom-nav></app-bottom-nav>

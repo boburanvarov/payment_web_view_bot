@@ -1,6 +1,6 @@
 {
   "name": "payment-webview",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -10,7 +10,10 @@
     "bot": "node server.js",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
-    "version:major": "npm version major --no-git-tag-version"
+    "version:major": "npm version major --no-git-tag-version",
+    "cap:sync": "npm run build && npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:run:android": "npm run build && npx cap sync && npx cap run android"
   },
   "private": true,
   "dependencies": {
@@ -21,6 +24,9 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/cli": "^7.4.4",
+    "@capacitor/core": "^7.4.4",
     "@fortawesome/fontawesome-free": "^7.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

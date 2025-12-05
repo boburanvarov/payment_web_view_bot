@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { LayoutComponent } from './shared/layout/layout.component';
 import { HomeComponent } from './features/home/home.component';
 import { OverviewComponent } from './features/overview/overview.component';
 import { AddTransactionComponent } from './features/add-transaction/add-transaction.component';
@@ -10,35 +11,41 @@ import { SecurityComponent } from './features/security/security.component';
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: '/home',
-        pathMatch: 'full'
-    },
-    {
-        path: 'home',
-        component: HomeComponent
-    },
-    {
-        path: 'overview',
-        component: OverviewComponent
-    },
-    {
-        path: 'add-transaction',
-        component: AddTransactionComponent
-    },
-    {
-        path: 'cards',
-        component: CardsComponent
-    },
-    {
-        path: 'profile',
-        component: ProfileComponent
-    },
-    {
-        path: 'settings',
-        component: SettingsComponent
-    },
-    {
-        path: 'security',
-        component: SecurityComponent
+        component: LayoutComponent,
+        children: [
+            {
+                path: '',
+                redirectTo: 'home',
+                pathMatch: 'full'
+            },
+            {
+                path: 'home',
+                component: HomeComponent
+            },
+            {
+                path: 'overview',
+                component: OverviewComponent
+            },
+            {
+                path: 'add-transaction',
+                component: AddTransactionComponent
+            },
+            {
+                path: 'cards',
+                component: CardsComponent
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent
+            },
+            {
+                path: 'settings',
+                component: SettingsComponent
+            },
+            {
+                path: 'security',
+                component: SecurityComponent
+            }
+        ]
     }
 ];

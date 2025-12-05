@@ -1,19 +1,12 @@
 <div class="screen cards-screen">
     <div class="screen-header">
-        <button class="icon-btn">
+        <button class="icon-btn" (click)="router.navigate(['/home'])">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" />
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
-        <h2>My Card</h2>
-        <button class="icon-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
-        </button>
+        <h2>Kartalar</h2>
+        <div style="width: 40px;"></div>
     </div>
 
     <!-- Loading state -->
@@ -23,27 +16,21 @@
 
     <!-- Cards list -->
     <div class="cards-list" *ngIf="!loading() && cards().length > 0">
-        <div class="credit-card" *ngFor="let card of cards()" [style.background]="card.gradient">
-            <div class="card-header">
-                <img *ngIf="card.processingLogo" [src]="card.processingLogo" [alt]="card.cardType"
-                    style="height: 40px; object-fit: contain;">
-                <span *ngIf="!card.processingLogo" class="card-logo">{{ card.cardType }}</span>
-                <div class="card-balance-label">Current Balance</div>
-            </div>
-            <div class="card-balance">{{ card.balance.toFixed(2) }} UZS</div>
-            <div class="card-number">{{ card.number }}</div>
-            <div class="card-holder">
-                <img *ngIf="card.bankLogoMini" [src]="card.bankLogoMini" alt="Bank"
-                    style="height: 20px; margin-right: 8px; object-fit: contain;">
-                <span>{{ card.bankName }}</span>
-            </div>
-        </div>
+        <app-bank-card *ngFor="let card of cards(); let i = index"
+                       [card]="card"
+                       [gradientIndex]="i">
+        </app-bank-card>
     </div>
 
     <!-- Empty state -->
     <div *ngIf="!loading() && cards().length === 0" class="empty-state">
-        <p>No cards found</p>
+      <div class="empty-image">
+        <img src="/assets/img/empty-card.svg" alt="No cards" class="empty-card-image">
+      </div>
+        <p class="empty-state-text">Sizda kartalar mavjud emas</p>
+        <button class="add-card-btn" (click)="addCard()">
+            <i class="fas fa-plus"></i>
+            <span>Karta qo'shish</span>
+        </button>
     </div>
-
-    <app-bottom-nav></app-bottom-nav>
 </div>

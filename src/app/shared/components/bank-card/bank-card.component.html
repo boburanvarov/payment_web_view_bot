@@ -1,0 +1,41 @@
+<div class="bank-card" 
+     [style.background]="getCardBackgroundStyle()"
+     [style.background-size]="'cover, contain'"
+     [style.background-position]="'center, center'"
+     [style.background-repeat]="'no-repeat, no-repeat'">
+    <!-- Card Content -->
+    <div class="card-content">
+        <!-- Bank Logo and Name -->
+        <div class="bank-header">
+            <div class="bank-label">{{ card.bankName || 'Bank' }}</div>
+            <div class="bank-logo-wrapper">
+                <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
+            </div>
+        </div>
+
+        <!-- Balance Section -->
+        <div class="balance-section">
+            <div class="balance-amount">{{ card.balance | money}} <span class="currency">so'm</span></div>
+        </div>
+
+        <!-- Card Details -->
+        <div class="card-info">
+            <div class="card-number-row">
+                <div class="card-left">
+                    <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
+                </div>
+                <div class="card-right">
+                    <div class="card-type-logo">
+                        <img *ngIf="card.processingLogoMini" [src]="card.processingLogoMini"
+                            [alt]="card.cardType">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

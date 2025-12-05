@@ -1,0 +1,105 @@
+@use '../../styles/colors' as *;
+
+.carousel-wrapper {
+  width: 100%;
+  padding: 16px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-container {
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: grab;
+  user-select: none;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+
+  &:active {
+    cursor: grabbing;
+    transition: none;
+  }
+}
+
+.banner-slide {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s, transform 0.3s;
+
+  // Default: side banners are slightly visible
+  opacity: 0.7;
+  transform: scale(0.95);
+
+  // Active/center banner
+  &.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.banner-card {
+  width: 283px;
+  height: 72px;
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.banner-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.banner-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.banner-subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.2;
+}
+
+.banner-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  img {
+    object-fit: contain;
+  }
+}
+

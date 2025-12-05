@@ -1,19 +1,20 @@
 <div class="bottom-nav">
     <div class="nav-buttons">
         <button class="nav-item" [class.active]="isActive('/home')" (click)="navigateTo('/home')">
-            <i class="fas fa-home"></i>
-        </button>
-        <button class="nav-item" [class.active]="isActive('/overview')" (click)="navigateTo('/overview')">
-            <i class="fas fa-chart-line"></i>
-        </button>
-        <button class="fab" (click)="openAddTransaction()">
-            <i class="fas fa-plus"></i>
+          <img src="/assets/img/home.svg" alt="No menu">
+            <span class="nav-label">Asosiy</span>
         </button>
         <button class="nav-item" [class.active]="isActive('/cards')" (click)="navigateTo('/cards')">
-            <i class="fas fa-wallet"></i>
+          <img src="/assets/img/cards.svg" alt="No menu">
+            <span class="nav-label">Kartalar</span>
+        </button>
+        <button class="nav-item" [class.active]="isActive('/overview')" (click)="navigateTo('/overview')">
+          <img src="/assets/img/chart.svg" alt="No menu">
+            <span class="nav-label">Hisobot</span>
         </button>
         <button class="nav-item" [class.active]="isActive('/profile')" (click)="navigateTo('/profile')">
-            <i class="fas fa-user"></i>
+          <img src="/assets/img/user.svg" alt="No menu">
+            <span class="nav-label">Profil</span>
         </button>
     </div>
 </div>

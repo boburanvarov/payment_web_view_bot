@@ -1,4 +1,10 @@
-﻿export interface User {
+﻿// Export transaction interfaces first
+export * from './transaction.interfaces';
+
+// Import Transaction type for use in UserData
+import type { Transaction } from './transaction.interfaces';
+
+export interface User {
   id: number;
   first_name: string;
   last_name?: string;
@@ -17,17 +23,6 @@ export interface UserData {
   cards: Card[];
 }
 
-export interface Transaction {
-  id: number;
-  type: 'income' | 'expense';
-  title: string;
-  amount: number;
-  time: string;
-  icon: string;
-  category?: string;
-  color?: string;
-}
-
 export type TransactionType = 'income' | 'expense';
 
 export interface CardApiResponse {
@@ -44,8 +39,12 @@ export interface CardApiResponse {
     bankName: string;
     bankLogo: string;
     bankLogoMini: string;
+    bankWhiteLogo?: string;
+    bankWhiteLogoMini?: string;
     processingLogo: string;
     processingLogoMini: string;
+    processingWhiteLogo?: string;
+    processingWhiteLogoMini?: string;
   };
 }
 
@@ -61,11 +60,14 @@ export interface Card {
   bankName?: string;
   expiryDate?: string;
   active?: boolean;
-  // Logos - rangli versiyalar
   bankLogo?: string;
   bankLogoMini?: string;
+  bankWhiteLogo?: string;
+  bankWhiteLogoMini?: string;
   processingLogo?: string;
   processingLogoMini?: string;
+  processingWhiteLogo?: string;
+  processingWhiteLogoMini?: string;
 }
 
 export interface WeeklyStat {

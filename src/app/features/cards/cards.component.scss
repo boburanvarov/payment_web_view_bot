@@ -3,7 +3,8 @@
     min-height: 100vh;
     padding: 20px;
     padding-bottom: 100px;
-    background: #F8F9FA;
+    background: var(--screen-bg);
+    transition: background-color 0.3s ease;
 }
 
 .screen-header {
@@ -15,7 +16,7 @@
     h2 {
         font-size: 20px;
         font-weight: 600;
-        color: #1F2937;
+        color: var(--text-color);
         margin: 0;
     }
 }
@@ -24,11 +25,11 @@
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: white;
+    background: var(--card-bg);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1F2937;
+    color: var(--text-color);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     border: none;
@@ -39,60 +40,73 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
 }
 
-.credit-card {
-    border-radius: 16px;
-    padding: 24px;
-    color: white;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    position: relative;
-    overflow: hidden;
+// Empty State
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    min-height: 60vh;
+    .empty-image{
+      width: 177px;
+      height: 177px;
+      img{
+        width: 100%;
+      }
+    }
+    .empty-card-image {
+        width: 280px;
+        height: auto;
+        margin-bottom: 32px;
+        max-width: 100%;
+    }
 
-    &::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        right: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    .empty-state-text {
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--text-color);
+        margin: 0 0 32px 0;
+    }
+
+    .add-card-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #0088cc;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
+
+        &:hover {
+            background: #0077b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 136, 204, 0.4);
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        i {
+            font-size: 18px;
+        }
     }
 }
 
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-}
-
-.card-logo {
-    font-size: 20px;
-    font-weight: 700;
-    font-style: italic;
-}
-
-.card-balance-label {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.card-balance {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 24px;
-}
-
-.card-number {
-    font-size: 18px;
-    letter-spacing: 2px;
-    margin-bottom: 16px;
-    font-family: 'Courier New', monospace;
-}
-
-.card-holder {
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.loading-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--secondary-text);
 }

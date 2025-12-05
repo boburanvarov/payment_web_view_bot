@@ -1,78 +1,22 @@
-<div class="carousel-container">
-    <div class="carousel-track" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'"
-        (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)" (mousedown)="onMouseDown($event)"
-        (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)" (mouseleave)="onMouseLeave()">
-
-        <div class="card-slide" *ngFor="let card of allCards; let i = index">
-            <div class="bank-card" [ngClass]="{'total-card': card.type === 'total'}">
-                <!-- Total Balance Card -->
-                <div class="total-balance-card" *ngIf="card.type === 'total'">
-                    <div class="balance-label">
-                        Umumiy hisob
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="balance-value">{{ totalBalance | money }} <span class="currency">so'm</span></div>
-                    <div class="stats-row">
-                        <div class="stat income-stat">
-                            <i class="fas fa-arrow-up"></i>
-                            <div>
-                                <div class="stat-label">Income</div>
-                                <div class="stat-value">{{ income | money}} <span class="currency">so'm</span></div>
-                            </div>
-                        </div>
-                        <div class="stat expense-stat">
-                            <i class="fas fa-arrow-down"></i>
-                            <div>
-                                <div class="stat-label">Expenses</div>
-                                <div class="stat-value">{{ expenses | money }} <span class="currency">so'm</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+<div class="carousel-wrapper">
+    <div class="carousel-container">
+        <div class="carousel-track" 
+             [style.transform]="'translateX(' + getTransformValue() + 'px)'"
+             (touchstart)="onTouchStart($event)" 
+             (touchend)="onTouchEnd($event)" 
+             (mousedown)="onMouseDown($event)"
+             (mousemove)="onMouseMove($event)" 
+             (mouseup)="onMouseUp($event)" 
+             (mouseleave)="onMouseLeave()">
+            
+            <div class="card-slide" 
+                 [class.active]="i === currentIndex"
+                 *ngFor="let card of allCards; let i = index">
                 <!-- Individual Card -->
-                <div class="card-content" *ngIf="card.type !== 'total'">
-                    <!-- Bank Logo and Name -->
-                    <div class="bank-header">
-                        <div class="bank-logo-wrapper">
-                            <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
-                        </div>
-                    </div>
-
-                    <!-- Card Details -->
-                    <div class="card-info">
-                        <div class="bank-label">{{ card.bankName || 'Bank' }}</div>
-
-                        <div class="card-number-row">
-                            <div class="card-left">
-                                <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
-<!--                                <button class="copy-btn" (click)="copyCardNumber(card.number)">-->
-<!--                                    <i class="far fa-copy"></i>-->
-<!--                                </button>-->
-                            </div>
-                            <div class="card-right">
-                                <!--                                <div class="card-expiry">{{ card.expiryDate || '09/27' }}</div>-->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Balance Section -->
-                    <div class="balance-section">
-                        <div class="balance-amount">{{ card.balance | money}} <span class="currency">so'm</span></div>
-                        <div class="card-type-logo">
-                            <img *ngIf="card.processingLogoMini" [src]="card.processingLogoMini" [alt]="card.cardType"
-                                style="height: 32px; object-fit: contain;">
-                        </div>
-                    </div>
-                </div>
+                <app-bank-card [card]="card" 
+                               [gradientIndex]="getCardGradientIndex(i)">
+                </app-bank-card>
             </div>
         </div>
-    </div>
-
-    <!-- Indicators -->
-    <div class="carousel-indicators">
-        <button *ngFor="let card of allCards; let i = index" class="indicator" [class.active]="currentIndex === i"
-            (click)="goToCard(i)">
-        </button>
     </div>
 </div>

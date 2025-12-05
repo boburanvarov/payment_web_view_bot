@@ -3,18 +3,84 @@
     min-height: 100vh;
     padding: 0;
     padding-bottom: 80px;
-    background: #FFFFFF;
+    background: var(--screen-bg);
+    transition: background-color 0.3s ease;
 }
 
-// Simple Header
-.simple-header {
+// Profile Header
+.profile-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: #FFFFFF;
+    background: var(--card-bg);
+    transition: background-color 0.3s ease;
 
-    .menu-btn,
+    .profile-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .profile-avatar-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .profile-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 18px;
+        position: relative;
+    }
+
+    .avatar-initials {
+        text-transform: uppercase;
+    }
+
+    .verified-badge {
+        position: absolute;
+        bottom: -2px;
+        right: -2px;
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    .profile-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .profile-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color);
+        margin: 0;
+    }
+
+    .profile-username {
+        font-size: 13px;
+        color: var(--secondary-text);
+        margin: 0;
+    }
+
     .notification-btn {
         width: 40px;
         height: 40px;
@@ -23,39 +89,81 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1F2937;
+        color: var(--text-color);
         border: none;
         cursor: pointer;
         transition: all 0.2s;
 
         &:hover {
-            background: #F3F4F6;
+            background: var(--screen-bg);
         }
 
         i {
             font-size: 20px;
         }
     }
+}
 
-    .page-title {
+// Report Section
+.report-section {
+    padding: 0 20px;
+    margin-bottom: 24px;
+    position: relative;
+
+    &.initial-reports {
+        margin-top: 0;
+
+        // Fade-out gradient at the bottom (g'ira shira tumandaka)
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to bottom, transparent 0%, rgba(248, 249, 250, 0.5) 50%, var(--screen-bg, #F8F9FA) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+    }
+
+    &.scroll-reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+
+        &.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+// Section Header Styles
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .section-title {
         font-size: 18px;
-        font-weight: 600;
-        color: #1F2937;
+        font-weight: 700;
+        color: var(--text-color);
         margin: 0;
     }
 
-    .notification-btn {
-        position: relative;
+    .see-all-btn {
+        background: none;
+        border: none;
+        color: var(--secondary-text);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: color 0.2s;
 
-        .notification-dot {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            background: #EF4444;
-            border-radius: 50%;
-            border: 2px solid #FFFFFF;
+        &:hover {
+            color: var(--text-color);
         }
     }
 }
@@ -66,46 +174,19 @@
     margin-bottom: 24px;
 }
 
-.section-header-simple {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-
-    h2 {
-        font-size: 20px;
-        font-weight: 700;
-        color: #1F2937;
-        margin: 0;
-    }
-
-    .see-all-btn {
-        background: none;
-        border: none;
-        color: #9CA3AF;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: color 0.2s;
-
-        &:hover {
-            color: #6B7280;
-        }
-    }
+.transactions-list {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-.transactions-list-modern {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.transaction-card {
+.transaction-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px solid #F3F4F6;
+    border-bottom: 1px solid var(--screen-bg);
 
     &:last-child {
         border-bottom: none;
@@ -113,46 +194,63 @@
 
     .transaction-left {
         display: flex;
-        align-items: center;
-        gap: 12px;
+        flex-direction: column;
+        gap: 6px;
         flex: 1;
     }
 
-    .transaction-avatar {
-        width: 48px;
-        height: 48px;
-        border-radius: 12px;
-        background: #E5E7EB;
+    .transaction-icon {
         display: flex;
         align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
 
-        .transaction-emoji {
-            font-size: 24px;
+        i {
+            font-size: 8px;
+        }
+
+        &.income-icon {
+            color: #10B981;
+        }
+
+        &.expense-icon {
+            color: #EF4444;
         }
     }
 
     .transaction-details {
-        flex: 1;
+        display: flex;
+        align-items: center;
     }
 
-    .transaction-name {
-        font-size: 15px;
-        font-weight: 500;
-        color: #1F2937;
-        margin-bottom: 4px;
-    }
-
-    .transaction-timestamp {
+    .transaction-card-number {
+        display: flex;
+        align-items: center;
+        gap: 6px;
         font-size: 13px;
-        color: #9CA3AF;
+        color: var(--secondary-text);
+
+        i {
+            font-size: 12px;
+        }
     }
 
-    .transaction-amount-right {
-        font-size: 16px;
+    .transaction-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 4px;
+    }
+
+    .transaction-time {
+        font-size: 12px;
+        color: var(--secondary-text);
+    }
+
+    .transaction-amount {
+        font-size: 15px;
         font-weight: 600;
-        flex-shrink: 0;
 
         &.positive {
             color: #10B981;
@@ -161,5 +259,179 @@
         &.negative {
             color: #EF4444;
         }
+    }
+}
+
+// Advertising Banners Section
+.advertising-banners {
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+// Currency Section
+.currency-section {
+    padding: 0 20px;
+    margin-bottom: 24px;
+}
+
+.currency-rates {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.currency-rate-item {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+    .currency-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .currency-flag {
+        font-size: 28px;
+        line-height: 1;
+    }
+
+    .currency-code {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .exchange-icon {
+        margin-left: auto;
+        margin-right: 12px;
+        color: var(--secondary-text);
+
+        i {
+            font-size: 16px;
+        }
+    }
+
+    .currency-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+}
+
+// Best Rates Section
+.best-rates-section {
+    padding: 0 20px;
+    margin-bottom: 24px;
+}
+
+.best-rates-table {
+    background: var(--card-bg);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 12px 16px;
+    background: var(--screen-bg);
+    border-bottom: 1px solid var(--screen-bg);
+
+    .header-cell {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--secondary-text);
+        text-align: left;
+
+        &:not(:first-child) {
+            text-align: center;
+        }
+    }
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 12px 16px;
+    align-items: center;
+    border-bottom: 1px solid var(--screen-bg);
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    .bank-cell {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .bank-logo-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--screen-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary-text);
+
+            i {
+                font-size: 14px;
+            }
+        }
+
+        .bank-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+    }
+
+    .rate-cell {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-color);
+        text-align: center;
+    }
+}
+
+// Loading and Empty States
+.loading-state,
+.empty-state {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--secondary-text);
+}
+
+// Reports Section with Vertical Layout
+.reports-section {
+    padding: 0 20px;
+    margin-bottom: 24px;
+}
+
+.reports-scroll-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.report-card-wrapper {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     }
 }

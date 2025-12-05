@@ -1,0 +1,290 @@
+.report-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Filter Section
+.filter-section {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
+
+  // Hide scrollbar but keep scroll functionality
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none; // IE and Edge
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #F5F5F7;
+  border: none;
+  border-radius: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &.active {
+    background: #FFFFFF;
+    color: #1A1A1A;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &:not(.active):hover {
+    background: #E5E5EA;
+  }
+}
+
+// Stats Section
+.stats-section {
+  display: flex;
+  gap: 12px;
+}
+
+.stat-card {
+  min-width: 182px;
+  width: 100%;
+  max-width: 400px;
+  height: 78px;
+  padding: 12px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 415px) {
+    width: 182px;
+  }
+}
+
+.stat-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.income-stat .stat-icon {
+  background: rgba(16, 185, 129, 0.1);
+
+  svg {
+    color: #10B981;
+    stroke: #10B981;
+  }
+}
+
+.expense-stat .stat-icon {
+  background: rgba(239, 68, 68, 0.1);
+
+  svg {
+    color: #EF4444;
+    stroke: #EF4444;
+  }
+}
+
+.stat-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A1A1A;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+
+// Transactions Section
+.transactions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.see-all-btn {
+  background: none;
+  border: none;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.6);
+  }
+}
+
+.transactions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.date-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.4);
+  padding-left: 4px;
+}
+
+.transaction-item {
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  min-height: 78px; // Fixed height for consistent scrolling
+
+  &:hover {
+    background: #F8F9FA;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    transform: translateX(4px);
+  }
+}
+
+// Top row: Chiqim/Kirim and Time
+.transaction-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.transaction-type {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.income-type {
+  color: #10B981;
+
+  .transaction-dot {
+    background: #10B981;
+  }
+}
+
+.expense-type {
+  color: #EF4444;
+
+  .transaction-dot {
+    background: #EF4444;
+  }
+}
+
+.transaction-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.transaction-time {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+// Bottom row: Card logo/number and Amount
+.transaction-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.transaction-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+
+  .card-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+}
+
+.transaction-amount {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+
+  &.positive {
+    color: #10B981;
+  }
+
+  &.negative {
+    color: #EF4444;
+  }
+}

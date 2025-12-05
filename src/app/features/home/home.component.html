@@ -1,17 +1,22 @@
 <div class="screen home-screen">
-    <div class="simple-header">
-        <button class="menu-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <rect x="4" y="4" width="7" height="7" rx="2" />
-                <rect x="13" y="4" width="7" height="7" rx="2" />
-                <rect x="4" y="13" width="7" height="7" rx="2" />
-                <rect x="13" y="13" width="7" height="7" rx="2" />
-            </svg>
-        </button>
-        <h1 class="page-title">Home</h1>
+    <!-- Profile Header -->
+    <div class="profile-header">
+        <div class="profile-info">
+            <div class="profile-avatar-wrapper">
+                <div class="profile-avatar">
+                    <span class="avatar-initials">{{ getUserInitials() }}</span>
+                </div>
+                <div class="verified-badge">
+                    <img src="/assets/img/verified.png" alt="Verified" />
+                </div>
+            </div>
+            <div class="profile-text">
+                <h2 class="profile-name">{{ userProfile.name }}</h2>
+                <p class="profile-username">{{ userProfile.username }}</p>
+            </div>
+        </div>
         <button class="notification-btn">
             <i class="fas fa-bell"></i>
-            <span class="notification-dot"></span>
         </button>
     </div>
 
@@ -22,13 +27,83 @@
 
     <!-- Cards carousel -->
     <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
-        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses">
+        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses"
+        (cardSelected)="onCardSelected($event)">
     </app-balance-card-carousel>
+
+    <!-- Report Section - Card Reports -->
+    <div class="report-section initial-reports" *ngIf="cardReport()">
+        <app-report-card
+            [reportData]="cardReport()!"
+            [showFilters]="false"
+            [showSeeAll]="true"
+            [maxTransactions]="3">
+        </app-report-card>
+    </div>
+
+  <!-- Advertising Banners -->
+  <div class="advertising-banners" *ngIf="banners.length > 0">
+    <app-banner-carousel [banners]="banners"></app-banner-carousel>
+  </div>
+
+    <!-- Currency Exchange Rates -->
+    <div class="currency-section">
+        <div class="section-header">
+            <h3 class="section-title">Valyuta kurslari</h3>
+            <button class="see-all-btn" (click)="navigateToExchange()">Barchasi</button>
+        </div>
+        <div class="currency-rates">
+            <div class="currency-rate-item">
+                <div class="currency-info">
+                    <span class="currency-flag">🇺🇸</span>
+                    <span class="currency-code">USD</span>
+                </div>
+                <div class="exchange-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="currency-value">{{ currencyRates.usd.buy }}</div>
+            </div>
+            <div class="currency-rate-item">
+                <div class="currency-info">
+                    <span class="currency-flag">🇺🇿</span>
+                    <span class="currency-code">UZS</span>
+                </div>
+                <div class="exchange-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <div class="currency-value">{{ currencyRates.uzs.rate | number:'1.2-2' }}</div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Best Exchange Rates -->
+    <div class="best-rates-section">
+        <div class="section-header">
+            <h3 class="section-title">Eng yaxshi takliflar</h3>
+            <button class="see-all-btn" (click)="navigateToBestRates()">Barchasi</button>
+        </div>
+        <div class="best-rates-table">
+            <div class="table-header">
+                <div class="header-cell">Bank</div>
+                <div class="header-cell">Sotiv</div>
+                <div class="header-cell">Xarid</div>
+            </div>
+            <div class="table-row" *ngFor="let rate of bestRates">
+                <div class="bank-cell">
+                    <div class="bank-logo-small">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <span class="bank-name">{{ rate.bankName }}</span>
+                </div>
+                <div class="rate-cell">{{ rate.sell | number:'1.2-2' }}</div>
+                <div class="rate-cell">{{ rate.buy | number:'1.2-2' }}</div>
+            </div>
+        </div>
+    </div>
 
     <!-- Empty state -->
     <div *ngIf="!loading() && cards().length === 0" class="empty-state">
         <p>No cards found</p>
     </div>
-
-    <app-bottom-nav></app-bottom-nav>
 </div>

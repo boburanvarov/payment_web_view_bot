@@ -1,21 +1,12 @@
 <div class="screen profile-screen">
     <div class="screen-header">
         <button class="icon-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" />
-                <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" />
-            </svg>
+            <img src="/assets/img/grid-icon.svg" alt="Grid" width="24" height="24">
         </button>
         <h2>Profile</h2>
-        <button class="icon-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2" />
-                <path
-                    d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+        <button class="icon-btn" (click)="toggleTheme()">
+            <img *ngIf="isDarkMode" src="/assets/img/sun-icon.svg" alt="Sun" width="24" height="24">
+            <i *ngIf="!isDarkMode" class="fas fa-moon"></i>
         </button>
     </div>
 
@@ -31,39 +22,29 @@
         <div class="menu-item">
             <div class="menu-icon purple">👤</div>
             <span>Account Info</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img src="/assets/img/chevron-right.svg" alt="Arrow" width="20" height="20">
         </div>
         <div class="menu-item" (click)="goToSecurity()">
             <div class="menu-icon green">🔒</div>
             <span>Security Code</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img src="/assets/img/chevron-right.svg" alt="Arrow" width="20" height="20">
         </div>
         <div class="menu-item">
             <div class="menu-icon blue">🔐</div>
             <span>Privacy Policy</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img src="/assets/img/chevron-right.svg" alt="Arrow" width="20" height="20">
         </div>
         <div class="menu-item" (click)="goToSettings()">
             <div class="menu-icon teal">⚙️</div>
             <span>Settings</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img src="/assets/img/chevron-right.svg" alt="Arrow" width="20" height="20">
         </div>
         <div class="menu-item" (click)="logout()">
             <div class="menu-icon red">🚪</div>
             <span>Logout</span>
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7 4l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
+            <img src="/assets/img/chevron-right.svg" alt="Arrow" width="20" height="20">
         </div>
     </div>
 
-    <app-bottom-nav></app-bottom-nav>
+
 </div>

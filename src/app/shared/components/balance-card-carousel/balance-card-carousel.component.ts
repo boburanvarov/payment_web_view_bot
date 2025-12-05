@@ -1,10 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../../core/models';
-import {MoneyPipe} from '../../pipe/money.pipe';
+import { MoneyPipe } from '../../pipe/money.pipe';
+import { BankCardComponent } from '../bank-card/bank-card.component';
 
 interface CarouselCard extends Card {
-  type: 'total' | 'card';
+  type: 'card';
   bankName?: string;
   expiryDate?: string;
 }
@@ -12,42 +13,74 @@ interface CarouselCard extends Card {
 @Component({
   selector: 'app-balance-card-carousel',
   standalone: true,
-  imports: [CommonModule, MoneyPipe],
+  imports: [CommonModule, MoneyPipe, BankCardComponent],
   templateUrl: './balance-card-carousel.component.html',
   styleUrl: './balance-card-carousel.component.scss'
 })
-export class BalanceCardCarouselComponent implements OnInit {
+export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
   @Input() cards: Card[] = [];
   @Input() totalBalance: number = 0;
   @Input() income: number = 0;
   @Input() expenses: number = 0;
+  @Output() cardSelected = new EventEmitter<Card | null>();
 
   allCards: CarouselCard[] = [];
   currentIndex: number = 0;
+  isDarkMode: boolean = false;
 
-  // Touch support
   touchStartX: number = 0;
   touchEndX: number = 0;
 
-  // Mouse support
   mouseStartX: number = 0;
   mouseEndX: number = 0;
   isDragging: boolean = false;
 
+  private themeChangeListener: () => void;
+
+  constructor() {
+    this.themeChangeListener = () => this.checkDarkMode();
+  }
+
   ngOnInit(): void {
-    // First card is total balance
-    console.log(
-      this.cards
-    )
-    this.allCards = [
-      { id: 0, number: '', balance: this.totalBalance, gradient: '', type: 'total' } as any,
-      ...this.cards.map(card => ({
-        ...card,
-        type: 'card' as const,
-        bankName: card.bankName,
-        expiryDate: card.expiryDate,
-      }))
-    ];
+    this.checkDarkMode();
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.themeChangeListener);
+
+    // Listen for manual theme toggle from ProfileComponent
+    window.addEventListener('theme-changed', this.themeChangeListener);
+
+    this.allCards = this.cards.map(card => ({
+      ...card,
+      type: 'card' as const,
+      bankName: card.bankName,
+      expiryDate: card.expiryDate,
+    }));
+    // Emit initial card selection
+    if (this.allCards.length > 0) {
+      this.emitCardSelection();
+    }
+  }
+
+  ngOnDestroy(): void {
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.themeChangeListener);
+    window.removeEventListener('theme-changed', this.themeChangeListener);
+  }
+
+  private checkDarkMode(): void {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.isDarkMode = savedTheme === 'dark';
+    } else {
+      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+  }
+
+  getBankLogo(card: Card): string | undefined {
+    if (this.isDarkMode && card.bankWhiteLogoMini) {
+      return card.bankWhiteLogoMini;
+    }
+    return card.bankLogoMini;
   }
 
   formatCardNumberWithMask(cardNumber: string): string {
@@ -58,37 +91,6 @@ export class BalanceCardCarouselComponent implements OnInit {
     const next2 = cardNumber.substring(4, 6);
     const last4 = cardNumber.substring(12, 16);
     return `${first4} ${next2}** **** ${last4}`;
-  }
-  copyCardNumber(cardNumber: string): void {
-    // Remove spaces for copying
-    const cleanNumber = cardNumber.replace(/\s/g, '');
-
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(cleanNumber).then(() => {
-        console.log('Card number copied to clipboard');
-        // You can add a toast notification here
-      }).catch(err => {
-        console.error('Failed to copy card number:', err);
-      });
-    } else {
-      // Fallback for older browsers
-      const textArea = document.createElement('textarea');
-      textArea.value = cleanNumber;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-
-      try {
-        document.execCommand('copy');
-        console.log('Card number copied to clipboard');
-      } catch (err) {
-        console.error('Failed to copy card number:', err);
-      }
-
-      document.body.removeChild(textArea);
-    }
   }
 
   // Touch events (mobile)
@@ -152,16 +154,38 @@ export class BalanceCardCarouselComponent implements OnInit {
   next() {
     if (this.currentIndex < this.allCards.length - 1) {
       this.currentIndex++;
+      this.emitCardSelection();
     }
   }
 
   prev() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+      this.emitCardSelection();
     }
   }
 
   goToCard(index: number) {
     this.currentIndex = index;
+    this.emitCardSelection();
+  }
+
+  private emitCardSelection(): void {
+    const currentCard = this.allCards[this.currentIndex];
+    if (currentCard) {
+      this.cardSelected.emit(currentCard as Card);
+    } else {
+      this.cardSelected.emit(null);
+    }
+  }
+
+  getTransformValue(): number {
+    const cardWidth = 320; // Approximate card width with gap
+    return -this.currentIndex * cardWidth;
+  }
+
+  getCardGradientIndex(index: number): number {
+    // Return gradient index based on card position
+    return index;
   }
 }

@@ -14,6 +14,7 @@ import { TelegramService } from '../../core/services/telegram.service';
 export class ProfileComponent implements OnInit {
     userName: string = 'User';
     userEmail: string = 'user@example.com';
+  isDarkMode: boolean = false; // Dark mode temporarily disabled
 
     constructor(
         private router: Router,
@@ -21,14 +22,27 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        // Temporarily force light mode
+        this.forceLightMode();
 
-        // Get Telegram user data
         this.telegramService.getUserData().subscribe(user => {
             if (user) {
                 this.userName = user.first_name || 'User';
                 this.userEmail = user.username ? `@${user.username}` : 'user@example.com';
             }
         });
+    }
+
+    // Temporarily disable dark mode logic and always use light theme
+    private forceLightMode(): void {
+        this.isDarkMode = false;
+        localStorage.setItem('theme', 'light');
+        document.documentElement.classList.remove('dark-mode');
+    }
+
+    toggleTheme(): void {
+        // Dark mode is disabled for now; keep light theme
+        this.forceLightMode();
     }
 
     goToSettings(): void {

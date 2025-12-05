@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { catchError, tap, of } from 'rxjs';
 import { Card, CardApiResponse } from '../models';
 import { environment } from '../../../environments/environment';
@@ -8,11 +8,9 @@ import { environment } from '../../../environments/environment';
     providedIn: 'root'
 })
 export class CardService {
-    // Signals
     cards = signal<Card[]>([]);
     loading = signal<boolean>(false);
 
-    // Computed signals
     totalBalance = computed(() =>
         this.cards().reduce((sum, card) => sum + card.balance, 0)
     );
@@ -26,6 +24,7 @@ export class CardService {
         this.http.get<CardApiResponse[]>(url).pipe(
             tap(apiCards => {
                 const cards = apiCards.map(apiCard => this.mapApiCardToCard(apiCard));
+                // this.cards.set([]);
                 this.cards.set(cards);
                 this.loading.set(false);
             }),
@@ -51,11 +50,14 @@ export class CardService {
             gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             bankName: bankName,
             active: apiCard.active,
-            // Rangli logolar
             bankLogo: apiCard.cardDesignInfo?.bankLogo,
             bankLogoMini: apiCard.cardDesignInfo?.bankLogoMini,
+            bankWhiteLogo: apiCard.cardDesignInfo?.bankWhiteLogo,
+            bankWhiteLogoMini: apiCard.cardDesignInfo?.bankWhiteLogoMini,
             processingLogo: apiCard.cardDesignInfo?.processingLogo,
-            processingLogoMini: apiCard.cardDesignInfo?.processingLogoMini
+            processingLogoMini: apiCard.cardDesignInfo?.processingLogoMini,
+            processingWhiteLogo: apiCard.cardDesignInfo?.processingWhiteLogo,
+            processingWhiteLogoMini: apiCard.cardDesignInfo?.processingWhiteLogoMini
         };
     }
 

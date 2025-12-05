@@ -1,0 +1,118 @@
+@use '../../styles/colors' as *;
+
+.bank-card {
+  width: 338px;
+  height: 132px;
+  border-radius: 16px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: white;
+  background-blend-mode: overlay;
+}
+
+// Individual Card Content
+.card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+}
+
+// Bank Header
+.bank-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .bank-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .bank-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 96px;
+    height: 28px;
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+// Card Info Section
+.card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .card-number-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    .card-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .card-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-number {
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+      font-family: 'Courier New', monospace;
+    }
+  }
+
+  .card-type-logo {
+    width: 15px;
+    height: 21px;
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+}
+
+// Balance Section
+.balance-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+
+  .balance-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+
+    .currency {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+}
+
+
