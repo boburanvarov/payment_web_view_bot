@@ -175,6 +175,21 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  &.limited-transactions {
+    // 3 transactions: each ~78px (min-height) + 12px gap between + date header ~20px
+    max-height: calc(78px * 3 + 12px * 2 + 20px); // ~278px for 3 transactions
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    // Hide scrollbar but keep scroll functionality
+    scrollbar-width: none; // Firefox
+    -ms-overflow-style: none; // IE and Edge
+
+    &::-webkit-scrollbar {
+      display: none; // Chrome, Safari, Opera
+    }
+  }
 }
 
 .date-group {

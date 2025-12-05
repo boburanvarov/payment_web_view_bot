@@ -62,7 +62,7 @@
       <button class="see-all-btn" *ngIf="showSeeAll" (click)="onSeeAllClick()">Barchasi</button>
     </div>
 
-    <div class="transactions-container">
+    <div class="transactions-container" [class.limited-transactions]="maxTransactions">
       <div class="date-group" *ngFor="let group of groupedTransactions">
         <div class="date-header">{{ group.date }}</div>
 
