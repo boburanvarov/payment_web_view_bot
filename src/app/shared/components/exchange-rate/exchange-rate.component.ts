@@ -13,6 +13,7 @@ export class ExchangeRateComponent implements OnInit {
   // Access signals from CurrencyService (will be initialized in constructor)
   currencyData;
   loading;
+  isSwapped = false;
 
   constructor(public currencyService: CurrencyService) {
     this.currencyData = this.currencyService.currencyData;
@@ -28,8 +29,14 @@ export class ExchangeRateComponent implements OnInit {
   }
 
   swapCurrencies(): void {
-    // Swap logic can be implemented here if needed
-    console.log('Swap currencies');
+    this.isSwapped = !this.isSwapped;
+  }
+
+  onAmountChange(event: Event, type: 'base' | 'quote'): void {
+    const input = event.target as HTMLInputElement;
+    const value = input.value.replace(/\s/g, '');
+    console.log(`Amount changed for ${type}:`, value);
+    // TODO: Calculate and update the other currency amount
   }
 
   navigateToAll(): void {
@@ -37,4 +44,3 @@ export class ExchangeRateComponent implements OnInit {
     console.log('Navigate to all rates');
   }
 }
-

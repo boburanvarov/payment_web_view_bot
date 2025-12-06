@@ -8,34 +8,45 @@
   <!-- Currency Converter -->
   <div class="currency-converter" *ngIf="currencyData()">
     <!-- Base Currency (USD) -->
-    <div class="currency-input base-currency">
+    <div class="currency-input">
       <div class="currency-selector">
-        <img [src]="currencyData()!.base.flagUrl" [alt]="currencyData()!.base.currency" class="flag-icon" />
-        <span class="currency-code">{{ currencyData()!.base.currency }}</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+        <img [src]="isSwapped ? currencyData()!.quote.flagUrl : currencyData()!.base.flagUrl"
+          [alt]="isSwapped ? currencyData()!.quote.currency : currencyData()!.base.currency" class="flag-icon" />
+        <span class="currency-code">{{ isSwapped ? currencyData()!.quote.currency : currencyData()!.base.currency
+          }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
-      <div class="currency-amount">{{ currencyData()!.base.amount }}</div>
+      <input type="text" class="currency-amount-input"
+        [value]="isSwapped ? formatNumber(currencyData()!.quote.amount) : currencyData()!.base.amount"
+        (input)="onAmountChange($event, 'base')" />
     </div>
 
     <!-- Swap Button -->
-    <button class="swap-button" (click)="swapCurrencies()">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <button class="swap-button" [class.rotated]="isSwapped" (click)="swapCurrencies()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
         <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
       </svg>
     </button>
 
     <!-- Quote Currency (UZS) -->
-    <div class="currency-input quote-currency">
+    <div class="currency-input">
       <div class="currency-selector">
-        <img [src]="currencyData()!.quote.flagUrl" [alt]="currencyData()!.quote.currency" class="flag-icon" />
-        <span class="currency-code">{{ currencyData()!.quote.currency }}</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+        <img [src]="isSwapped ? currencyData()!.base.flagUrl : currencyData()!.quote.flagUrl"
+          [alt]="isSwapped ? currencyData()!.base.currency : currencyData()!.quote.currency" class="flag-icon" />
+        <span class="currency-code">{{ isSwapped ? currencyData()!.base.currency : currencyData()!.quote.currency
+          }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
-      <div class="currency-amount">{{ formatNumber(currencyData()!.quote.amount) }}</div>
+      <input type="text" class="currency-amount-input"
+        [value]="isSwapped ? currencyData()!.base.amount : formatNumber(currencyData()!.quote.amount)"
+        (input)="onAmountChange($event, 'quote')" />
     </div>
   </div>
 
@@ -67,4 +78,3 @@
     <p>Loading...</p>
   </div>
 </div>
-

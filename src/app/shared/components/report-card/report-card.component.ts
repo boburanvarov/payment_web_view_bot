@@ -10,11 +10,12 @@ import {
     OverviewTransaction,
     OverviewReportResponse
 } from '../../../core/models';
+import { MoneyPipe } from '../../pipe/money.pipe';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, MoneyPipe],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
@@ -70,7 +71,7 @@ export class ReportCardComponent implements OnChanges {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
-        
+
         // Format time as "6-Iyul, 12:52"
         const months = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
         const monthName = months[date.getMonth()];
@@ -95,7 +96,7 @@ export class ReportCardComponent implements OnChanges {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
-        
+
         // Format time as HH:mm (e.g., "12:52")
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');

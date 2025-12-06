@@ -43,6 +43,25 @@
     align-items: center;
 }
 
+
+.plus-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #F5F5F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A1A;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #E5E5EA;
+  }
+}
+
 // Empty State
 .empty-state {
     display: flex;

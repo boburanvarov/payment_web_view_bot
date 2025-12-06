@@ -7,13 +7,13 @@
       <div class="stat-content">
         <div class="stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19V5m-7 7l7 7 7-7"/>
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 19V5m-7 7l7 7 7-7" />
           </svg>
         </div>
         <span class="stat-label">Kirim</span>
       </div>
-      <span class="stat-value">{{ formatNumber(processedIncome || income) }} so'm</span>
+      <span class="stat-value">{{ (processedIncome || income) | money }} so'm</span>
     </div>
 
     <div class="stat-card expense-stat">
@@ -21,39 +21,42 @@
       <div class="stat-content">
         <div class="stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 5v14m-7-7l7-7 7 7"/>
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14m-7-7l7-7 7 7" />
           </svg>
         </div>
         <span class="stat-label">Chiqim</span>
       </div>
-      <span class="stat-value">{{ formatNumber(processedExpenses || expenses) }} so'm</span>
+      <span class="stat-value">{{ (processedExpenses || expenses) | money }} so'm</span>
     </div>
   </div>
 
-    <!-- Filter Buttons -->
-    <div class="filter-section" *ngIf="showFilters">
-      <button class="filter-btn active">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
-        </svg>
-        Amaliyotlar
-      </button>
-      <button class="filter-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-          <path d="M16 2v4M8 2v4M3 10h18" />
-        </svg>
-        Davr
-      </button>
-      <button class="filter-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-          <path d="M1 10h22" />
-        </svg>
-        Kartalar va hisob raqamlar
-      </button>
-    </div>
+  <!-- Filter Buttons -->
+  <div class="filter-section" *ngIf="showFilters">
+    <button class="filter-btn active">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+      </svg>
+      Amaliyotlar
+    </button>
+    <button class="filter-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <path d="M16 2v4M8 2v4M3 10h18" />
+      </svg>
+      Davr
+    </button>
+    <button class="filter-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+        <path d="M1 10h22" />
+      </svg>
+      Kartalar va hisob raqamlar
+    </button>
+  </div>
 
   <!-- Transactions -->
   <div class="transactions-section">
@@ -69,8 +72,7 @@
         <div class="transaction-item" *ngFor="let transaction of group.transactions">
           <!-- Top row: Chiqim/Kirim and Time -->
           <div class="transaction-top-row">
-            <div class="transaction-type"
-                 [ngClass]="transaction.type === 'income' ? 'income-type' : 'expense-type'">
+            <div class="transaction-type" [ngClass]="transaction.type === 'income' ? 'income-type' : 'expense-type'">
               <div class="transaction-dot"></div>
               <span>{{ transaction.type === 'income' ? 'Kirim' : 'Chiqim' }}</span>
             </div>
@@ -81,17 +83,17 @@
           <div class="transaction-bottom-row">
             <div class="transaction-card">
               <img *ngIf="transaction.processingLogoMini" [src]="transaction.processingLogoMini" alt="Card"
-                   class="card-icon" width="16" height="16"/>
-              <svg *ngIf="!transaction.processingLogoMini" width="16" height="16" viewBox="0 0 24 24" fill="none" class="card-icon">
+                class="card-icon" width="16" height="16" />
+              <svg *ngIf="!transaction.processingLogoMini" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                class="card-icon">
                 <circle cx="12" cy="12" r="10" fill="#2563EB" />
                 <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">U</text>
               </svg>
               <span>{{ transaction.cardNumber }}</span>
             </div>
-            <div class="transaction-amount"
-                 [ngClass]="transaction.type === 'income' ? 'positive' : 'negative'">
-              {{ transaction.amount > 0 ? '+' : '' }}{{ formatNumber(getAbsoluteValue(transaction.amount)) }}<span
-              *ngIf="transaction.type === 'income'"> so'm</span>
+            <div class="transaction-amount" [ngClass]="transaction.type === 'income' ? 'positive' : 'negative'">
+              {{ transaction.amount > 0 ? '+' : '' }}{{ getAbsoluteValue(transaction.amount) | money }}<span
+                *ngIf="transaction.type === 'income'"> so'm</span>
             </div>
           </div>
         </div>
