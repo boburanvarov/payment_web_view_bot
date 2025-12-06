@@ -19,8 +19,7 @@ export class CurrencyService {
      */
     loadCurrencyOverview(amount: number = 1): void {
         this.loading.set(true);
-        const baseUrl = environment.apiUrl || 'https://swagger.kartaxabar.uz';
-        const url = `${baseUrl}/api/currency/overview?amount=${amount}`;
+        const url = `${environment.apiUrl}/api/currency/overview?amount=${amount}`;
 
         this.http.get<CurrencyOverviewResponse>(url).pipe(
             tap(data => {
