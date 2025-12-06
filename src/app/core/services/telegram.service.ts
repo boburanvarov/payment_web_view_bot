@@ -52,25 +52,32 @@ export class TelegramService {
         if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
             this.tg = Telegram.WebApp;
             this.tg.ready();
-            this.tg.expand();
 
-            // Disable vertical swipes to prevent accidental closing
-            try {
-                if (this.tg.disableVerticalSwipes) {
-                    this.tg.disableVerticalSwipes();
-                }
-            } catch (e) {
-                console.log('disableVerticalSwipes not supported');
-            }
+            // Check if mobile platform
+            const platform = this.tg.platform;
+            const isMobile = platform === 'android' || platform === 'ios' || platform === 'android_x';
 
-            // Request fullscreen mode (Bot API 8.0+)
-            try {
-                if (this.tg.requestFullscreen) {
-                    this.tg.requestFullscreen();
+            // Only expand and fullscreen on mobile
+            if (isMobile) {
+                this.tg.expand();
+
+                // Disable vertical swipes to prevent accidental closing (mobile only)
+                try {
+                    if (this.tg.disableVerticalSwipes) {
+                        this.tg.disableVerticalSwipes();
+                    }
+                } catch (e) {
+                    console.log('disableVerticalSwipes not supported');
                 }
-            } catch (e) {
-                // Fullscreen not supported in this version
-                console.log('Fullscreen not supported in this WebApp version');
+
+                // Request fullscreen mode (Bot API 8.0+, mobile only)
+                try {
+                    if (this.tg.requestFullscreen) {
+                        this.tg.requestFullscreen();
+                    }
+                } catch (e) {
+                    console.log('Fullscreen not supported in this WebApp version');
+                }
             }
 
             const user = this.tg.initDataUnsafe?.user;
