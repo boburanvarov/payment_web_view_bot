@@ -1,39 +1,90 @@
 <div class="screen cards-screen">
-    <div class="screen-header">
-        <button class="icon-btn" (click)="router.navigate(['/home'])">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+  <div class="screen-header">
+    <button class="icon-btn" (click)="router.navigate(['/home'])">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+    <h2>Kartalar</h2>
+    <button class="plus-btn" (click)="openAddCardModal()">
+      <i class="fas fa-plus"></i>
+    </button>
+
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="loading()" class="loading-state">
+    <p>Loading cards...</p>
+  </div>
+
+  <!-- Cards list -->
+  <div class="cards-list" *ngIf="!loading() && cards().length > 0">
+    <div class="swipe-card-container" *ngFor="let card of cards(); let i = index" (touchstart)="onTouchStart($event, i)"
+      (touchmove)="onTouchMove($event, i)" (touchend)="onTouchEnd($event, i)" (mousedown)="onMouseDown($event, i)"
+      (mousemove)="onMouseMove($event, i)" (mouseup)="onMouseUp($event, i)" (mouseleave)="onMouseUp($event, i)">
+
+      <!-- Delete button background -->
+      <div class="delete-action" [class.visible]="swipeStates[i]?.showDelete">
+        <button class="delete-btn" (click)="deleteCard(card, i)">
+          <i class="fas fa-trash-alt fa-2x"></i>
         </button>
-        <h2>Kartalar</h2>
-          <button class="plus-btn">
-            <i class="fas fa-plus"></i>
-          </button>
-
-    </div>
-
-    <!-- Loading state -->
-    <div *ngIf="loading()" class="loading-state">
-        <p>Loading cards...</p>
-    </div>
-
-    <!-- Cards list -->
-    <div class="cards-list" *ngIf="!loading() && cards().length > 0">
-        <app-bank-card *ngFor="let card of cards(); let i = index"
-                       [card]="card"
-                       [gradientIndex]="i">
-        </app-bank-card>
-    </div>
-
-    <!-- Empty state -->
-    <div *ngIf="!loading() && cards().length === 0" class="empty-state">
-      <div class="empty-image">
-        <img src="/assets/img/empty-card.svg" alt="No cards" class="empty-card-image">
       </div>
-        <p class="empty-state-text">Sizda kartalar mavjud emas</p>
-        <button class="add-card-btn" (click)="addCard()">
-            <i class="fas fa-plus"></i>
-            <span>Karta qo'shish</span>
-        </button>
+
+      <!-- Card content -->
+      <div class="card-wrapper" [style.transform]="'translateX(' + (swipeStates[i]?.translateX || 0) + 'px)'"
+        [class.swiping]="swipeStates[i]?.isSwiping" [class.swiped]="swipeStates[i]?.showDelete">
+        <app-bank-card [card]="card" [gradientIndex]="i"></app-bank-card>
+      </div>
     </div>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="!loading() && cards().length === 0" class="empty-state">
+    <div class="empty-image">
+      <img src="/assets/img/empty-card.svg" alt="No cards" class="empty-card-image">
+    </div>
+    <p class="empty-state-text">Sizda kartalar mavjud emas</p>
+    <button class="add-card-btn" (click)="openAddCardModal()">
+      <i class="fas fa-plus"></i>
+      <span>Karta qo'shish</span>
+    </button>
+  </div>
+
+  <!-- Add Card Modal Component -->
+  <app-add-card-modal [isOpen]="showAddCardModal" (close)="closeAddCardModal()" (cardAdded)="onCardAdded()">
+  </app-add-card-modal>
+
+  <!-- Custom Confirmation Dialog -->
+  <div class="dialog-overlay" *ngIf="showDeleteDialog" (click)="cancelDelete()">
+    <div class="dialog-container" (click)="$event.stopPropagation()">
+      <div class="dialog-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <h3 class="dialog-title">Kartani o'chirish</h3>
+      <p class="dialog-message">Siz haqiqatdan ham <strong>{{ deletingCard?.bankName || 'Bu bank' }}</strong>ning
+        <strong>{{ deletingCard?.number || '' }}</strong> kartasini o'chirmoqchimisiz?
+      </p>
+      <div class="dialog-actions">
+        <button class="dialog-btn cancel-btn" (click)="cancelDelete()">Bekor qilish</button>
+        <button class="dialog-btn confirm-btn" (click)="confirmDelete()">O'chirish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Success Toast -->
+  <div class="toast-container" [class.show]="showToast">
+    <div class="toast-content">
+      <div class="toast-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="toast-text">
+        <span class="toast-title">Muvaffaqiyatli</span>
+        <span class="toast-message">{{ toastMessage }}</span>
+      </div>
+      <button class="toast-close" (click)="hideToast()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
 </div>

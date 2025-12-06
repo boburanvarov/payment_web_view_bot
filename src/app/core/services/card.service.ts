@@ -84,4 +84,24 @@ export class CardService {
     getCardById(id: number): Card | undefined {
         return this.cards().find(card => card.id === id);
     }
+
+    // Add card via API
+    addCardToAPI(cardData: { cardNumber: string; expiryDate: string; cardName: string }) {
+        const url = `${environment.apiUrl}/api/cards/add/start`;
+
+        return this.http.post(url, {
+            cardNumber: cardData.cardNumber,
+            expiryDate: cardData.expiryDate,
+            cardName: cardData.cardName
+        }).pipe(
+            tap(() => {
+                // Reload cards after successful add
+                this.loadCardsFromAPI();
+            }),
+            catchError(error => {
+                console.error('Error adding card:', error);
+                throw error;
+            })
+        );
+    }
 }

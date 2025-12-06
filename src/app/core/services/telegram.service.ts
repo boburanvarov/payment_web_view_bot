@@ -54,6 +54,25 @@ export class TelegramService {
             this.tg.ready();
             this.tg.expand();
 
+            // Disable vertical swipes to prevent accidental closing
+            try {
+                if (this.tg.disableVerticalSwipes) {
+                    this.tg.disableVerticalSwipes();
+                }
+            } catch (e) {
+                console.log('disableVerticalSwipes not supported');
+            }
+
+            // Request fullscreen mode (Bot API 8.0+)
+            try {
+                if (this.tg.requestFullscreen) {
+                    this.tg.requestFullscreen();
+                }
+            } catch (e) {
+                // Fullscreen not supported in this version
+                console.log('Fullscreen not supported in this WebApp version');
+            }
+
             const user = this.tg.initDataUnsafe?.user;
 
             if (user) {

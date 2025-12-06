@@ -1,0 +1,48 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h3 class="modal-title">Karta qo'shish</h3>
+            <button class="modal-close" (click)="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Card Preview -->
+        <div class="card-preview">
+            <app-bank-card [card]="newCard" [gradientIndex]="gradientIndex"></app-bank-card>
+        </div>
+
+        <!-- Card Form -->
+        <div class="card-form">
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="far fa-user"></i>
+                </div>
+                <input type="text" class="form-input" placeholder="Karta nomi" [(ngModel)]="newCard.bankName"
+                    (input)="onCardNameChange($event)" maxlength="25" />
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="far fa-credit-card"></i>
+                </div>
+                <input type="text" class="form-input" placeholder="Karta raqami"
+                    [value]="formatCardNumberInput(newCard.number)" (input)="onCardNumberChange($event)"
+                    maxlength="19" />
+            </div>
+
+            <div class="form-group">
+                <div class="input-icon">
+                    <i class="far fa-calendar"></i>
+                </div>
+                <input type="text" class="form-input" placeholder="Amal qilish muddati (MM/YY)"
+                    [value]="newCard.expiryDate || ''" (input)="onExpiryDateChange($event)" maxlength="5" />
+            </div>
+
+            <button class="submit-btn" (click)="submitNewCard()" [disabled]="!isFormValid() || isSubmitting">
+                <span *ngIf="!isSubmitting">Davom etish</span>
+                <span *ngIf="isSubmitting">Yuklanmoqda...</span>
+            </button>
+        </div>
+    </div>
+</div>

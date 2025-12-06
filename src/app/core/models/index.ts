@@ -58,6 +58,7 @@ export interface Card {
   cardId?: string;
   number: string;
   cardType?: string;
+  cardName?: string;
   balance: number;
   gradient: string;
   bankName?: string;

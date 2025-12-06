@@ -1,4 +1,4 @@
-<div class="bank-card" 
+<div class="bank-card"
      [style.background]="getCardBackgroundStyle()"
      [style.background-size]="'cover, contain'"
      [style.background-position]="'center, center'"
@@ -7,7 +7,7 @@
     <div class="card-content">
         <!-- Bank Logo and Name -->
         <div class="bank-header">
-            <div class="bank-label">{{ card.bankName || 'Bank' }}</div>
+            <div class="bank-label">{{ card.cardName || 'Bank' }}</div>
             <div class="bank-logo-wrapper">
                 <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
             </div>
