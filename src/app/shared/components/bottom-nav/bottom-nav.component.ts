@@ -14,15 +14,20 @@ export class BottomNavComponent implements OnInit {
     activeRoute: string = '';
 
     constructor(private router: Router) {
-        this.activeRoute = this.router.url;
+        this.activeRoute = this.router.url || '/home';
     }
 
     ngOnInit(): void {
+        // Set default to home if route is empty or root
+        if (!this.activeRoute || this.activeRoute === '/') {
+            this.activeRoute = '/home';
+        }
+
         // Subscribe to router events to update active route
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-            this.activeRoute = event.url;
+            this.activeRoute = event.url || '/home';
         });
     }
 
@@ -35,7 +40,10 @@ export class BottomNavComponent implements OnInit {
     }
 
     isActive(route: string): boolean {
-        const active = this.activeRoute === route;
-        return active;
+        // Default to home if route is empty or root
+        if (!this.activeRoute || this.activeRoute === '/') {
+            return route === '/home';
+        }
+        return this.activeRoute === route;
     }
 }

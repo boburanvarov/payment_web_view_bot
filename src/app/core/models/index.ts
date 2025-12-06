@@ -1,6 +1,9 @@
 ﻿// Export transaction interfaces first
 export * from './transaction.interfaces';
 
+// Export currency interfaces
+export * from './currency.interfaces';
+
 // Import Transaction type for use in UserData
 import type { Transaction } from './transaction.interfaces';
 

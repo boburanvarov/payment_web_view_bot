@@ -7,12 +7,13 @@ import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-na
 import { BalanceCardCarouselComponent } from '../../shared/components/balance-card-carousel/balance-card-carousel.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { BannerCarouselComponent, Banner } from '../../shared/components/banner-carousel/banner-carousel.component';
+import { ExchangeRateComponent } from '../../shared/components/exchange-rate/exchange-rate.component';
 import { Card } from '../../core/models';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent],
+    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
@@ -37,17 +38,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     cardReport;
     cardReportLoading;
 
-    // Currency exchange rates
-    currencyRates = {
-        usd: { buy: 1.0, sell: 1.0 },
-        uzs: { rate: 11890.30 }
-    };
-
-    // Best exchange rates
-    bestRates = [
-        { bankName: 'Ipak yuli bank', bankLogo: 'ipak-yuli', sell: 11890.00, buy: 11890.00 },
-        { bankName: 'XalqBank', bankLogo: 'xalq', sell: 11890.00, buy: 11890.00 }
-    ];
 
     // Advertising banners
     banners: Banner[] = [
@@ -117,15 +107,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         console.log('Navigate to transactions');
     }
 
-    navigateToExchange(): void {
-        // Navigate to currency exchange page
-        console.log('Navigate to exchange');
-    }
-
-    navigateToBestRates(): void {
-        // Navigate to best rates page
-        console.log('Navigate to best rates');
-    }
 
     getUserInitials(): string {
         return this.userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();

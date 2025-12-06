@@ -46,61 +46,8 @@
     <app-banner-carousel [banners]="banners"></app-banner-carousel>
   </div>
 
-    <!-- Currency Exchange Rates -->
-    <div class="currency-section">
-        <div class="section-header">
-            <h3 class="section-title">Valyuta kurslari</h3>
-            <button class="see-all-btn" (click)="navigateToExchange()">Barchasi</button>
-        </div>
-        <div class="currency-rates">
-            <div class="currency-rate-item">
-                <div class="currency-info">
-                    <span class="currency-flag">🇺🇸</span>
-                    <span class="currency-code">USD</span>
-                </div>
-                <div class="exchange-icon">
-                    <i class="fas fa-exchange-alt"></i>
-                </div>
-                <div class="currency-value">{{ currencyRates.usd.buy }}</div>
-            </div>
-            <div class="currency-rate-item">
-                <div class="currency-info">
-                    <span class="currency-flag">🇺🇿</span>
-                    <span class="currency-code">UZS</span>
-                </div>
-                <div class="exchange-icon">
-                    <i class="fas fa-exchange-alt"></i>
-                </div>
-                <div class="currency-value">{{ currencyRates.uzs.rate | number:'1.2-2' }}</div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Best Exchange Rates -->
-    <div class="best-rates-section">
-        <div class="section-header">
-            <h3 class="section-title">Eng yaxshi takliflar</h3>
-            <button class="see-all-btn" (click)="navigateToBestRates()">Barchasi</button>
-        </div>
-        <div class="best-rates-table">
-            <div class="table-header">
-                <div class="header-cell">Bank</div>
-                <div class="header-cell">Sotiv</div>
-                <div class="header-cell">Xarid</div>
-            </div>
-            <div class="table-row" *ngFor="let rate of bestRates">
-                <div class="bank-cell">
-                    <div class="bank-logo-small">
-                        <i class="fas fa-university"></i>
-                    </div>
-                    <span class="bank-name">{{ rate.bankName }}</span>
-                </div>
-                <div class="rate-cell">{{ rate.sell | number:'1.2-2' }}</div>
-                <div class="rate-cell">{{ rate.buy | number:'1.2-2' }}</div>
-            </div>
-        </div>
-    </div>
+    <!-- Exchange Rate Component -->
+    <app-exchange-rate></app-exchange-rate>
 
     <!-- Empty state -->
     <div *ngIf="!loading() && cards().length === 0" class="empty-state">

@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../../../core/models';
-import { MoneyPipe } from '../../pipe/money.pipe';
 import { BankCardComponent } from '../bank-card/bank-card.component';
 
 interface CarouselCard extends Card {
@@ -13,7 +12,7 @@ interface CarouselCard extends Card {
 @Component({
   selector: 'app-balance-card-carousel',
   standalone: true,
-  imports: [CommonModule, MoneyPipe, BankCardComponent],
+  imports: [CommonModule, BankCardComponent],
   templateUrl: './balance-card-carousel.component.html',
   styleUrl: './balance-card-carousel.component.scss'
 })
