@@ -1,26 +1,24 @@
 import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import {
     Transaction,
     TransactionGroup,
-    BinInfo,
     HomePageTransaction,
     HomePageReportResponse,
     OverviewTransaction,
     OverviewReportResponse,
-    TransactionFilterType,
-    TransactionFilterLabels,
-    getTransactionFilterOptions
+    TransactionFilterType
 } from '../../../core/models';
 import { MoneyPipe } from '../../pipe/money.pipe';
 import { TransactionService } from '../../../core/services/transaction.service';
+import { TransactionTypeModalComponent } from '../transaction-type-modal/transaction-type-modal.component';
+import { DateRangeModalComponent } from '../date-range-modal/date-range-modal.component';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule, MoneyPipe, FormsModule],
+    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
@@ -35,11 +33,10 @@ export class ReportCardComponent implements OnChanges {
 
     // Modal state
     showTransactionTypeModal: boolean = false;
+    showDateRangeModal: boolean = false;
     selectedFilterType: TransactionFilterType = TransactionFilterType.ALL;
-    tempSelectedFilterType: TransactionFilterType = TransactionFilterType.ALL;
-
-    // Filter options for radio buttons
-    filterOptions = getTransactionFilterOptions();
+    selectedStartDate: Date | null = null;
+    selectedEndDate: Date | null = null;
 
     // Processed data
     processedTransactions: Transaction[] = [];
@@ -50,16 +47,16 @@ export class ReportCardComponent implements OnChanges {
     private transactionService = inject(TransactionService);
 
     constructor(private router: Router) {
-        // Sync filter type from service (preserves state across navigation)
+        // Sync filter state from service (preserves state across navigation)
         this.selectedFilterType = this.transactionService.selectedFilterType();
-        this.tempSelectedFilterType = this.selectedFilterType;
+        this.selectedStartDate = this.transactionService.selectedStartDate();
+        this.selectedEndDate = this.transactionService.selectedEndDate();
     }
 
     /**
      * Open transaction type modal
      */
     openTransactionTypeModal(): void {
-        this.tempSelectedFilterType = this.selectedFilterType;
         this.showTransactionTypeModal = true;
     }
 
@@ -71,11 +68,11 @@ export class ReportCardComponent implements OnChanges {
     }
 
     /**
-     * Apply selected filter type and close modal
+     * Handle filter apply from modal component
      */
-    applyTransactionFilter(): void {
-        this.selectedFilterType = this.tempSelectedFilterType;
-        this.transactionService.setFilterType(this.selectedFilterType);
+    onFilterApply(filterType: TransactionFilterType): void {
+        this.selectedFilterType = filterType;
+        this.transactionService.setFilterType(filterType);
         this.showTransactionTypeModal = false;
     }
 
@@ -84,6 +81,37 @@ export class ReportCardComponent implements OnChanges {
      */
     isFilterActive(): boolean {
         return this.selectedFilterType !== TransactionFilterType.ALL;
+    }
+
+    /**
+     * Open date range modal
+     */
+    openDateRangeModal(): void {
+        this.showDateRangeModal = true;
+    }
+
+    /**
+     * Close date range modal without saving
+     */
+    closeDateRangeModal(): void {
+        this.showDateRangeModal = false;
+    }
+
+    /**
+     * Handle date range apply from modal component
+     */
+    onDateRangeApply(dateRange: { startDate: Date | null; endDate: Date | null }): void {
+        this.selectedStartDate = dateRange.startDate;
+        this.selectedEndDate = dateRange.endDate;
+        this.transactionService.setDateRange(dateRange.startDate, dateRange.endDate);
+        this.showDateRangeModal = false;
+    }
+
+    /**
+     * Check if date range is currently active
+     */
+    isDateRangeActive(): boolean {
+        return this.selectedStartDate !== null && this.selectedEndDate !== null;
     }
 
     ngOnChanges(changes: SimpleChanges): void {

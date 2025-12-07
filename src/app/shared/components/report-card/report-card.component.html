@@ -41,7 +41,8 @@
       </svg>
       Amaliyotlar
     </button>
-    <button class="filter-btn">
+    <button class="filter-btn" [class.active]="showDateRangeModal || isDateRangeActive()"
+      (click)="openDateRangeModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
@@ -60,35 +61,14 @@
   </div>
 
   <!-- Transaction Type Modal -->
-  <div class="modal-overlay" *ngIf="showTransactionTypeModal" (click)="closeTransactionTypeModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h3 class="modal-title">Amaliyotlar turi</h3>
-        <button class="modal-close-btn" (click)="closeTransactionTypeModal()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+  <app-transaction-type-modal [isOpen]="showTransactionTypeModal" [selectedType]="selectedFilterType"
+    (close)="closeTransactionTypeModal()" (apply)="onFilterApply($event)">
+  </app-transaction-type-modal>
 
-      <div class="modal-body">
-        <div class="radio-group">
-          <label class="radio-option" *ngFor="let option of filterOptions">
-            <span class="radio-label">{{ option.label }}</span>
-            <input type="radio" name="transactionType" [value]="option.value" [(ngModel)]="tempSelectedFilterType"
-              class="radio-input">
-            <span class="radio-custom"></span>
-          </label>
-        </div>
-      </div>
-
-      <div class="modal-footer">
-        <button class="apply-btn" (click)="applyTransactionFilter()">Saralash</button>
-      </div>
-    </div>
-  </div>
-
+  <!-- Date Range Modal -->
+  <app-date-range-modal [isOpen]="showDateRangeModal" [startDate]="selectedStartDate" [endDate]="selectedEndDate"
+    (close)="closeDateRangeModal()" (apply)="onDateRangeApply($event)">
+  </app-date-range-modal>
 
   <!-- Transactions -->
   <div class="transactions-section">

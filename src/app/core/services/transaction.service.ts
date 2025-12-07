@@ -15,6 +15,10 @@ export class TransactionService {
     // Selected transaction filter type
     selectedFilterType = signal<TransactionFilterType>(TransactionFilterType.ALL);
 
+    // Date range filter
+    selectedStartDate = signal<Date | null>(null);
+    selectedEndDate = signal<Date | null>(null);
+
     // Home page card report data
     cardReport = signal<HomePageReportResponse | null>(null);
     cardReportLoading = signal<boolean>(false);
@@ -23,20 +27,67 @@ export class TransactionService {
     constructor(private http: HttpClient) { }
 
     /**
+     * Format date to YYYY-MM-DD string for API
+     */
+    private formatDateForApi(date: Date): string {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    /**
+     * Set date range and reload transactions
+     */
+    setDateRange(startDate: Date | null, endDate: Date | null): void {
+        this.selectedStartDate.set(startDate);
+        this.selectedEndDate.set(endDate);
+        this.loadOverviewTransactions();
+    }
+
+    /**
+     * Clear date range filter
+     */
+    clearDateRange(): void {
+        this.selectedStartDate.set(null);
+        this.selectedEndDate.set(null);
+        this.loadOverviewTransactions();
+    }
+
+    /**
      * Set the filter type and reload transactions
      */
     setFilterType(type: TransactionFilterType): void {
         this.selectedFilterType.set(type);
-        this.loadOverviewTransactions(type);
+        this.loadOverviewTransactions();
     }
 
     /**
      * Load overview transactions
-     * API: /api/history/transactions?type=ALL&page=0&size=20
+     * API: /api/history/transactions?type=ALL&page=0&size=20&start=YYYY-MM-DD&end=YYYY-MM-DD
      */
-    loadOverviewTransactions(type: TransactionFilterType = TransactionFilterType.ALL, page: number = 0, size: number = 20): void {
+    loadOverviewTransactions(
+        type?: TransactionFilterType,
+        page: number = 0,
+        size: number = 20
+    ): void {
         this.overviewLoading.set(true);
-        const url = `${environment.apiUrl}/api/history/transactions?type=${type}&page=${page}&size=${size}`;
+
+        // Use provided type or current selected type
+        const filterType = type ?? this.selectedFilterType();
+
+        // Build URL with query params
+        let url = `${environment.apiUrl}/api/history/transactions?type=${filterType}&page=${page}&size=${size}`;
+
+        // Add date range if set
+        const startDate = this.selectedStartDate();
+        const endDate = this.selectedEndDate();
+        if (startDate) {
+            url += `&start=${this.formatDateForApi(startDate)}`;
+        }
+        if (endDate) {
+            url += `&end=${this.formatDateForApi(endDate)}`;
+        }
 
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {

@@ -1,0 +1,23 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+        <div class="modal-header">
+            <h3 class="modal-title">Davr</h3>
+            <button class="modal-close-btn" (click)="onClose()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <p-datepicker [(ngModel)]="tempDateRange" selectionMode="range" [inline]="true" [numberOfMonths]="1"
+                [maxDate]="maxDate" [showButtonBar]="false" dateFormat="dd.mm.yy" [firstDayOfWeek]="1">
+            </p-datepicker>
+        </div>
+
+        <div class="modal-footer">
+            <button class="apply-btn" [disabled]="!isApplyEnabled()" (click)="onApply()">Qo'llash</button>
+        </div>
+    </div>
+</div>
