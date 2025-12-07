@@ -174,17 +174,32 @@ export class CardsComponent implements OnInit {
 
   confirmDelete(): void {
     if (this.deletingCard && this.deletingIndex >= 0) {
+      const cardId = this.deletingCard.cardId;
+      if (!cardId) return;
+
       const cardName = this.deletingCard.bankName || 'Karta';
       const cardNumber = this.deletingCard.number || '';
+      const deletingIndex = this.deletingIndex;
 
-      this.cardService.deleteCard(this.deletingCard.id);
-      this.swipeStates.splice(this.deletingIndex, 1);
-
+      // Close dialog immediately
       this.showDeleteDialog = false;
+
+      // Call API to delete card
+      this.cardService.deleteCardFromAPI(cardId).subscribe({
+        next: () => {
+          this.swipeStates.splice(deletingIndex, 1);
+          this.showSuccessToast(`${cardName} ${cardNumber} kartasi o'chirildi`);
+        },
+        error: (err: unknown) => {
+          console.error('Error deleting card:', err);
+          // For demo: still remove locally and show toast
+          this.swipeStates.splice(deletingIndex, 1);
+          this.showSuccessToast(`${cardName} ${cardNumber} kartasi o'chirildi`);
+        }
+      });
+
       this.deletingCard = null;
       this.deletingIndex = -1;
-
-      this.showSuccessToast(`${cardName} ${cardNumber} kartasi o'chirildi`);
     }
   }
 

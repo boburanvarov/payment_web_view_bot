@@ -1,36 +1,85 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { BankCardComponent } from '../bank-card/bank-card.component';
-import { Card } from '../../../core/models';
+import { Card, AddCardResponse } from '../../../core/models';
 import { CardService } from '../../../core/services/card.service';
-
-export interface AddCardData {
-    cardNumber: string;
-    expiryDate: string;
-    cardName: string;
-}
 
 @Component({
     selector: 'app-add-card-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule, BankCardComponent],
+    imports: [CommonModule, ReactiveFormsModule, BankCardComponent],
     templateUrl: './add-card-modal.component.html',
     styleUrl: './add-card-modal.component.scss'
 })
-export class AddCardModalComponent implements OnInit {
+export class AddCardModalComponent implements OnInit, OnDestroy {
     @Input() isOpen = false;
     @Output() close = new EventEmitter<void>();
     @Output() cardAdded = new EventEmitter<void>();
 
+    // Form groups
+    cardForm!: FormGroup;
+    otpForm!: FormGroup;
+
+    // Card preview
     newCard: Card = this.getEmptyCard();
     gradientIndex = 0;
     isSubmitting = false;
 
-    constructor(private cardService: CardService) { }
+    // OTP verification state
+    showOtpStep = false;
+    otpId = '';
+    cardType = '';
+    phoneMask = '';
+    timerSeconds = 60;
+    timerInterval: any;
+    isVerifying = false;
+
+    constructor(
+        private cardService: CardService,
+        private fb: FormBuilder
+    ) { }
 
     ngOnInit(): void {
+        this.initForms();
         this.resetForm();
+    }
+
+    ngOnDestroy(): void {
+        this.clearTimer();
+    }
+
+    private initForms(): void {
+        // Card form with validators
+        this.cardForm = this.fb.group({
+            cardName: ['', [Validators.required, Validators.maxLength(25)]],
+            cardNumber: ['', [Validators.required, Validators.minLength(16), Validators.maxLength(16)]],
+            expiryDate: ['', [Validators.required, Validators.pattern(/^\d{2}\/\d{2}$/)]]
+        });
+
+        // OTP form - 6 digit inputs
+        this.otpForm = this.fb.group({
+            digits: this.fb.array([
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)]),
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)]),
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)]),
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)]),
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)]),
+                this.fb.control('', [Validators.required, Validators.pattern(/^\d$/)])
+            ])
+        });
+
+        // Subscribe to card form changes for live preview
+        this.cardForm.valueChanges.subscribe(values => {
+            this.newCard.bankName = values.cardName || '';
+            this.newCard.cardName = values.cardName || '';
+            this.newCard.number = values.cardNumber || '';
+            this.newCard.expiryDate = values.expiryDate || '';
+        });
+    }
+
+    get otpDigits(): FormArray {
+        return this.otpForm.get('digits') as FormArray;
     }
 
     private getEmptyCard(): Card {
@@ -48,31 +97,43 @@ export class AddCardModalComponent implements OnInit {
     resetForm(): void {
         this.newCard = this.getEmptyCard();
         this.gradientIndex = Math.floor(Math.random() * 15);
+        this.showOtpStep = false;
+        this.otpId = '';
+        this.cardType = '';
+        this.phoneMask = '';
+        this.timerSeconds = 60;
+        this.clearTimer();
+
+        if (this.cardForm) {
+            this.cardForm.reset();
+        }
+        if (this.otpForm) {
+            this.otpDigits.controls.forEach(control => control.reset());
+        }
     }
 
-    onCardNameChange(event: Event): void {
-        const input = event.target as HTMLInputElement;
-        let value = input.value.substring(0, 25);
-        input.value = value;
-        this.newCard.bankName = value;
-        this.newCard.cardName = value;
-    }
-
-    onCardNumberChange(event: Event): void {
+    // Card number formatting
+    onCardNumberInput(event: Event): void {
         const input = event.target as HTMLInputElement;
         let value = input.value.replace(/\D/g, '');
         value = value.substring(0, 16);
-        this.newCard.number = value;
-        input.value = this.formatCardNumberInput(value);
+        this.cardForm.patchValue({ cardNumber: value });
+        input.value = this.formatCardNumberDisplay(value);
     }
 
-    onExpiryDateChange(event: Event): void {
+    formatCardNumberDisplay(cardNumber: string): string {
+        if (!cardNumber) return '';
+        return cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+    }
+
+    // Expiry date formatting
+    onExpiryDateInput(event: Event): void {
         const input = event.target as HTMLInputElement;
         let value = input.value.replace(/\D/g, '');
         value = value.substring(0, 4);
 
         if (value.length === 0) {
-            this.newCard.expiryDate = '';
+            this.cardForm.patchValue({ expiryDate: '' });
             input.value = '';
             return;
         }
@@ -96,65 +157,208 @@ export class AddCardModalComponent implements OnInit {
             formattedValue = value.substring(0, 2) + '/' + value.substring(2);
         }
 
-        this.newCard.expiryDate = formattedValue;
+        this.cardForm.patchValue({ expiryDate: formattedValue });
         input.value = formattedValue;
     }
 
-    formatCardNumberInput(cardNumber: string): string {
-        if (!cardNumber) return '';
-        return cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+    // Card name input
+    onCardNameInput(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        let value = input.value.substring(0, 25);
+        input.value = value;
+        this.cardForm.patchValue({ cardName: value });
     }
 
     isFormValid(): boolean {
-        if (!this.newCard.bankName || this.newCard.bankName.trim().length === 0) {
-            return false;
-        }
-        if (!this.newCard.number || this.newCard.number.length < 16) {
-            return false;
-        }
-        if (!this.newCard.expiryDate || this.newCard.expiryDate.length !== 5) {
-            return false;
-        }
-
-        const parts = this.newCard.expiryDate.split('/');
-        if (parts.length !== 2) return false;
-
-        const month = parseInt(parts[0], 10);
-        const year = parseInt(parts[1], 10);
-        const currentYear = new Date().getFullYear() % 100;
-
-        if (month < 1 || month > 12) return false;
-        if (year < currentYear) return false;
-
-        return true;
+        if (!this.cardForm) return false;
+        const { cardName, cardNumber, expiryDate } = this.cardForm.value;
+        return cardName && cardName.trim().length > 0 &&
+            cardNumber && cardNumber.length === 16 &&
+            expiryDate && expiryDate.length === 5;
     }
 
+    // Submit card and go to OTP step
     submitNewCard(): void {
         if (this.isFormValid() && !this.isSubmitting) {
             this.isSubmitting = true;
 
-            // Prepare data for API (remove slash from expiry date)
-            const expiryWithoutSlash = this.newCard.expiryDate?.replace('/', '') || '';
+            const { cardName, cardNumber, expiryDate } = this.cardForm.value;
+            const expiryWithoutSlash = expiryDate?.replace('/', '') || '';
 
             this.cardService.addCardToAPI({
-                cardNumber: this.newCard.number,
+                cardNumber: cardNumber,
                 expiryDate: expiryWithoutSlash,
-                cardName: this.newCard.cardName || this.newCard.bankName || ''
+                cardName: cardName
             }).subscribe({
-                next: () => {
+                next: (response: AddCardResponse) => {
                     this.isSubmitting = false;
-                    this.cardAdded.emit();
-                    this.closeModal();
+                    this.otpId = response.otpId || '';
+                    this.cardType = response.cardType || '';
+                    this.phoneMask = response.phoneMask || '+998 ** *** ** **';
+                    this.showOtpStep = true;
+                    this.startTimer();
                 },
                 error: (err: unknown) => {
                     this.isSubmitting = false;
                     console.error('Error adding card:', err);
-                    // Still close and emit for demo purposes
-                    this.cardAdded.emit();
-                    this.closeModal();
+                    // For demo: show OTP step anyway
+                    this.otpId = 'demo-otp-id';
+                    this.cardType = 'UZCARD';
+                    this.phoneMask = '+998 ** *** ** **';
+                    this.showOtpStep = true;
+                    this.startTimer();
                 }
             });
         }
+    }
+
+    // OTP input handling
+    onOtpInput(event: Event, index: number): void {
+        const input = event.target as HTMLInputElement;
+        let value = input.value.replace(/\D/g, '');
+
+        if (value.length > 1) {
+            value = value.substring(0, 1);
+        }
+
+        this.otpDigits.at(index).setValue(value);
+        input.value = value;
+
+        // Auto focus next input
+        if (value && index < 5) {
+            const nextInput = document.getElementById(`otp-${index + 1}`);
+            if (nextInput) {
+                nextInput.focus();
+            }
+        }
+    }
+
+    onOtpKeydown(event: KeyboardEvent, index: number): void {
+        const input = event.target as HTMLInputElement;
+
+        if (event.key === 'Backspace' && !input.value && index > 0) {
+            const prevInput = document.getElementById(`otp-${index - 1}`);
+            if (prevInput) {
+                prevInput.focus();
+            }
+        }
+    }
+
+    onOtpPaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const pastedData = event.clipboardData?.getData('text') || '';
+        const digits = pastedData.replace(/\D/g, '').substring(0, 6);
+
+        for (let i = 0; i < 6; i++) {
+            this.otpDigits.at(i).setValue(digits[i] || '');
+            const input = document.getElementById(`otp-${i}`) as HTMLInputElement;
+            if (input) {
+                input.value = digits[i] || '';
+            }
+        }
+
+        const lastFilledIndex = Math.min(digits.length, 5);
+        const focusInput = document.getElementById(`otp-${lastFilledIndex}`);
+        if (focusInput) {
+            focusInput.focus();
+        }
+    }
+
+    getOtpCode(): string {
+        return this.otpDigits.controls.map(c => c.value).join('');
+    }
+
+    isOtpComplete(): boolean {
+        return this.otpForm.valid && this.getOtpCode().length === 6;
+    }
+
+    // Timer methods
+    startTimer(): void {
+        this.timerSeconds = 60;
+        this.clearTimer();
+        this.timerInterval = setInterval(() => {
+            this.timerSeconds--;
+            if (this.timerSeconds <= 0) {
+                this.clearTimer();
+            }
+        }, 1000);
+    }
+
+    clearTimer(): void {
+        if (this.timerInterval) {
+            clearInterval(this.timerInterval);
+            this.timerInterval = null;
+        }
+    }
+
+    getFormattedTimer(): string {
+        const minutes = Math.floor(this.timerSeconds / 60);
+        const seconds = this.timerSeconds % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    // Resend OTP
+    resendOtp(): void {
+        if (this.timerSeconds > 0) return;
+
+        const { cardName, cardNumber, expiryDate } = this.cardForm.value;
+        const expiryWithoutSlash = expiryDate?.replace('/', '') || '';
+
+        this.cardService.addCardToAPI({
+            cardNumber: cardNumber,
+            expiryDate: expiryWithoutSlash,
+            cardName: cardName
+        }).subscribe({
+            next: (response: AddCardResponse) => {
+                this.otpId = response.otpId || '';
+                this.cardType = response.cardType || '';
+                this.otpDigits.controls.forEach(c => c.reset());
+                this.startTimer();
+            },
+            error: (err: unknown) => {
+                console.error('Error resending OTP:', err);
+                this.otpDigits.controls.forEach(c => c.reset());
+                this.startTimer();
+            }
+        });
+    }
+
+    // Verify OTP
+    verifyOtp(): void {
+        if (!this.isOtpComplete() || this.isVerifying) return;
+
+        this.isVerifying = true;
+        const { cardName, cardNumber, expiryDate } = this.cardForm.value;
+        const expiryWithoutSlash = expiryDate?.replace('/', '') || '';
+
+        this.cardService.verifyCardOTP({
+            cardNumber: cardNumber,
+            expiryDate: expiryWithoutSlash,
+            code: this.getOtpCode(),
+            cardType: this.cardType,
+            otpId: this.otpId,
+            cardName: cardName
+        }).subscribe({
+            next: () => {
+                this.isVerifying = false;
+                this.cardAdded.emit();
+                this.closeModal();
+            },
+            error: (err: unknown) => {
+                this.isVerifying = false;
+                console.error('Error verifying OTP:', err);
+                // For demo: close anyway
+                this.cardAdded.emit();
+                this.closeModal();
+            }
+        });
+    }
+
+    // Go back to card form
+    goBack(): void {
+        this.showOtpStep = false;
+        this.clearTimer();
+        this.otpDigits.controls.forEach(c => c.reset());
     }
 
     closeModal(): void {

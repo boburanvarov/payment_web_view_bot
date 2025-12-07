@@ -24,3 +24,32 @@ export interface CurrencyOverviewResponse {
     bestOffers: BestOffer[];
 }
 
+// Currency Pair Offer
+export interface CurrencyPairOffer {
+    id: number;
+    bankName: string;
+    bankCode: string;
+    logoUrl: string;
+    sellRate: number;
+    buyRate: number;
+    displayOrder: number;
+    active: boolean;
+}
+
+// Currency Pair from /api/currency/pairs
+export interface CurrencyPair {
+    id: number;
+    baseCurrency: string;
+    baseCurrencyName: string;
+    baseFlagUrl: string;
+    quoteCurrency: string;
+    quoteCurrencyName: string;
+    quoteFlagUrl: string;
+    rate: number;
+    baseAmount: number;
+    active: boolean;
+    updatedAt: string;
+    offers: CurrencyPairOffer[];
+}
+
+

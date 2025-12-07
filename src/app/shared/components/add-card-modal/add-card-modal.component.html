@@ -1,48 +1,101 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="closeModal()">
     <div class="modal-container" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-            <h3 class="modal-title">Karta qo'shish</h3>
-            <button class="modal-close" (click)="closeModal()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
 
-        <!-- Card Preview -->
-        <div class="card-preview">
-            <app-bank-card [card]="newCard" [gradientIndex]="gradientIndex"></app-bank-card>
-        </div>
-
-        <!-- Card Form -->
-        <div class="card-form">
-            <div class="form-group">
-                <div class="input-icon">
-                    <i class="far fa-user"></i>
-                </div>
-                <input type="text" class="form-input" placeholder="Karta nomi" [(ngModel)]="newCard.bankName"
-                    (input)="onCardNameChange($event)" maxlength="25" />
+        <!-- Card Form Step -->
+        <ng-container *ngIf="!showOtpStep">
+            <div class="modal-header">
+                <h3 class="modal-title">Karta qo'shish</h3>
+                <button class="modal-close" (click)="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
-            <div class="form-group">
-                <div class="input-icon">
-                    <i class="far fa-credit-card"></i>
-                </div>
-                <input type="text" class="form-input" placeholder="Karta raqami"
-                    [value]="formatCardNumberInput(newCard.number)" (input)="onCardNumberChange($event)"
-                    maxlength="19" />
+            <!-- Card Preview -->
+            <div class="card-preview">
+                <app-bank-card [card]="newCard" [gradientIndex]="gradientIndex"></app-bank-card>
             </div>
 
-            <div class="form-group">
-                <div class="input-icon">
-                    <i class="far fa-calendar"></i>
+            <!-- Card Form -->
+            <form [formGroup]="cardForm" class="card-form">
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="far fa-user"></i>
+                    </div>
+                    <input type="text" class="form-input" placeholder="Karta nomi" formControlName="cardName"
+                        (input)="onCardNameInput($event)" maxlength="25" />
                 </div>
-                <input type="text" class="form-input" placeholder="Amal qilish muddati (MM/YY)"
-                    [value]="newCard.expiryDate || ''" (input)="onExpiryDateChange($event)" maxlength="5" />
+
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="far fa-credit-card"></i>
+                    </div>
+                    <input type="text" class="form-input" placeholder="Karta raqami"
+                        [value]="formatCardNumberDisplay(cardForm.get('cardNumber')?.value || '')"
+                        (input)="onCardNumberInput($event)" maxlength="19" />
+                </div>
+
+                <div class="form-group">
+                    <div class="input-icon">
+                        <i class="far fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-input" placeholder="Amal qilish muddati (MM/YY)"
+                        [value]="cardForm.get('expiryDate')?.value || ''" (input)="onExpiryDateInput($event)"
+                        maxlength="5" />
+                </div>
+
+                <button type="button" class="submit-btn" (click)="submitNewCard()"
+                    [disabled]="!isFormValid() || isSubmitting">
+                    <span *ngIf="!isSubmitting">Davom etish</span>
+                    <span *ngIf="isSubmitting">Yuklanmoqda...</span>
+                </button>
+            </form>
+        </ng-container>
+
+        <!-- OTP Verification Step -->
+        <ng-container *ngIf="showOtpStep">
+            <div class="modal-header">
+                <h3 class="modal-title">Tasdiqlash kodi</h3>
+                <button class="modal-close" (click)="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
 
-            <button class="submit-btn" (click)="submitNewCard()" [disabled]="!isFormValid() || isSubmitting">
-                <span *ngIf="!isSubmitting">Davom etish</span>
-                <span *ngIf="isSubmitting">Yuklanmoqda...</span>
-            </button>
-        </div>
+            <div class="otp-content">
+                <!-- SMS Icon -->
+                <div class="otp-icon">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+
+                <!-- Phone number info -->
+                <p class="otp-info">
+                    <span class="otp-phone">{{ phoneMask }}</span> raqamiga tasdiqlash kodini yubordik!
+                </p>
+
+                <!-- OTP Input boxes -->
+                <form [formGroup]="otpForm" class="otp-inputs" (paste)="onOtpPaste($event)">
+                    <input *ngFor="let digit of otpDigits.controls; let i = index" [id]="'otp-' + i" type="text"
+                        inputmode="numeric" class="otp-input" [formControl]="$any(digit)"
+                        (input)="onOtpInput($event, i)" (keydown)="onOtpKeydown($event, i)" maxlength="1" />
+                </form>
+
+                <!-- Timer -->
+                <div class="otp-timer">
+                    <span class="timer-text">{{ getFormattedTimer() }}</span>
+                </div>
+
+                <!-- Resend button -->
+                <button class="resend-btn" (click)="resendOtp()" [disabled]="timerSeconds > 0">
+                    <i class="fas fa-redo-alt"></i>
+                    Kodni qayta yuboring
+                </button>
+
+                <!-- Verify button -->
+                <button class="submit-btn" (click)="verifyOtp()" [disabled]="!isOtpComplete() || isVerifying">
+                    <span *ngIf="!isVerifying">Davom etish</span>
+                    <span *ngIf="isVerifying">Tekshirilmoqda...</span>
+                </button>
+            </div>
+        </ng-container>
+
     </div>
 </div>

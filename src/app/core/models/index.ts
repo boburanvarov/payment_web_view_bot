@@ -79,3 +79,26 @@ export interface WeeklyStat {
   income: number;
   expenses: number;
 }
+
+// Add Card API interfaces
+export interface AddCardRequest {
+  cardNumber: string;
+  expiryDate: string;
+  cardName: string;
+}
+
+export interface AddCardResponse {
+  cardType: string | null;
+  phoneMask: string | null;
+  message: string | null;
+  otpId: string | null;
+}
+
+export interface VerifyCardRequest {
+  cardNumber: string;
+  expiryDate: string;
+  code: string;
+  cardType: string;
+  otpId: string;
+  cardName: string;
+}

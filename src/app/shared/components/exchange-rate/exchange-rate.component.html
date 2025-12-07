@@ -1,4 +1,4 @@
-<div class="exchange-rate">
+<div class="exchange-rate" (click)="closeDropdowns()">
   <!-- Header -->
   <div class="section-header">
     <h3 class="section-title">Valyuta kurslari</h3>
@@ -7,46 +7,60 @@
 
   <!-- Currency Converter -->
   <div class="currency-converter" *ngIf="currencyData()">
-    <!-- Base Currency (USD) -->
+    <!-- Base Currency -->
     <div class="currency-input">
-      <div class="currency-selector">
-        <img [src]="isSwapped ? currencyData()!.quote.flagUrl : currencyData()!.base.flagUrl"
-          [alt]="isSwapped ? currencyData()!.quote.currency : currencyData()!.base.currency" class="flag-icon" />
-        <span class="currency-code">{{ isSwapped ? currencyData()!.quote.currency : currencyData()!.base.currency
-          }}</span>
+      <div class="currency-selector" (click)="toggleBaseDropdown($event); $event.stopPropagation()">
+        <img [src]="currentBaseFlagUrl" [alt]="currentBaseCurrency" class="flag-icon" />
+        <span class="currency-code">{{ currentBaseCurrency }}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon" [class.rotated]="showBaseDropdown()">
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
-      <input type="text" class="currency-amount-input"
-        [value]="isSwapped ? formatNumber(currencyData()!.quote.amount) : currencyData()!.base.amount"
-        (input)="onAmountChange($event, 'base')" />
+      <!-- Base Currency Dropdown -->
+      <div class="currency-dropdown" [class.dropdown-down]="baseDropdownDown()"
+        [class.dropdown-up]="!baseDropdownDown()" *ngIf="showBaseDropdown()" (click)="$event.stopPropagation()">
+        <div class="dropdown-item" *ngFor="let pair of availableBaseCurrencies()"
+          [class.selected]="pair.baseCurrency === selectedBaseCurrency()" (click)="selectBaseCurrency(pair)">
+          <img [src]="pair.baseFlagUrl" [alt]="pair.baseCurrency" class="flag-icon" />
+          <span class="currency-name">{{ pair.baseCurrency }}</span>
+          <span class="currency-full-name">{{ pair.baseCurrencyName }}</span>
+        </div>
+      </div>
+      <input type="text" class="currency-amount-input" [value]="currentBaseAmount"
+        (input)="onAmountChange($event, 'base')" (click)="$event.stopPropagation()" />
     </div>
 
     <!-- Swap Button -->
-    <button class="swap-button" [class.rotated]="isSwapped" (click)="swapCurrencies()">
+    <button class="swap-button" (click)="swapCurrencies(); $event.stopPropagation()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
       </svg>
     </button>
 
-    <!-- Quote Currency (UZS) -->
+    <!-- Quote Currency -->
     <div class="currency-input">
-      <div class="currency-selector">
-        <img [src]="isSwapped ? currencyData()!.base.flagUrl : currencyData()!.quote.flagUrl"
-          [alt]="isSwapped ? currencyData()!.base.currency : currencyData()!.quote.currency" class="flag-icon" />
-        <span class="currency-code">{{ isSwapped ? currencyData()!.base.currency : currencyData()!.quote.currency
-          }}</span>
+      <div class="currency-selector" (click)="toggleQuoteDropdown($event); $event.stopPropagation()">
+        <img [src]="currentQuoteFlagUrl" [alt]="currentQuoteCurrency" class="flag-icon" />
+        <span class="currency-code">{{ currentQuoteCurrency }}</span>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+          stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon" [class.rotated]="showQuoteDropdown()">
           <path d="M6 9l6 6 6-6" />
         </svg>
       </div>
-      <input type="text" class="currency-amount-input"
-        [value]="isSwapped ? currencyData()!.base.amount : formatNumber(currencyData()!.quote.amount)"
-        (input)="onAmountChange($event, 'quote')" />
+      <!-- Quote Currency Dropdown -->
+      <div class="currency-dropdown" [class.dropdown-down]="quoteDropdownDown()"
+        [class.dropdown-up]="!quoteDropdownDown()" *ngIf="showQuoteDropdown()" (click)="$event.stopPropagation()">
+        <div class="dropdown-item" *ngFor="let pair of availableQuoteCurrencies()"
+          [class.selected]="pair.baseCurrency === selectedQuoteCurrency()" (click)="selectQuoteCurrency(pair)">
+          <img [src]="pair.baseFlagUrl" [alt]="pair.baseCurrency" class="flag-icon" />
+          <span class="currency-name">{{ pair.baseCurrency }}</span>
+          <span class="currency-full-name">{{ pair.baseCurrencyName }}</span>
+        </div>
+      </div>
+      <input type="text" class="currency-amount-input" [value]="currentQuoteAmount"
+        (input)="onAmountChange($event, 'quote')" (click)="$event.stopPropagation()" />
     </div>
   </div>
 

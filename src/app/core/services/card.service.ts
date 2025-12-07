@@ -1,7 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, of } from 'rxjs';
-import { Card, CardApiResponse } from '../models';
+import { Card, CardApiResponse, AddCardRequest, AddCardResponse, VerifyCardRequest } from '../models';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -24,7 +24,6 @@ export class CardService {
         this.http.get<CardApiResponse[]>(url).pipe(
             tap(apiCards => {
                 const cards = apiCards.map(apiCard => this.mapApiCardToCard(apiCard));
-                // this.cards.set([]);
                 this.cards.set(cards);
                 this.loading.set(false);
             }),
@@ -85,21 +84,39 @@ export class CardService {
         return this.cards().find(card => card.id === id);
     }
 
-    // Add card via API
-    addCardToAPI(cardData: { cardNumber: string; expiryDate: string; cardName: string }) {
+    // Add card via API - start process
+    addCardToAPI(cardData: AddCardRequest) {
         const url = `${environment.apiUrl}/api/cards/add/start`;
+        return this.http.post<AddCardResponse>(url, cardData);
+    }
 
-        return this.http.post(url, {
-            cardNumber: cardData.cardNumber,
-            expiryDate: cardData.expiryDate,
-            cardName: cardData.cardName
-        }).pipe(
+    // Verify OTP and complete card addition
+    verifyCardOTP(data: VerifyCardRequest) {
+        const url = `${environment.apiUrl}/api/cards/add/verify`;
+
+        return this.http.post(url, data).pipe(
             tap(() => {
-                // Reload cards after successful add
                 this.loadCardsFromAPI();
             }),
             catchError(error => {
-                console.error('Error adding card:', error);
+                console.error('Error verifying card:', error);
+                throw error;
+            })
+        );
+    }
+
+    // Delete card via API
+    deleteCardFromAPI(cardId: string) {
+        const url = `${environment.apiUrl}/api/cards/${cardId}`;
+
+        return this.http.delete(url).pipe(
+            tap(() => {
+                // Remove from local state
+                const updatedCards = this.cards().filter(card => card.cardId !== cardId);
+                this.cards.set(updatedCards);
+            }),
+            catchError(error => {
+                console.error('Error deleting card:', error);
                 throw error;
             })
         );

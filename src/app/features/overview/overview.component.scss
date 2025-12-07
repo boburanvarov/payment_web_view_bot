@@ -3,7 +3,7 @@
     min-height: 100vh;
     padding: 0;
     padding-bottom: 100px;
-    background: #F8F9FA;
+    background: var(--screen-bg);
 }
 
 .screen-header {
@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: #FFFFFF;
+    background: var(--screen-bg);
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
     h2 {

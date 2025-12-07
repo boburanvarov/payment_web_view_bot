@@ -50,7 +50,6 @@
   justify-content: space-between;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   position: relative;
-  z-index: 2;
 
   &:first-of-type {
     margin-bottom: 8px;
@@ -100,6 +99,119 @@
 
   &::placeholder {
     color: var(--secondary-text);
+  }
+}
+
+// Currency Dropdown
+.currency-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+  z-index: 100;
+  max-height: 240px;
+  overflow-y: auto;
+  animation: dropdownFadeIn 0.2s ease;
+
+  // Default: open upward (for quote currency)
+  bottom: 100%;
+  margin-bottom: 4px;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+
+  // Open downward modifier
+  &.dropdown-down {
+    bottom: auto;
+    top: 100%;
+    margin-bottom: 0;
+    margin-top: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  // Open upward modifier
+  &.dropdown-up {
+    bottom: 100%;
+    top: auto;
+    margin-top: 0;
+    margin-bottom: 4px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--secondary-text);
+    border-radius: 2px;
+  }
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: var(--screen-bg);
+  }
+
+  &.selected {
+    background: rgba(59, 130, 246, 0.1);
+  }
+
+  &:first-child {
+    border-radius: 12px 12px 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 0 12px 12px;
+  }
+
+  .flag-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  .currency-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-color);
+  }
+
+  .currency-full-name {
+    font-size: 12px;
+    color: var(--secondary-text);
+    margin-left: auto;
+  }
+}
+
+.dropdown-icon {
+  transition: transform 0.2s ease;
+
+  &.rotated {
+    transform: rotate(180deg);
   }
 }
 
