@@ -314,3 +314,170 @@
     font-size: 14px;
   }
 }
+
+// Modal Styles
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 500px;
+  background: #FFFFFF;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  animation: slideUp 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.4);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.radio-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1A1A1A;
+}
+
+.radio-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.radio-custom {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #2563EB;
+    transform: scale(0);
+    transition: transform 0.2s ease;
+  }
+}
+
+.radio-input:checked~.radio-custom {
+  border-color: #2563EB;
+
+  &::after {
+    transform: scale(1);
+  }
+}
+
+.modal-footer {
+  padding-top: 8px;
+}
+
+.apply-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #2563EB, #1D4ED8);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

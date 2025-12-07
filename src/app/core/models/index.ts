@@ -1,6 +1,9 @@
 ﻿// Export transaction interfaces first
 export * from './transaction.interfaces';
 
+// Export transaction type enum
+export * from './transaction-type.enum';
+
 // Export currency interfaces
 export * from './currency.interfaces';
 

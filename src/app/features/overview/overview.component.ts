@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { TransactionService } from '../../core/services/transaction.service';
+import { TransactionFilterType } from '../../core/models';
 
 @Component({
   selector: 'app-overview',
@@ -26,7 +27,7 @@ export class OverviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.transactionService.loadOverviewTransactions('ALL', 0, 20);
+    this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
   }
 
   goBack(): void {

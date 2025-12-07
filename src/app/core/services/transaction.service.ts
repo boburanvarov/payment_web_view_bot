@@ -2,7 +2,7 @@ import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { OverviewReportResponse, HomePageReportResponse } from '../models';
+import { OverviewReportResponse, HomePageReportResponse, TransactionFilterType } from '../models';
 
 @Injectable({
     providedIn: 'root'
@@ -12,6 +12,9 @@ export class TransactionService {
     overviewReport = signal<OverviewReportResponse | null>(null);
     overviewLoading = signal<boolean>(false);
 
+    // Selected transaction filter type
+    selectedFilterType = signal<TransactionFilterType>(TransactionFilterType.ALL);
+
     // Home page card report data
     cardReport = signal<HomePageReportResponse | null>(null);
     cardReportLoading = signal<boolean>(false);
@@ -20,10 +23,18 @@ export class TransactionService {
     constructor(private http: HttpClient) { }
 
     /**
+     * Set the filter type and reload transactions
+     */
+    setFilterType(type: TransactionFilterType): void {
+        this.selectedFilterType.set(type);
+        this.loadOverviewTransactions(type);
+    }
+
+    /**
      * Load overview transactions
      * API: /api/history/transactions?type=ALL&page=0&size=20
      */
-    loadOverviewTransactions(type: string = 'ALL', page: number = 0, size: number = 20): void {
+    loadOverviewTransactions(type: TransactionFilterType = TransactionFilterType.ALL, page: number = 0, size: number = 20): void {
         this.overviewLoading.set(true);
         const url = `${environment.apiUrl}/api/history/transactions?type=${type}&page=${page}&size=${size}`;
 

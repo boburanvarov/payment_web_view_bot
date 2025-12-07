@@ -33,7 +33,8 @@
 
   <!-- Filter Buttons -->
   <div class="filter-section" *ngIf="showFilters">
-    <button class="filter-btn">
+    <button class="filter-btn" [class.active]="showTransactionTypeModal || isFilterActive()"
+      (click)="openTransactionTypeModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
@@ -57,6 +58,37 @@
       Kartalar va hisob raqamlar
     </button>
   </div>
+
+  <!-- Transaction Type Modal -->
+  <div class="modal-overlay" *ngIf="showTransactionTypeModal" (click)="closeTransactionTypeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3 class="modal-title">Amaliyotlar turi</h3>
+        <button class="modal-close-btn" (click)="closeTransactionTypeModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="radio-group">
+          <label class="radio-option" *ngFor="let option of filterOptions">
+            <span class="radio-label">{{ option.label }}</span>
+            <input type="radio" name="transactionType" [value]="option.value" [(ngModel)]="tempSelectedFilterType"
+              class="radio-input">
+            <span class="radio-custom"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="apply-btn" (click)="applyTransactionFilter()">Saralash</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Transactions -->
   <div class="transactions-section">

@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import {
     Transaction,
     TransactionGroup,
@@ -8,14 +9,18 @@ import {
     HomePageTransaction,
     HomePageReportResponse,
     OverviewTransaction,
-    OverviewReportResponse
+    OverviewReportResponse,
+    TransactionFilterType,
+    TransactionFilterLabels,
+    getTransactionFilterOptions
 } from '../../../core/models';
 import { MoneyPipe } from '../../pipe/money.pipe';
+import { TransactionService } from '../../../core/services/transaction.service';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule, MoneyPipe],
+    imports: [CommonModule, MoneyPipe, FormsModule],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
@@ -28,11 +33,58 @@ export class ReportCardComponent implements OnChanges {
     @Input() showSeeAll: boolean = true;
     @Input() maxTransactions?: number; // Limit number of transactions to show
 
+    // Modal state
+    showTransactionTypeModal: boolean = false;
+    selectedFilterType: TransactionFilterType = TransactionFilterType.ALL;
+    tempSelectedFilterType: TransactionFilterType = TransactionFilterType.ALL;
+
+    // Filter options for radio buttons
+    filterOptions = getTransactionFilterOptions();
+
+    // Processed data
     processedTransactions: Transaction[] = [];
     processedIncome: number = 0;
     processedExpenses: number = 0;
 
-    constructor(private router: Router) { }
+    // Inject services
+    private transactionService = inject(TransactionService);
+
+    constructor(private router: Router) {
+        // Sync filter type from service (preserves state across navigation)
+        this.selectedFilterType = this.transactionService.selectedFilterType();
+        this.tempSelectedFilterType = this.selectedFilterType;
+    }
+
+    /**
+     * Open transaction type modal
+     */
+    openTransactionTypeModal(): void {
+        this.tempSelectedFilterType = this.selectedFilterType;
+        this.showTransactionTypeModal = true;
+    }
+
+    /**
+     * Close transaction type modal without saving
+     */
+    closeTransactionTypeModal(): void {
+        this.showTransactionTypeModal = false;
+    }
+
+    /**
+     * Apply selected filter type and close modal
+     */
+    applyTransactionFilter(): void {
+        this.selectedFilterType = this.tempSelectedFilterType;
+        this.transactionService.setFilterType(this.selectedFilterType);
+        this.showTransactionTypeModal = false;
+    }
+
+    /**
+     * Check if a filter type is currently active
+     */
+    isFilterActive(): boolean {
+        return this.selectedFilterType !== TransactionFilterType.ALL;
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['reportData'] && this.reportData) {
