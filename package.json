@@ -1,6 +1,6 @@
 {
   "name": "payment-webview",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -8,9 +8,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "bot": "node server.js",
-    "version:patch": "npm version patch --no-git-tag-version",
-    "version:minor": "npm version minor --no-git-tag-version",
-    "version:major": "npm version major --no-git-tag-version",
+    "version:patch": "npm version patch --no-git-tag-version && node sync-version.js",
+    "version:minor": "npm version minor --no-git-tag-version && node sync-version.js",
+    "version:major": "npm version major --no-git-tag-version && node sync-version.js",
+    "bump": "npm version patch --no-git-tag-version && node sync-version.js",
     "cap:sync": "npm run build && npx cap sync",
     "cap:open:android": "npx cap open android",
     "cap:run:android": "npm run build && npx cap sync && npx cap run android"
