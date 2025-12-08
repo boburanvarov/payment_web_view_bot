@@ -27,6 +27,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('OverviewComponent ngOnInit - loading data...');
     this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
   }
 

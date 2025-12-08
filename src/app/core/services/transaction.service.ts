@@ -104,6 +104,7 @@ export class TransactionService {
 
         // Build URL with query params
         let url = `${environment.apiUrl}/api/history/transactions?type=${filterType}&page=${page}&size=${size}`;
+        console.log('Loading overview transactions:', url);
 
         // Add date range if set
         const startDate = this.selectedStartDate();

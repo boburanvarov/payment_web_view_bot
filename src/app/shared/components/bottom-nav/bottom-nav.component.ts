@@ -40,10 +40,15 @@ export class BottomNavComponent implements OnInit {
     }
 
     isActive(route: string): boolean {
-        // Default to home if route is empty or root
-        if (!this.activeRoute || this.activeRoute === '/') {
-            return route === '/home';
+        // Handle empty/root as home
+        const currentRoute = this.activeRoute || '/home';
+
+        // For home, check if it's root, /home or starts with /home
+        if (route === '/home') {
+            return currentRoute === '/' || currentRoute === '/home' || currentRoute.startsWith('/home');
         }
-        return this.activeRoute === route;
+
+        // For other routes, check exact match or startsWith
+        return currentRoute === route || currentRoute.startsWith(route);
     }
 }
