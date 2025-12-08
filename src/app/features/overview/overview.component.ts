@@ -24,6 +24,9 @@ export class OverviewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // Clear any card filter from home page
+    this.transactionService.selectedCardId.set(null);
+
     // Subscribe to service signals and load data
     this.isLoading = true;
     this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
