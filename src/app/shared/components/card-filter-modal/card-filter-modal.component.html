@@ -1,0 +1,39 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+        <div class="modal-header">
+            <h3 class="modal-title">Kartalar va hisob raqamlar</h3>
+            <button class="modal-close-btn" (click)="onClose()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="cards-list">
+                <label class="card-option" *ngFor="let card of cards"
+                    [class.selected]="tempSelectedCardId === card.cardId"
+                    (click)="card.cardId && selectCard(card.cardId)">
+                    <div class="card-info">
+                        <div class="card-logo">
+                            <img *ngIf="card.bankLogoMini" [src]="card.bankLogoMini" alt="Bank" />
+                            <div *ngIf="!card.bankLogoMini" class="default-logo">
+                                {{ card.bankName?.charAt(0) || 'B' }}
+                            </div>
+                        </div>
+                        <div class="card-details">
+                            <span class="bank-name">{{ card.bankName }}</span>
+                            <span class="card-number">{{ card.number }}</span>
+                        </div>
+                    </div>
+                    <div class="radio-circle" [class.checked]="tempSelectedCardId === card.cardId"></div>
+                </label>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="apply-btn" (click)="onApply()">Qo'llash</button>
+        </div>
+    </div>
+</div>

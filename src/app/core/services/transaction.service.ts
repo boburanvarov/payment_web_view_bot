@@ -55,12 +55,21 @@ export class TransactionService {
     }
 
     /**
-     * Clear all filters (filter type and date range)
+     * Clear all filters (filter type, date range, and card)
      */
     clearAllFilters(): void {
         this.selectedFilterType.set(TransactionFilterType.ALL);
         this.selectedStartDate.set(null);
         this.selectedEndDate.set(null);
+        this.selectedCardId.set(null);
+        this.loadOverviewTransactions();
+    }
+
+    /**
+     * Set card filter and reload transactions
+     */
+    setCardFilter(cardId: string | null): void {
+        this.selectedCardId.set(cardId);
         this.loadOverviewTransactions();
     }
 
@@ -97,6 +106,12 @@ export class TransactionService {
         }
         if (endDate) {
             url += `&end=${this.formatDateForApi(endDate)}`;
+        }
+
+        // Add cardId if set
+        const cardId = this.selectedCardId();
+        if (cardId) {
+            url += `&cardId=${cardId}`;
         }
 
         this.http.get<OverviewReportResponse>(url).pipe(

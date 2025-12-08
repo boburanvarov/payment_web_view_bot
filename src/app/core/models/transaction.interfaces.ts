@@ -44,7 +44,7 @@ export interface HomePageTransaction {
     merchant: string;
     terminal: string;
     cardType: string;
-    merchantName: string;
+    merchantName?: string;
     merchantAddress: string;
     maskPan: string;
     cardId: string;

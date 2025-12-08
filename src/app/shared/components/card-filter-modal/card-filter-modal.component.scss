@@ -44,6 +44,9 @@
     border-radius: 20px 20px 0 0;
     padding: 20px;
     animation: slideUp 0.3s ease;
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-header {
@@ -75,45 +78,97 @@
 
 .modal-body {
     margin-bottom: 24px;
+    overflow-y: auto;
+    flex: 1;
 }
 
-.radio-group {
+.cards-list {
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-.radio-option {
+.card-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 0;
     cursor: pointer;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    position: relative;
+    transition: background 0.2s ease;
 
     &:last-child {
         border-bottom: none;
     }
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.02);
+    }
+
+    &.selected {
+        .radio-circle {
+            border-color: #2563EB;
+
+            &::after {
+                transform: scale(1);
+            }
+        }
+    }
 }
 
-.radio-label {
+.card-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.card-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F5F5F7;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+
+.default-logo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bank-name {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     color: #1A1A1A;
 }
 
-.radio-input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+.card-number {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.5);
 }
 
-.radio-custom {
+.radio-circle {
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -133,13 +188,13 @@
         transform: scale(0);
         transition: transform 0.2s ease;
     }
-}
 
-.radio-input:checked~.radio-custom {
-    border-color: #2563EB;
+    &.checked {
+        border-color: #2563EB;
 
-    &::after {
-        transform: scale(1);
+        &::after {
+            transform: scale(1);
+        }
     }
 }
 

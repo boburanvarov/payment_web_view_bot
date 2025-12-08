@@ -53,7 +53,8 @@
       </svg>
       Davr
     </button>
-    <button class="filter-btn">
+    <button class="filter-btn" [class.active]="showCardFilterModal || isCardFilterActive()"
+      (click)="openCardFilterModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
@@ -72,6 +73,11 @@
   <app-date-range-modal [isOpen]="showDateRangeModal" [startDate]="selectedStartDate" [endDate]="selectedEndDate"
     (close)="closeDateRangeModal()" (apply)="onDateRangeApply($event)">
   </app-date-range-modal>
+
+  <!-- Card Filter Modal -->
+  <app-card-filter-modal [isOpen]="showCardFilterModal" [selectedCardId]="selectedCardId"
+    (close)="closeCardFilterModal()" (apply)="onCardFilterApply($event)">
+  </app-card-filter-modal>
 
   <!-- Transactions -->
   <div class="transactions-section">

@@ -14,11 +14,12 @@ import { MoneyPipe } from '../../pipe/money.pipe';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionTypeModalComponent } from '../transaction-type-modal/transaction-type-modal.component';
 import { DateRangeModalComponent } from '../date-range-modal/date-range-modal.component';
+import { CardFilterModalComponent } from '../card-filter-modal/card-filter-modal.component';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent],
+    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent, CardFilterModalComponent],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
@@ -34,9 +35,11 @@ export class ReportCardComponent implements OnChanges {
     // Modal state
     showTransactionTypeModal: boolean = false;
     showDateRangeModal: boolean = false;
+    showCardFilterModal: boolean = false;
     selectedFilterType: TransactionFilterType = TransactionFilterType.ALL;
     selectedStartDate: Date | null = null;
     selectedEndDate: Date | null = null;
+    selectedCardId: string | null = null;
 
     // Processed data
     processedTransactions: Transaction[] = [];
@@ -51,6 +54,7 @@ export class ReportCardComponent implements OnChanges {
         this.selectedFilterType = this.transactionService.selectedFilterType();
         this.selectedStartDate = this.transactionService.selectedStartDate();
         this.selectedEndDate = this.transactionService.selectedEndDate();
+        this.selectedCardId = this.transactionService.selectedCardId();
     }
 
     /**
@@ -115,12 +119,43 @@ export class ReportCardComponent implements OnChanges {
     }
 
     /**
+     * Check if card filter is currently active
+     */
+    isCardFilterActive(): boolean {
+        return this.selectedCardId !== null;
+    }
+
+    /**
+     * Open card filter modal
+     */
+    openCardFilterModal(): void {
+        this.showCardFilterModal = true;
+    }
+
+    /**
+     * Close card filter modal
+     */
+    closeCardFilterModal(): void {
+        this.showCardFilterModal = false;
+    }
+
+    /**
+     * Handle card filter apply
+     */
+    onCardFilterApply(cardId: string | null): void {
+        this.selectedCardId = cardId;
+        this.transactionService.setCardFilter(cardId);
+        this.showCardFilterModal = false;
+    }
+
+    /**
      * Clear all filters and reload data
      */
     clearAllFilters(): void {
         this.selectedFilterType = TransactionFilterType.ALL;
         this.selectedStartDate = null;
         this.selectedEndDate = null;
+        this.selectedCardId = null;
         this.transactionService.clearAllFilters();
     }
 
