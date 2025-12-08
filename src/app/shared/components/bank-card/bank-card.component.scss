@@ -115,4 +115,9 @@
   }
 }
 
-
+// Responsive - smaller screens
+@media (max-width: 374px) {
+  .bank-card {
+    width: 300px;
+  }
+}
