@@ -178,11 +178,35 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     ngAfterViewInit(): void {
-        // Observer will be setup after data loads in ngOnChanges
+        // Setup scroll listener for Telegram WebApp fallback
+        if (this.enableInfiniteScroll) {
+            this.setupScrollListener();
+        }
     }
 
     ngOnDestroy(): void {
         this.intersectionObserver?.disconnect();
+        window.removeEventListener('scroll', this.boundScrollHandler);
+    }
+
+    private boundScrollHandler = this.onScroll.bind(this);
+
+    private setupScrollListener(): void {
+        window.addEventListener('scroll', this.boundScrollHandler, { passive: true });
+    }
+
+    private onScroll(): void {
+        if (!this.enableInfiniteScroll || this.loadingMore || !this.hasMore) {
+            return;
+        }
+
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+
+        // Load more when near bottom (200px threshold)
+        if (documentHeight - scrollPosition < 200) {
+            this.transactionService.loadMoreTransactions();
+        }
     }
 
     private setupIntersectionObserver(): void {
