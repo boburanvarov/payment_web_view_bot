@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../core/services/card.service';
 import { TransactionService } from '../../core/services/transaction.service';
+import { TelegramService } from '../../core/services/telegram.service';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { BalanceCardCarouselComponent } from '../../shared/components/balance-card-carousel/balance-card-carousel.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
@@ -25,9 +26,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     // User profile data
     userProfile = {
-        name: 'Xurshid Istamov',
-        username: '@istamoffx',
-        avatar: 'assets/avatar.jpg' // You can generate this or use initials
+        name: 'User',
+        username: '@username',
+        photoUrl: ''
     };
 
     // Income/Expenses data from reference
@@ -60,7 +61,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
     constructor(
         private router: Router,
         public cardService: CardService,
-        public transactionService: TransactionService
+        public transactionService: TransactionService,
+        private telegramService: TelegramService
     ) {
         // Initialize signal accessors
         this.cards = this.cardService.cards;
@@ -73,7 +75,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     @ViewChild('scrollRevealSection', { static: false }) scrollRevealSection?: ElementRef;
 
     ngOnInit(): void {
-        // Cards are already loaded in AppComponent
+        // Load Telegram user data
+        this.telegramService.getUserData().subscribe(user => {
+            if (user) {
+                this.userProfile.name = user.first_name || 'User';
+                this.userProfile.username = user.username ? `@${user.username}` : '';
+                this.userProfile.photoUrl = user.photo_url || '';
+            }
+        });
     }
 
     ngAfterViewInit(): void {
