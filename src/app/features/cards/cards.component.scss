@@ -59,23 +59,25 @@
     user-select: none;
     border-radius: 16px;
     background: transparent;
+    width: 100%;
 
     &.swiping {
         transition: none;
     }
 
     &.swiped {
-        transform: translateX(-88px) !important;
+        // Card shifts left: delete button width (72px) + gap (10px) = 82px
+        transform: translateX(-82px) !important;
     }
 }
 
 .delete-action {
     position: absolute;
-    right: 8px;
+    right: 0;
     top: 50%;
     transform: translateY(-50%);
     width: 72px;
-    height: 132px;
+    height: calc(100% - 8px);
     background: #FF3B30;
     display: flex;
     align-items: center;
@@ -83,10 +85,12 @@
     border-radius: 16px;
     z-index: 1;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.2s ease;
 
     &.visible {
         opacity: 1;
+        pointer-events: auto;
     }
 }
 
