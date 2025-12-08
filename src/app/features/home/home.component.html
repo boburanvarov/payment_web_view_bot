@@ -27,24 +27,29 @@
 
     <!-- Cards carousel -->
     <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
-        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses"
-        (cardSelected)="onCardSelected($event)">
+        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses" (cardSelected)="onCardSelected($event)">
     </app-balance-card-carousel>
 
     <!-- Report Section - Card Reports -->
-    <div class="report-section initial-reports" *ngIf="cardReport()">
-        <app-report-card
-            [reportData]="cardReport()!"
-            [showFilters]="false"
-            [showSeeAll]="true"
-            [maxTransactions]="3">
+    <div class="report-section initial-reports" *ngIf="cardReport() && $any(cardReport()).content?.length > 0">
+        <app-report-card [reportData]="cardReport()!" [showFilters]="false" [showSeeAll]="true" [maxTransactions]="3">
         </app-report-card>
     </div>
 
-  <!-- Advertising Banners -->
-  <div class="advertising-banners" *ngIf="banners.length > 0">
-    <app-banner-carousel [banners]="banners"></app-banner-carousel>
-  </div>
+    <!-- Empty Transaction State -->
+    <div class="empty-transactions"
+        *ngIf="!loading() && cards().length > 0 && (!cardReport() || !$any(cardReport()).content?.length)">
+        <h3 class="section-title">So'ngi tranzaksiyalar</h3>
+        <div class="empty-box">
+            <img src="assets/img/transaction-empty.png" alt="No transactions">
+            <p>Ma'lumot topilmadi</p>
+        </div>
+    </div>
+
+    <!-- Advertising Banners -->
+    <div class="advertising-banners" *ngIf="banners.length > 0">
+        <app-banner-carousel [banners]="banners"></app-banner-carousel>
+    </div>
 
     <!-- Exchange Rate Component -->
     <app-exchange-rate></app-exchange-rate>

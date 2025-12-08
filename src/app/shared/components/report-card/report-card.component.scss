@@ -41,7 +41,7 @@
   padding: 10px 16px;
   background: #F5F5F7;
   border: none;
-  border-radius: 12px;
+  border-radius: 26px;
   color: rgba(0, 0, 0, 0.6);
   font-size: 13px;
   font-weight: 500;
@@ -250,13 +250,16 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
+  flex: 1;
+  min-width: 0; // Important for text truncation in flex
 
   span {
-    max-width: 142px;
+    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #1A1A1A;
+    margin-right: 10px;
   }
 }
 

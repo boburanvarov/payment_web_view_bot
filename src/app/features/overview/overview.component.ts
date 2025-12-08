@@ -76,4 +76,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
   goBack(): void {
     this.router.navigate(['/home']);
   }
+
+  navigateToChart(): void {
+    this.router.navigate(['/chart']);
+  }
 }
