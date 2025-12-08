@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { TransactionService } from '../../core/services/transaction.service';
-import { TransactionFilterType } from '../../core/models';
+import { TransactionFilterType, OverviewReportResponse } from '../../core/models';
 
 @Component({
   selector: 'app-overview',
@@ -14,25 +14,54 @@ import { TransactionFilterType } from '../../core/models';
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent implements OnInit, OnDestroy {
-  // Access signals from TransactionService (will be initialized in constructor)
-  overviewReport;
-  loading;
+  // Local data for template
+  overviewData: OverviewReportResponse | null = null;
+  isLoading: boolean = true;
 
   constructor(
     private router: Router,
-    public transactionService: TransactionService
-  ) {
-    this.overviewReport = this.transactionService.overviewReport;
-    this.loading = this.transactionService.overviewLoading;
-  }
+    private transactionService: TransactionService
+  ) { }
 
   ngOnInit(): void {
-    console.log('OverviewComponent ngOnInit - loading data...');
+    // Subscribe to service signals and load data
+    this.isLoading = true;
     this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
+
+    // Watch for data changes
+    this.checkDataLoaded();
+  }
+
+  private checkDataLoaded(): void {
+    const interval = setInterval(() => {
+      const report = this.transactionService.overviewReport();
+      const loading = this.transactionService.overviewLoading();
+
+      if (report) {
+        this.overviewData = report;
+        this.isLoading = false;
+        clearInterval(interval);
+      } else if (!loading && !report) {
+        this.isLoading = false;
+        clearInterval(interval);
+      }
+    }, 50);
+
+    // Clear after 10 seconds max
+    setTimeout(() => clearInterval(interval), 10000);
+  }
+
+  // Getter for template to access current report
+  get overviewReport() {
+    return this.transactionService.overviewReport;
+  }
+
+  get loading() {
+    return this.transactionService.overviewLoading;
   }
 
   ngOnDestroy(): void {
-    // Reset filter state without triggering API call
+    // Reset filter state only (no API call)
     this.transactionService.selectedFilterType.set(TransactionFilterType.ALL);
     this.transactionService.selectedStartDate.set(null);
     this.transactionService.selectedEndDate.set(null);
