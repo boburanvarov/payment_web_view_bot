@@ -178,9 +178,7 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     ngAfterViewInit(): void {
-        if (this.enableInfiniteScroll) {
-            this.setupIntersectionObserver();
-        }
+        // Observer will be setup after data loads in ngOnChanges
     }
 
     ngOnDestroy(): void {
@@ -188,25 +186,35 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private setupIntersectionObserver(): void {
-        if (!this.scrollSentinel?.nativeElement) return;
+        // Disconnect existing observer
+        this.intersectionObserver?.disconnect();
 
-        this.intersectionObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting && this.hasMore && !this.loadingMore) {
-                        this.transactionService.loadMoreTransactions();
-                    }
-                });
-            },
-            { rootMargin: '100px' }
-        );
+        // Wait for DOM to render after *ngIf
+        setTimeout(() => {
+            if (!this.scrollSentinel?.nativeElement) return;
 
-        this.intersectionObserver.observe(this.scrollSentinel.nativeElement);
+            this.intersectionObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && this.hasMore && !this.loadingMore) {
+                            this.transactionService.loadMoreTransactions();
+                        }
+                    });
+                },
+                { rootMargin: '200px', threshold: 0 }
+            );
+
+            this.intersectionObserver.observe(this.scrollSentinel.nativeElement);
+        }, 100);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['reportData'] && this.reportData) {
             this.processReportData();
+            // Setup observer after data loads
+            if (this.enableInfiniteScroll) {
+                this.setupIntersectionObserver();
+            }
         } else if (this.transactions.length > 0) {
             this.processedTransactions = this.transactions;
             this.processedIncome = this.income;
