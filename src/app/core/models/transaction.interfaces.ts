@@ -6,8 +6,10 @@ export interface Transaction {
     type: 'income' | 'expense';
     cardNumber: string;
     amount: number;
-    description: string;
+    description?: string;
+    merchantName?: string;
     processingLogoMini?: string;
+    bankLogoMini?: string;
 }
 
 export interface TransactionGroup {

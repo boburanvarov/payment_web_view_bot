@@ -33,6 +33,9 @@
 
   <!-- Filter Buttons -->
   <div class="filter-section" *ngIf="showFilters">
+    <button class="clean-btn" (click)="clearAllFilters()">
+      <img src="assets/img/clean.svg" alt="clean">
+    </button>
     <button class="filter-btn" [class.active]="showTransactionTypeModal || isFilterActive()"
       (click)="openTransactionTypeModal()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -82,11 +85,29 @@
         <div class="date-header">{{ group.date }}</div>
 
         <div class="transaction-item" *ngFor="let transaction of group.transactions">
-          <!-- Top row: Chiqim/Kirim and Time -->
+
           <div class="transaction-top-row">
             <div class="transaction-type" [ngClass]="transaction.type === 'income' ? 'income-type' : 'expense-type'">
-              <div class="transaction-dot"></div>
-              <span>{{ transaction.type === 'income' ? 'Kirim' : 'Chiqim' }}</span>
+              <div class="transaction-icon">
+                <div class="income-stat" *ngIf="transaction.type === 'income'">
+                  <div class="stat-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 19V5m-7 7l7 7 7-7" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="expense-stat" *ngIf="transaction.type !== 'income'">
+                  <div class="stat-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 5v14m-7-7l7-7 7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <span>{{ transaction.merchantName }}</span>
             </div>
             <div class="transaction-time">{{ transaction.time }}</div>
           </div>
@@ -94,9 +115,9 @@
           <!-- Bottom row: Card logo/number and Amount -->
           <div class="transaction-bottom-row">
             <div class="transaction-card">
-              <img *ngIf="transaction.processingLogoMini" [src]="transaction.processingLogoMini" alt="Card"
-                class="card-icon" width="16" height="16" />
-              <svg *ngIf="!transaction.processingLogoMini" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              <img *ngIf="transaction.bankLogoMini" [src]="transaction.bankLogoMini" alt="Card" class="card-icon"
+                width="16" height="16" />
+              <svg *ngIf="!transaction.bankLogoMini" width="16" height="16" viewBox="0 0 24 24" fill="none"
                 class="card-icon">
                 <circle cx="12" cy="12" r="10" fill="#2563EB" />
                 <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">U</text>
@@ -104,8 +125,8 @@
               <span>{{ transaction.cardNumber }}</span>
             </div>
             <div class="transaction-amount" [ngClass]="transaction.type === 'income' ? 'positive' : 'negative'">
-              {{ transaction.amount > 0 ? '+' : '' }}{{ getAbsoluteValue(transaction.amount) | money }}<span
-                *ngIf="transaction.type === 'income'"> so'm</span>
+              {{ transaction.type === 'income' ? '+' : '-' }}{{ getAbsoluteValue(transaction.amount) | money }}<span>
+                so'm</span>
             </div>
           </div>
         </div>

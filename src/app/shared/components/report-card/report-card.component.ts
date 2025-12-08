@@ -114,6 +114,18 @@ export class ReportCardComponent implements OnChanges {
         return this.selectedStartDate !== null && this.selectedEndDate !== null;
     }
 
+    /**
+     * Clear all filters and reload data
+     */
+    clearAllFilters(): void {
+        this.selectedFilterType = TransactionFilterType.ALL;
+        this.selectedStartDate = null;
+        this.selectedEndDate = null;
+        this.transactionService.clearAllFilters();
+    }
+
+
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['reportData'] && this.reportData) {
             this.processReportData();
@@ -165,8 +177,9 @@ export class ReportCardComponent implements OnChanges {
             type: tx.tranType === '+' ? 'income' : 'expense',
             cardNumber: tx.maskPan,
             amount: tx.tranType === '+' ? tx.tranAmount : -tx.tranAmount,
-            description: tx.merchantName || tx.category || tx.description,
-            processingLogoMini: tx.bin?.processingLogoMini
+            merchantName: tx.merchantName || (tx.tranType === '+' ? 'Kirim' : 'Chiqim'),
+            processingLogoMini: tx.bin?.processingLogoMini,
+            bankLogoMini: tx.bin?.bankLogoMini
         };
     }
 
@@ -177,10 +190,12 @@ export class ReportCardComponent implements OnChanges {
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
 
-        // Format time as HH:mm (e.g., "12:52")
+        // Format time as "6-Dekabr, 12:52" (matching home page format)
+        const months = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun', 'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
+        const monthName = months[date.getMonth()];
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        const formattedTime = `${hours}:${minutes}`;
+        const formattedTime = `${date.getDate()}-${monthName}, ${hours}:${minutes}`;
 
         return {
             date: formattedDate,
@@ -188,8 +203,9 @@ export class ReportCardComponent implements OnChanges {
             type: tx.tranType === '+' ? 'income' : 'expense',
             cardNumber: tx.maskPan,
             amount: tx.tranType === '+' ? tx.amount : -tx.amount,
-            description: tx.merchantName || tx.category || tx.categoryDescription,
-            processingLogoMini: tx.bin?.processingLogoMini
+            merchantName: tx.merchantName || (tx.tranType === '+' ? 'Kirim' : 'Chiqim'),
+            processingLogoMini: tx.bin?.processingLogoMini,
+            bankLogoMini: tx.bin?.bankLogoMini
         };
     }
 

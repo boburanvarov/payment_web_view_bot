@@ -179,8 +179,9 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
   }
 
   getTransformValue(): number {
-    const cardWidth = 320; // Approximate card width with gap
-    return -this.currentIndex * cardWidth;
+    const cardWidth = 300; // Card width
+    const cardGap = 20; // Gap between cards
+    return -this.currentIndex * (cardWidth + cardGap);
   }
 
   getCardGradientIndex(index: number): number {

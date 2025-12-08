@@ -55,6 +55,16 @@ export class TransactionService {
     }
 
     /**
+     * Clear all filters (filter type and date range)
+     */
+    clearAllFilters(): void {
+        this.selectedFilterType.set(TransactionFilterType.ALL);
+        this.selectedStartDate.set(null);
+        this.selectedEndDate.set(null);
+        this.loadOverviewTransactions();
+    }
+
+    /**
      * Set the filter type and reload transactions
      */
     setFilterType(type: TransactionFilterType): void {

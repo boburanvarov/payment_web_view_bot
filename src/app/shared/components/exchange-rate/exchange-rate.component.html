@@ -79,7 +79,6 @@
       <div class="table-row" *ngFor="let offer of currencyData()!.bestOffers">
         <div class="bank-cell">
           <img [src]="offer.logoUrl" [alt]="offer.bankName" class="bank-logo" />
-          <span class="bank-name">{{ offer.bankName }}</span>
         </div>
         <div class="rate-cell">{{ formatNumber(offer.sellRate) }}</div>
         <div class="rate-cell">{{ formatNumber(offer.buyRate) }}</div>

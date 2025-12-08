@@ -10,8 +10,6 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 8px;
-  margin-bottom: 20px;
 
   // Hide scrollbar but keep scroll functionality
   scrollbar-width: none; // Firefox
@@ -20,6 +18,20 @@
   &::-webkit-scrollbar {
     display: none; // Chrome, Safari, Opera
   }
+}
+
+.clean-btn {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0A0D12;
+  flex-shrink: 0;
+  border: none;
+  cursor: pointer;
 }
 
 .filter-btn {
@@ -134,6 +146,8 @@
   white-space: nowrap;
 }
 
+
+
 // Transactions Section
 .transactions-section {
   display: flex;
@@ -236,29 +250,48 @@
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
+
+  span {
+    max-width: 142px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #1A1A1A;
+  }
 }
 
 .income-type {
   color: #10B981;
 
-  .transaction-dot {
-    background: #10B981;
+  .transaction-icon {
+    svg {
+      stroke: #10B981;
+    }
   }
 }
 
 .expense-type {
   color: #EF4444;
 
-  .transaction-dot {
-    background: #EF4444;
+  .transaction-icon {
+    svg {
+      stroke: #EF4444;
+    }
   }
 }
 
-.transaction-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+.transaction-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .transaction-time {

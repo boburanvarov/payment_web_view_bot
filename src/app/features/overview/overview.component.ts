@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
@@ -13,7 +13,7 @@ import { TransactionFilterType } from '../../core/models';
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   // Access signals from TransactionService (will be initialized in constructor)
   overviewReport;
   loading;
@@ -28,6 +28,11 @@ export class OverviewComponent implements OnInit {
 
   ngOnInit(): void {
     this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
+  }
+
+  ngOnDestroy(): void {
+    // Clear all filters when navigating away from overview page
+    this.transactionService.clearAllFilters();
   }
 
   goBack(): void {

@@ -111,8 +111,9 @@ export class BannerCarouselComponent implements OnInit, OnDestroy {
   }
 
   getTransformValue(): number {
-    const bannerWidth = 295; // 283px width + 12px gap
-    return -this.currentIndex * bannerWidth;
+    const bannerWidth = 283; // Banner width
+    const bannerGap = 10; // Gap between banners
+    return -this.currentIndex * (bannerWidth + bannerGap);
   }
 }
 

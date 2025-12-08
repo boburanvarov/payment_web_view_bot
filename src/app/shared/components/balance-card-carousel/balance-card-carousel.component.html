@@ -1,22 +1,14 @@
-<div class="carousel-wrapper">
-    <div class="carousel-container">
-        <div class="carousel-track" 
-             [style.transform]="'translateX(' + getTransformValue() + 'px)'"
-             (touchstart)="onTouchStart($event)" 
-             (touchend)="onTouchEnd($event)" 
-             (mousedown)="onMouseDown($event)"
-             (mousemove)="onMouseMove($event)" 
-             (mouseup)="onMouseUp($event)" 
-             (mouseleave)="onMouseLeave()">
-            
-            <div class="card-slide" 
-                 [class.active]="i === currentIndex"
-                 *ngFor="let card of allCards; let i = index">
-                <!-- Individual Card -->
-                <app-bank-card [card]="card" 
-                               [gradientIndex]="getCardGradientIndex(i)">
-                </app-bank-card>
-            </div>
+<div class="carousel-wrapper" (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)"
+    (mousedown)="onMouseDown($event)" (mousemove)="onMouseMove($event)" (mouseup)="onMouseUp($event)"
+    (mouseleave)="onMouseLeave()">
+
+    <div class="carousel-track" [style.transform]="'translateX(' + getTransformValue() + 'px)'">
+
+        <div class="card-slide" *ngFor="let card of allCards; let i = index" [class.active]="i === currentIndex"
+            [class.prev]="i === currentIndex - 1" [class.next]="i === currentIndex + 1" (click)="goToCard(i)">
+
+            <app-bank-card [card]="card" [gradientIndex]="getCardGradientIndex(i)">
+            </app-bank-card>
         </div>
     </div>
 </div>
