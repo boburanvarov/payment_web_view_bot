@@ -138,5 +138,14 @@
         </div>
       </div>
     </div>
+
+    <!-- Loading more indicator -->
+    <div class="loading-more" *ngIf="loadingMore">
+      <div class="loading-spinner"></div>
+      <span>Yuklanmoqda...</span>
+    </div>
+
+    <!-- Scroll sentinel for infinite scroll -->
+    <div #scrollSentinel class="scroll-sentinel" *ngIf="enableInfiniteScroll && hasMore"></div>
   </div>
 </div>

@@ -12,6 +12,11 @@ export class TransactionService {
     overviewReport = signal<OverviewReportResponse | null>(null);
     overviewLoading = signal<boolean>(false);
 
+    // Pagination state for infinite scroll
+    currentPage = signal<number>(0);
+    hasMore = signal<boolean>(true);
+    loadingMore = signal<boolean>(false);
+
     // Selected transaction filter type
     selectedFilterType = signal<TransactionFilterType>(TransactionFilterType.ALL);
 
@@ -62,6 +67,8 @@ export class TransactionService {
         this.selectedStartDate.set(null);
         this.selectedEndDate.set(null);
         this.selectedCardId.set(null);
+        this.currentPage.set(0);
+        this.hasMore.set(true);
         this.loadOverviewTransactions();
     }
 
@@ -117,12 +124,68 @@ export class TransactionService {
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {
                 this.overviewReport.set(data);
+                this.currentPage.set(page);
+                this.hasMore.set(data.page.hasNext);
                 this.overviewLoading.set(false);
             }),
             catchError(error => {
                 console.error('Error loading overview transactions:', error);
                 this.overviewReport.set(null);
                 this.overviewLoading.set(false);
+                return of(null);
+            })
+        ).subscribe();
+    }
+
+    /**
+     * Load more transactions (next page) - appends to existing data
+     */
+    loadMoreTransactions(): void {
+        // Don't load if already loading or no more data
+        if (this.loadingMore() || !this.hasMore()) {
+            return;
+        }
+
+        this.loadingMore.set(true);
+        const nextPage = this.currentPage() + 1;
+        const filterType = this.selectedFilterType();
+
+        // Build URL
+        let url = `${environment.apiUrl}/api/history/transactions?type=${filterType}&page=${nextPage}&size=20`;
+
+        const startDate = this.selectedStartDate();
+        const endDate = this.selectedEndDate();
+        if (startDate) {
+            url += `&start=${this.formatDateForApi(startDate)}`;
+        }
+        if (endDate) {
+            url += `&end=${this.formatDateForApi(endDate)}`;
+        }
+        const cardId = this.selectedCardId();
+        if (cardId) {
+            url += `&cardId=${cardId}`;
+        }
+
+        this.http.get<OverviewReportResponse>(url).pipe(
+            tap(data => {
+                const currentReport = this.overviewReport();
+                if (currentReport) {
+                    // Append new transactions to existing
+                    const mergedReport: OverviewReportResponse = {
+                        ...data,
+                        transactions: [...currentReport.transactions, ...data.transactions]
+                    };
+                    this.overviewReport.set(mergedReport);
+                } else {
+                    this.overviewReport.set(data);
+                }
+                this.currentPage.set(nextPage);
+                this.hasMore.set(data.page.hasNext);
+                this.loadingMore.set(false);
+            }),
+            catchError(error => {
+                console.error('Error loading more transactions:', error);
+                this.loadingMore.set(false);
                 return of(null);
             })
         ).subscribe();

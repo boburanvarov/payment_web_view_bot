@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { Component, Input, OnChanges, AfterViewInit, OnDestroy, SimpleChanges, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
@@ -23,14 +23,18 @@ import { CardFilterModalComponent } from '../card-filter-modal/card-filter-modal
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
-export class ReportCardComponent implements OnChanges {
+export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy {
     @Input() income: number = 0;
     @Input() expenses: number = 0;
     @Input() transactions: Transaction[] = [];
     @Input() reportData?: HomePageReportResponse | OverviewReportResponse;
     @Input() showFilters: boolean = false;
     @Input() showSeeAll: boolean = true;
-    @Input() maxTransactions?: number; // Limit number of transactions to show
+    @Input() maxTransactions?: number;
+    @Input() enableInfiniteScroll: boolean = false;
+
+    @ViewChild('scrollSentinel') scrollSentinel!: ElementRef;
+    private intersectionObserver?: IntersectionObserver;
 
     // Modal state
     showTransactionTypeModal: boolean = false;
@@ -159,7 +163,46 @@ export class ReportCardComponent implements OnChanges {
         this.transactionService.clearAllFilters();
     }
 
+    /**
+     * Check if more transactions are being loaded
+     */
+    get loadingMore(): boolean {
+        return this.transactionService.loadingMore();
+    }
 
+    /**
+     * Check if there are more transactions to load
+     */
+    get hasMore(): boolean {
+        return this.transactionService.hasMore();
+    }
+
+    ngAfterViewInit(): void {
+        if (this.enableInfiniteScroll) {
+            this.setupIntersectionObserver();
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.intersectionObserver?.disconnect();
+    }
+
+    private setupIntersectionObserver(): void {
+        if (!this.scrollSentinel?.nativeElement) return;
+
+        this.intersectionObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && this.hasMore && !this.loadingMore) {
+                        this.transactionService.loadMoreTransactions();
+                    }
+                });
+            },
+            { rootMargin: '100px' }
+        );
+
+        this.intersectionObserver.observe(this.scrollSentinel.nativeElement);
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['reportData'] && this.reportData) {

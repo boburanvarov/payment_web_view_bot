@@ -7,7 +7,7 @@
         </button>
         <h2>Hisobot</h2>
         <button class="clock-btn">
-          <img src="assets/img/chart2.png" alt="chart">
+            <img src="assets/img/chart2.png" alt="chart">
         </button>
     </div>
 
@@ -16,11 +16,8 @@
             <p>Loading...</p>
         </div>
 
-        <app-report-card
-            *ngIf="!loading() && overviewReport()"
-            [reportData]="overviewReport()!"
-            [showFilters]="true"
-            [showSeeAll]="true">
+        <app-report-card *ngIf="!loading() && overviewReport()" [reportData]="overviewReport()!" [showFilters]="true"
+            [showSeeAll]="false" [enableInfiniteScroll]="true">
         </app-report-card>
     </div>
 
