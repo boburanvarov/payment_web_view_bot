@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, NgZone, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -28,6 +28,8 @@ export class TransactionService {
     cardReport = signal<HomePageReportResponse | null>(null);
     cardReportLoading = signal<boolean>(false);
     selectedCardId = signal<string | null>(null);
+
+    private ngZone = inject(NgZone);
 
     constructor(private http: HttpClient) { }
 
@@ -123,15 +125,19 @@ export class TransactionService {
 
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {
-                this.overviewReport.set(data);
-                this.currentPage.set(page);
-                this.hasMore.set(data.page.hasNext);
-                this.overviewLoading.set(false);
+                this.ngZone.run(() => {
+                    this.overviewReport.set(data);
+                    this.currentPage.set(page);
+                    this.hasMore.set(data.page.hasNext);
+                    this.overviewLoading.set(false);
+                });
             }),
             catchError(error => {
                 console.error('Error loading overview transactions:', error);
-                this.overviewReport.set(null);
-                this.overviewLoading.set(false);
+                this.ngZone.run(() => {
+                    this.overviewReport.set(null);
+                    this.overviewLoading.set(false);
+                });
                 return of(null);
             })
         ).subscribe();
@@ -168,24 +174,28 @@ export class TransactionService {
 
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {
-                const currentReport = this.overviewReport();
-                if (currentReport) {
-                    // Append new transactions to existing
-                    const mergedReport: OverviewReportResponse = {
-                        ...data,
-                        transactions: [...currentReport.transactions, ...data.transactions]
-                    };
-                    this.overviewReport.set(mergedReport);
-                } else {
-                    this.overviewReport.set(data);
-                }
-                this.currentPage.set(nextPage);
-                this.hasMore.set(data.page.hasNext);
-                this.loadingMore.set(false);
+                this.ngZone.run(() => {
+                    const currentReport = this.overviewReport();
+                    if (currentReport) {
+                        // Append new transactions to existing
+                        const mergedReport: OverviewReportResponse = {
+                            ...data,
+                            transactions: [...currentReport.transactions, ...data.transactions]
+                        };
+                        this.overviewReport.set(mergedReport);
+                    } else {
+                        this.overviewReport.set(data);
+                    }
+                    this.currentPage.set(nextPage);
+                    this.hasMore.set(data.page.hasNext);
+                    this.loadingMore.set(false);
+                });
             }),
             catchError(error => {
                 console.error('Error loading more transactions:', error);
-                this.loadingMore.set(false);
+                this.ngZone.run(() => {
+                    this.loadingMore.set(false);
+                });
                 return of(null);
             })
         ).subscribe();

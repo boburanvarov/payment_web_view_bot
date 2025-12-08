@@ -1,4 +1,15 @@
-import { Component, Input, OnChanges, AfterViewInit, OnDestroy, SimpleChanges, inject, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  AfterViewInit,
+  OnDestroy,
+  SimpleChanges,
+  inject,
+  ElementRef,
+  ViewChild,
+  OnInit
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import {
@@ -59,6 +70,9 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.selectedStartDate = this.transactionService.selectedStartDate();
         this.selectedEndDate = this.transactionService.selectedEndDate();
         this.selectedCardId = this.transactionService.selectedCardId();
+
+
+
     }
 
     /**

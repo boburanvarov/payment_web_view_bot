@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
@@ -11,24 +11,31 @@ import { filter } from 'rxjs/operators';
     styleUrl: './bottom-nav.component.scss'
 })
 export class BottomNavComponent implements OnInit {
-    activeRoute: string = '';
+    activeRoute: string = '/home';
+    private ngZone = inject(NgZone);
 
-    constructor(private router: Router) {
-        this.activeRoute = this.router.url || '/home';
-    }
+    constructor(private router: Router) { }
 
     ngOnInit(): void {
-        // Set default to home if route is empty or root
-        if (!this.activeRoute || this.activeRoute === '/') {
-            this.activeRoute = '/home';
-        }
+        // Get initial route with fallback to /home
+        this.updateActiveRoute(this.router.url);
 
         // Subscribe to router events to update active route
         this.router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {
-            this.activeRoute = event.url || '/home';
+            this.ngZone.run(() => {
+                this.updateActiveRoute(event.url);
+            });
         });
+    }
+
+    private updateActiveRoute(url: string): void {
+        if (!url || url === '/' || url === '') {
+            this.activeRoute = '/home';
+        } else {
+            this.activeRoute = url;
+        }
     }
 
     navigateTo(route: string): void {
@@ -40,10 +47,17 @@ export class BottomNavComponent implements OnInit {
     }
 
     isActive(route: string): boolean {
-        // Default to home if route is empty or root
-        if (!this.activeRoute || this.activeRoute === '/') {
+        // Handle empty/root as home
+        if (!this.activeRoute || this.activeRoute === '/' || this.activeRoute === '') {
             return route === '/home';
         }
-        return this.activeRoute === route;
+
+        // For home, check if it's root or /home
+        if (route === '/home') {
+            return this.activeRoute === '/' || this.activeRoute === '/home' || this.activeRoute.startsWith('/home');
+        }
+
+        // For other routes, check startsWith to handle query params
+        return this.activeRoute === route || this.activeRoute.startsWith(route);
     }
 }
