@@ -31,8 +31,13 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Clear all filters when navigating away from overview page
-    this.transactionService.clearAllFilters();
+    // Reset filter state without triggering API call
+    this.transactionService.selectedFilterType.set(TransactionFilterType.ALL);
+    this.transactionService.selectedStartDate.set(null);
+    this.transactionService.selectedEndDate.set(null);
+    this.transactionService.selectedCardId.set(null);
+    this.transactionService.currentPage.set(0);
+    this.transactionService.hasMore.set(true);
   }
 
   goBack(): void {
