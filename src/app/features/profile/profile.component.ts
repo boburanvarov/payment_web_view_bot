@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TelegramService } from '../../core/services/telegram.service';
 import { TranslateService } from '../../core/services/translate.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { environment } from '../../../environments/environment';
 
 @Component({
     selector: 'app-profile',
@@ -18,6 +19,7 @@ export class ProfileComponent implements OnInit {
     userPhotoUrl: string = '';
     isDarkMode: boolean = false;
     hasPremiumIcon: boolean = false;
+    appVersion: string = environment.version;
 
     constructor(
         private router: Router,

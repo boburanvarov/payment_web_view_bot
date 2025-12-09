@@ -4,7 +4,8 @@
     left: 0;
     right: 0;
     background: #ffffff;
-    padding: 12px 0 20px;
+    padding: 12px 0;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
     display: flex;
     justify-content: center;
     align-items: center;

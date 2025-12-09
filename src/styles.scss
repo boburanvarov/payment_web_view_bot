@@ -1,7 +1,7 @@
 /* Global Styles */
 :root,
 body.light-theme {
-  --bg-color: #FFFFFF;
+  --bg-color: #F8F9FA;
   --screen-bg: #F8F9FA;
   --text-color: #000000;
   --text-primary: #1a1a1a;
@@ -39,9 +39,9 @@ body.dark-theme {
   --modal-bg: #22262F;
 }
 
-/* Dark theme specific styles */
-body.dark-theme {
-  background: var(--bg-color);
+/* Body background */
+body {
+  background: var(--screen-bg);
   color: var(--text-color);
 }
 
@@ -222,6 +222,11 @@ body {
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
+}
+
+/* Safe area padding for all screens */
+.screen {
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
 }
 
 /* Remove default button styles */

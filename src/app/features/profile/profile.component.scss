@@ -2,8 +2,25 @@
     width: 100%;
     min-height: 100vh;
     padding: 20px;
-    padding-bottom: 100px;
+    padding-top: calc(20px + env(safe-area-inset-top, 0px));
+    padding-bottom: 120px;
     background: var(--screen-bg);
+}
+
+// Version Info
+.version-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 32px;
+    padding: 16px;
+
+    .version-text {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-secondary);
+        opacity: 0.6;
+    }
 }
 
 // Profile Header Card with Gradient
