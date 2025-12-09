@@ -3,7 +3,7 @@
     min-height: 100vh;
     padding: 20px;
     padding-bottom: 100px;
-    background: #F8F9FA;
+    background: var(--screen-bg);
 }
 
 .page-header {
@@ -16,7 +16,7 @@
         flex: 1;
         font-size: 18px;
         font-weight: 600;
-        color: #1A1A1A;
+        color: var(--text-primary);
         margin: 0;
         text-align: center;
     }
@@ -35,12 +35,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1A1A1A;
+    color: var(--text-primary);
     cursor: pointer;
     transition: all 0.2s ease;
 
     &:hover {
-        background: #F3F4F6;
+        background: var(--hover-bg);
     }
 
     i {
@@ -53,7 +53,7 @@
 }
 
 .setting-card {
-    background: #FFFFFF;
+    background: var(--card-bg);
     border-radius: 16px;
     overflow: hidden;
 }
@@ -67,7 +67,7 @@
     .setting-label {
         font-size: 16px;
         font-weight: 500;
-        color: #1A1A1A;
+        color: var(--text-primary);
     }
 }
 
@@ -91,7 +91,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: #E5E7EB;
+        background-color: var(--border-color);
         transition: 0.3s;
         border-radius: 32px;
 
@@ -102,10 +102,10 @@
             width: 26px;
             left: 3px;
             bottom: 3px;
-            background-color: #FFFFFF;
+            background-color: var(--surface-color);
             transition: 0.3s;
             border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
         }
     }
 

@@ -5,11 +5,12 @@ import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-na
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { TransactionService } from '../../core/services/transaction.service';
 import { TransactionFilterType, OverviewReportResponse } from '../../core/models';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, ReportCardComponent],
+  imports: [CommonModule, BottomNavComponent, ReportCardComponent, TranslatePipe],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })

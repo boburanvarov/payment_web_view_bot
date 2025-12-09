@@ -23,7 +23,7 @@
 
     <!-- Loading -->
     <div *ngIf="loading()" class="loading-state">
-        <p>Loading...</p>
+        <p>{{ 'common.loading' | translate }}</p>
     </div>
 
     <!-- Cards carousel -->
@@ -40,10 +40,10 @@
     <!-- Empty Transaction State -->
     <div class="empty-transactions"
         *ngIf="!loading() && cards().length > 0 && (!cardReport() || !$any(cardReport()).content?.length)">
-        <h3 class="section-title">So'ngi tranzaksiyalar</h3>
+        <h3 class="section-title">{{ 'home.recentTransactions' | translate }}</h3>
         <div class="empty-box">
             <img src="assets/img/transaction-empty.png" alt="No transactions">
-            <p>Ma'lumot topilmadi</p>
+            <p>{{ 'common.noData' | translate }}</p>
         </div>
     </div>
 
@@ -57,6 +57,6 @@
 
     <!-- Empty state -->
     <div *ngIf="!loading() && cards().length === 0" class="empty-state">
-        <p>No cards found</p>
+        <p>{{ 'cards.noCards' | translate }}</p>
     </div>
 </div>

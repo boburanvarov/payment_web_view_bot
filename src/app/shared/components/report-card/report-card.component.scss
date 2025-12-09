@@ -29,9 +29,16 @@
   justify-content: center;
   align-items: center;
   background: #0A0D12;
+
   flex-shrink: 0;
   border: none;
   cursor: pointer;
+
+  img {
+    body.dark-theme & {
+      filter: brightness(0) invert(1);
+    }
+  }
 }
 
 .filter-btn {
@@ -39,10 +46,12 @@
   align-items: center;
   gap: 6px;
   padding: 10px 16px;
-  background: #F5F5F7;
+  background: var(--filter-bg);
+
   border: none;
   border-radius: 26px;
-  color: rgba(0, 0, 0, 0.6);
+  color: var(--text-secondary);
+
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
@@ -57,13 +66,14 @@
   }
 
   &.active {
-    background: #FFFFFF;
-    color: #1A1A1A;
+    background: var(--card-bg);
+    color: var(--text-primary);
+
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   &:not(.active):hover {
-    background: #E5E5EA;
+    background: var(--hover-bg);
   }
 }
 
@@ -79,7 +89,7 @@
   max-width: 400px;
   height: 78px;
   padding: 12px;
-  background: #FFFFFF;
+  background: var(--card-bg);
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: all 0.3s ease;
@@ -88,8 +98,6 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
-
-
 }
 
 .stat-icon {
@@ -134,19 +142,18 @@
 
 .stat-label {
   font-size: 16px;
-  color: rgba(0, 0, 0, 0.5);
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .stat-value {
   font-size: 18px;
   font-weight: 700;
-  color: #1A1A1A;
+  color: var(--text-primary);
+
   letter-spacing: -0.3px;
   white-space: nowrap;
 }
-
-
 
 // Transactions Section
 .transactions-section {
@@ -164,14 +171,15 @@
 .section-title {
   font-size: 20px;
   font-weight: 700;
-  color: #1A1A1A;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .see-all-btn {
   background: none;
   border: none;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--text-secondary);
+
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -213,13 +221,14 @@
 .date-header {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--text-secondary);
   padding-left: 4px;
 }
 
 .transaction-item {
-  background: #FFFFFF;
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+
   border-radius: 14px;
   padding: 14px 16px;
   display: flex;
@@ -230,7 +239,8 @@
   min-height: 78px; // Fixed height for consistent scrolling
 
   &:hover {
-    background: #F8F9FA;
+    background: var(--hover-bg);
+
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     transform: translateX(4px);
   }
@@ -245,6 +255,7 @@
 }
 
 .transaction-type {
+
   display: flex;
   align-items: center;
   gap: 8px;
@@ -254,11 +265,13 @@
   min-width: 0; // Important for text truncation in flex
 
   span {
+
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    color: #1A1A1A;
+    color: var(--text-primary);
+
     margin-right: 10px;
   }
 }
@@ -299,7 +312,7 @@
 
 .transaction-time {
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--text-secondary);
 }
 
 // Bottom row: Card logo/number and Amount
@@ -311,11 +324,12 @@
 }
 
 .transaction-card {
+
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
 
   .card-icon {
     width: 16px;

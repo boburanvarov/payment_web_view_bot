@@ -3,14 +3,14 @@
         <button class="back-btn" (click)="goBack()">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <h2>Avto to'lov</h2>
+        <h2>{{ 'autoPayment.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
 
     <div class="page-content">
         <div class="setting-card" *ngIf="!loading">
             <div class="setting-item">
-                <span class="setting-label">Avto to'lov</span>
+                <span class="setting-label">{{ 'autoPayment.enabled' | translate }}</span>
                 <label class="toggle-switch" [class.disabled]="updating">
                     <input type="checkbox" [checked]="autoPaymentEnabled" (click)="onToggleChange()"
                         [disabled]="updating">
@@ -20,7 +20,7 @@
         </div>
 
         <div class="loading-state" *ngIf="loading">
-            <p>Yuklanmoqda...</p>
+            <p>{{ 'common.loading' | translate }}</p>
         </div>
     </div>
 </div>

@@ -2,11 +2,13 @@ import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslateService } from '../../../core/services/translate.service';
 
 @Component({
     selector: 'app-date-range-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule, DatePickerModule],
+    imports: [CommonModule, FormsModule, DatePickerModule, TranslatePipe],
     templateUrl: './date-range-modal.component.html',
     styleUrl: './date-range-modal.component.scss'
 })

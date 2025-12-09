@@ -6,7 +6,7 @@
           stroke-linejoin="round" />
       </svg>
     </button>
-    <h2>Kartalar</h2>
+    <h2>{{ 'cards.title' | translate }}</h2>
     <button class="plus-btn" (click)="openAddCardModal()">
       <i class="fas fa-plus"></i>
     </button>
@@ -15,7 +15,7 @@
 
   <!-- Loading state -->
   <div *ngIf="loading()" class="loading-state">
-    <p>Loading cards...</p>
+    <p>{{ 'common.loading' | translate }}</p>
   </div>
 
   <!-- Cards list -->
@@ -44,10 +44,10 @@
     <div class="empty-image">
       <img src="/assets/img/empty-card.svg" alt="No cards" class="empty-card-image">
     </div>
-    <p class="empty-state-text">Sizda kartalar mavjud emas</p>
+    <p class="empty-state-text">{{ 'cards.noCards' | translate }}</p>
     <button class="add-card-btn" (click)="openAddCardModal()">
       <i class="fas fa-plus"></i>
-      <span>Karta qo'shish</span>
+      <span>{{ 'cards.addCard' | translate }}</span>
     </button>
   </div>
 
@@ -66,7 +66,7 @@
         <strong>{{ deletingCard?.number || '' }}</strong> kartasini o'chirmoqchimisiz?
       </p>
       <div class="dialog-actions">
-        <button class="dialog-btn cancel-btn" (click)="cancelDelete()">Bekor qilish</button>
+        <button class="dialog-btn cancel-btn" (click)="cancelDelete()">{{ 'common.cancel' | translate }}</button>
         <button class="dialog-btn confirm-btn" (click)="confirmDelete()">O'chirish</button>
       </div>
     </div>

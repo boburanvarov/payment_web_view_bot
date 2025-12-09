@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { SubscriptionModalComponent, SubscriptionPlan } from '../../shared/components/subscription-modal/subscription-modal.component';
+import { SubscriptionModalComponent } from '../../shared/components/subscription-modal/subscription-modal.component';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { TranslateService } from '../../core/services/translate.service';
+import { SubscriptionPlan } from '../../core/models';
 
 interface PlanFeature {
-    text: string;
+    key: string;
 }
 
 interface Plan {
     name: string;
+    nameKey: string;
     priceYearly: number;
     priceMonthly: number;
-    description: string;
+    descriptionKey: string;
     features: PlanFeature[];
     isPremium: boolean;
     isCurrentPlan: boolean;
@@ -20,7 +24,7 @@ interface Plan {
 @Component({
     selector: 'app-premium',
     standalone: true,
-    imports: [CommonModule, SubscriptionModalComponent],
+    imports: [CommonModule, SubscriptionModalComponent, TranslatePipe],
     templateUrl: './premium.component.html',
     styleUrl: './premium.component.scss'
 })
@@ -36,34 +40,39 @@ export class PremiumComponent {
     plans: Plan[] = [
         {
             name: 'Freemium',
+            nameKey: 'premium.freemium',
             priceYearly: 60000,
             priceMonthly: 5000,
-            description: 'Istalgan vaqtda obunani bekor qilish mumkin',
+            descriptionKey: 'premium.description',
             features: [
-                { text: '1 ta karta qo\'shish' },
-                { text: '1 ta karta uchun balans bildirishnomasi' },
-                { text: 'Oxirgi 5 ta tranzaksiya amaliyoti' },
-                { text: '1 ta kategoriya bo\'yicha statistika' }
+                { key: 'premium.features.cards1' },
+                { key: 'premium.features.notification1' },
+                { key: 'premium.features.transactions5' },
+                { key: 'premium.features.category1' }
             ],
             isPremium: false,
             isCurrentPlan: true
         },
         {
             name: 'Premium',
+            nameKey: 'premium.premiumPlan',
             priceYearly: 108000,
             priceMonthly: 9000,
-            description: 'Istalgan vaqtda obunani bekor qilish mumkin',
+            descriptionKey: 'premium.description',
             features: [
-                { text: '10 ta karta qo\'shish' },
-                { text: 'Barcha kartalar uchun bildirishnomalar' },
-                { text: 'Barcha tranzaksiyalar tarixini ko\'rish' }
+                { key: 'premium.features.cards10' },
+                { key: 'premium.features.notificationAll' },
+                { key: 'premium.features.transactionsAll' }
             ],
             isPremium: true,
             isCurrentPlan: false
         }
     ];
 
-    constructor(private router: Router) { }
+    constructor(
+        private router: Router,
+        public translateService: TranslateService
+    ) { }
 
     goBack(): void {
         this.router.navigate(['/profile']);
@@ -78,7 +87,7 @@ export class PremiumComponent {
     }
 
     getPeriodLabel(): string {
-        return this.isYearly ? 'Yillik' : 'Har oy';
+        return this.translateService.get(this.isYearly ? 'premium.yearly' : 'premium.monthly');
     }
 
     formatPrice(price: number): string {
@@ -93,10 +102,10 @@ export class PremiumComponent {
     selectPlan(plan: Plan): void {
         if (!this.isCurrentPlanForPeriod(plan)) {
             this.selectedPlanForModal = {
-                name: plan.name,
+                name: this.translateService.get(plan.nameKey),
                 price: this.getPrice(plan),
                 period: this.getPeriodLabel(),
-                description: plan.description
+                description: this.translateService.get(plan.descriptionKey)
             };
             this.showSubscriptionModal = true;
         }

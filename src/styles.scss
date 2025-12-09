@@ -1,36 +1,199 @@
 /* Global Styles */
-:root {
+:root,
+body.light-theme {
   --bg-color: #FFFFFF;
   --screen-bg: #F8F9FA;
   --text-color: #000000;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6B7280;
+  --secondary-text: var(--text-secondary);
+
   --card-bg: #FFFFFF;
-  --secondary-text: #6B7280;
+  --surface-color: #FFFFFF;
+  --border-color: #f0f0f0;
+  --hover-bg: rgba(0, 0, 0, 0.05);
   --icon-color: #000000;
+  --filter-bg: #f5f5f5;
+  --input-bg: #f5f5f5;
+  --nav-bg: #FFFFFF;
+  --modal-bg: #FFFFFF;
 }
 
-/* Dark mode variables and overrides are temporarily disabled
-:root.dark-mode {
-  --bg-color: #111827;
-  --screen-bg: #111827;
-  --text-color: #FFFFFF;
-  --card-bg: #1F2937;
-  --secondary-text: #9CA3AF;
-  --icon-color: #FFFFFF;
+/* Dark theme variables */
+body.dark-theme {
+  --bg-color: #22262F;
+  --screen-bg: #22262F;
+  --text-color: #F7F7F7;
+  --text-primary: #F7F7F7;
+  --text-secondary: #9CA3AF;
+  --secondary-text: var(--text-secondary);
+
+  --card-bg: #0C0E12;
+  --surface-color: #0C0E12;
+  --border-color: #2D3139;
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --icon-color: #F7F7F7;
+  --filter-bg: #0C0E12;
+  --input-bg: #0C0E12;
+  --nav-bg: #0C0E12;
+  --modal-bg: #22262F;
 }
 
-// Dark mode - make SVG images and icons white
-.dark-mode img[src$=".svg"] {
-  filter: brightness(0) invert(1);
+/* Dark theme specific styles */
+body.dark-theme {
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
-.dark-mode i,
-.dark-mode .fa,
-.dark-mode .fas,
-.dark-mode .far,
-.dark-mode .fab {
-  color: var(--icon-color) !important;
+body.dark-theme .screen {
+  background: var(--screen-bg);
 }
-*/
+
+/* Bottom Navigation dark mode */
+body.dark-theme .bottom-nav,
+body.dark-theme app-bottom-nav .bottom-nav {
+  background: var(--nav-bg) !important;
+  border-top-color: var(--border-color);
+}
+
+body.dark-theme .bottom-nav .nav-item {
+  color: var(--text-secondary);
+}
+
+body.dark-theme .bottom-nav .nav-item.active {
+  color: var(--text-primary);
+}
+
+/* Modal dark mode */
+body.dark-theme .modal-content {
+  background: var(--modal-bg) !important;
+  color: var(--text-primary);
+}
+
+body.dark-theme .modal-header {
+  border-bottom-color: var(--border-color);
+}
+
+body.dark-theme .modal-title {
+  color: var(--text-primary);
+}
+
+body.dark-theme .modal-footer {
+  border-top-color: var(--border-color);
+}
+
+body.dark-theme .modal-close-btn {
+  color: var(--text-secondary);
+}
+
+/* Radio options in modals */
+body.dark-theme .radio-option,
+body.dark-theme .card-option,
+body.dark-theme .language-item {
+  background: var(--card-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+body.dark-theme .radio-label,
+body.dark-theme .language-name {
+  color: var(--text-primary);
+}
+
+/* Cards and items */
+body.dark-theme .stat-card,
+body.dark-theme .info-card,
+body.dark-theme .menu-item,
+body.dark-theme .filter-btn,
+body.dark-theme .card-item,
+body.dark-theme .transaction-item,
+body.dark-theme .settings-card,
+body.dark-theme .settings-item {
+  background: var(--card-bg);
+  color: var(--text-primary);
+}
+
+body.dark-theme .report-card {
+  background: var(--screen-bg);
+}
+
+body.dark-theme .filter-section .filter-btn {
+  background: var(--filter-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+body.dark-theme .filter-section .filter-btn.active {
+  background: #3B82F6;
+  color: #fff;
+}
+
+body.dark-theme input,
+body.dark-theme textarea {
+  background: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+body.dark-theme .section-title,
+body.dark-theme .page-title,
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3 {
+  color: var(--text-primary);
+}
+
+body.dark-theme .stat-label,
+body.dark-theme .label,
+body.dark-theme .item-label {
+  color: var(--text-secondary);
+}
+
+body.dark-theme .stat-value,
+body.dark-theme .value {
+  color: var(--text-primary);
+}
+
+body.dark-theme svg {
+  stroke: var(--icon-color);
+}
+
+body.dark-theme .back-btn svg {
+  stroke: var(--icon-color);
+}
+
+/* PrimeNG DatePicker dark mode */
+body.dark-theme .p-datepicker {
+  background: var(--modal-bg);
+  color: var(--text-primary);
+}
+
+body.dark-theme .p-datepicker-header {
+  background: var(--modal-bg);
+  color: var(--text-primary);
+  border-bottom-color: var(--border-color);
+}
+
+body.dark-theme .p-datepicker table td>span {
+  color: var(--text-primary);
+}
+
+body.dark-theme .p-datepicker table td.p-datepicker-today>span {
+  background: var(--border-color);
+}
+
+body.dark-theme .p-datepicker table th>span {
+  color: var(--text-secondary);
+}
+
+body.dark-theme .p-datepicker-title {
+  color: var(--text-primary);
+}
+
+body.dark-theme .p-datepicker .p-datepicker-prev,
+body.dark-theme .p-datepicker .p-datepicker-next {
+  color: var(--text-primary);
+}
 
 * {
   margin: 0;
@@ -88,7 +251,7 @@ textarea {
   background: rgba(0, 0, 0, 0.05);
 }
 
-.dark-mode ::-webkit-scrollbar-track {
+body.dark-theme ::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
 }
 

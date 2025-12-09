@@ -1,0 +1,205 @@
+{
+    "common": {
+        "save": "Saqlash",
+        "cancel": "Bekor qilish",
+        "close": "Yopish",
+        "back": "Orqaga",
+        "loading": "Yuklanmoqda...",
+        "continue": "Davom etish",
+        "confirm": "Tasdiqlash",
+        "success": "Muvaffaqiyatli!",
+        "error": "Xatolik",
+        "yes": "Ha",
+        "no": "Yo'q",
+        "apply": "Qo'llash",
+        "filter": "Saralash",
+        "all": "Barchasi",
+        "noData": "Ma'lumot topilmadi",
+        "period": "Davr",
+        "reset": "Tozalash",
+        "select": "Tanlash"
+    },
+    "nav": {
+        "home": "Asosiy",
+        "overview": "Hisobot",
+        "chart": "Grafik",
+        "cards": "Kartalar",
+        "profile": "Profil"
+    },
+    "home": {
+        "balance": "Balans",
+        "income": "Kirim",
+        "expenses": "Chiqim",
+        "transactions": "Tranzaksiyalar",
+        "recentTransactions": "So'ngi tranzaksiyalar",
+        "seeAll": "Barchasi",
+        "noTransactions": "Tranzaksiyalar yo'q",
+        "operations": "Amaliyotlar",
+        "currencyRates": "Valyuta kurslari",
+        "bestOffers": "Eng yaxshi takliflar",
+        "cardAndAccounts": "Karta va hisob raqamlar"
+    },
+    "overview": {
+        "title": "Hisobot",
+        "period": "Davr",
+        "cardAndAccounts": "Karta va hisob raqamlar",
+        "sort": "Saralash",
+        "totalIncome": "Jami kirim",
+        "totalExpenses": "Jami chiqim",
+        "myExpenses": "Xarajatlarim"
+    },
+    "chart": {
+        "title": "Monitoring",
+        "myExpenses": "Xarajatlarim"
+    },
+    "filters": {
+        "all": "Barchasi",
+        "income": "Kirim",
+        "expense": "Chiqim",
+        "selectPeriod": "Davrni tanlang",
+        "selectCard": "Kartani tanlang",
+        "allCards": "Barcha kartalar",
+        "sortBy": "Saralash",
+        "sortByDate": "Sana bo'yicha",
+        "sortByAmount": "Summa bo'yicha",
+        "ascending": "O'sish tartibida",
+        "descending": "Kamayish tartibida",
+        "from": "Dan",
+        "to": "Gacha"
+    },
+    "months": {
+        "january": "Yanvar",
+        "february": "Fevral",
+        "march": "Mart",
+        "april": "Aprel",
+        "may": "May",
+        "june": "Iyun",
+        "july": "Iyul",
+        "august": "Avgust",
+        "september": "Sentabr",
+        "october": "Oktabr",
+        "november": "Noyabr",
+        "december": "Dekabr",
+        "short": {
+            "jan": "Yan",
+            "feb": "Fev",
+            "mar": "Mar",
+            "apr": "Apr",
+            "may": "May",
+            "jun": "Iyn",
+            "jul": "Iyl",
+            "aug": "Avg",
+            "sep": "Sen",
+            "oct": "Okt",
+            "nov": "Noy",
+            "dec": "Dek"
+        }
+    },
+    "days": {
+        "monday": "Dushanba",
+        "tuesday": "Seshanba",
+        "wednesday": "Chorshanba",
+        "thursday": "Payshanba",
+        "friday": "Juma",
+        "saturday": "Shanba",
+        "sunday": "Yakshanba",
+        "short": {
+            "mon": "Du",
+            "tue": "Se",
+            "wed": "Ch",
+            "thu": "Pa",
+            "fri": "Ju",
+            "sat": "Sh",
+            "sun": "Ya"
+        }
+    },
+    "profile": {
+        "title": "Profil",
+        "premium": "Obunalar",
+        "personalInfo": "Shaxsiy ma'lumotlar",
+        "autoPayment": "Avto to'lov",
+        "settings": "Sozlamalar",
+        "faq": "Ko'p so'raladigan savollar",
+        "help": "Yordam xizmati",
+        "logout": "Chiqish",
+        "version": "Versiya"
+    },
+    "premium": {
+        "title": "Obunalar",
+        "yearly": "Yillik",
+        "monthly": "Oylik",
+        "discount": "20% chegirma",
+        "freemium": "Freemium",
+        "premiumPlan": "Premium",
+        "currentPlan": "Siz shu tarifdasiz",
+        "start": "Boshlash",
+        "description": "Istalgan vaqtda obunani bekor qilish mumkin",
+        "features": {
+            "cards1": "1 ta karta qo'shish",
+            "cards10": "10 ta karta qo'shish",
+            "notification1": "1 ta karta uchun balans bildirishnomasi",
+            "notificationAll": "Barcha kartalar uchun bildirishnomalar",
+            "transactions5": "Oxirgi 5 ta tranzaksiya amaliyoti",
+            "transactionsAll": "Barcha tranzaksiyalar tarixini ko'rish",
+            "category1": "1 ta kategoriya bo'yicha statistika"
+        }
+    },
+    "subscription": {
+        "title": "Obuna yoqish",
+        "subscriptionType": "Obuna turi",
+        "subscriptionPrice": "Obuna narxi",
+        "total": "Jami",
+        "paymentCard": "To'lov kartasi",
+        "paymentStatus": "To'lov holati",
+        "paid": "To'landi",
+        "confirmPayment": "To'lovni amalga oshirish",
+        "noCards": "Kartalar topilmadi"
+    },
+    "personalInfo": {
+        "title": "Shaxsiy ma'lumotlar",
+        "name": "Ism",
+        "username": "Username",
+        "phone": "Telefon raqam"
+    },
+    "autoPayment": {
+        "title": "Avto to'lov",
+        "enabled": "Avto to'lov"
+    },
+    "settings": {
+        "title": "Sozlamalar",
+        "language": "Til",
+        "theme": "Mavzu",
+        "dayTheme": "Kunduzgi",
+        "nightTheme": "Tungi"
+    },
+    "faq": {
+        "title": "Ko'p so'raladigan savollar"
+    },
+    "help": {
+        "title": "Yordam xizmati",
+        "officialChannel": "Rasmiy kanal",
+        "telegramBot": "Yordamchi - Telegram bot",
+        "contactUs": "Murojaat qilish",
+        "workHours": "Dushanba-Shanba: 09:00 dan 18:00 gacha"
+    },
+    "cards": {
+        "title": "Kartalar",
+        "addCard": "Karta qo'shish",
+        "balance": "Balans",
+        "noCards": "Kartalar yo'q",
+        "deleteCard": "Kartani o'chirish",
+        "deleteConfirm": "Siz haqiqatdan ham bu kartani o'chirmoqchimisiz?",
+        "cardDeleted": "Karta o'chirildi"
+    },
+    "language": {
+        "title": "Til",
+        "uzbek": "O'zbek tili",
+        "russian": "Русский язык",
+        "english": "English language"
+    },
+    "theme": {
+        "title": "Mavzu",
+        "light": "Kunduzgi",
+        "dark": "Tungi"
+    }
+}

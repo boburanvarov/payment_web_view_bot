@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CurrencyService } from '../../../core/services/currency.service';
 import { CurrencyPair } from '../../../core/models/currency.interfaces';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-exchange-rate',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './exchange-rate.component.html',
   styleUrl: './exchange-rate.component.scss'
 })

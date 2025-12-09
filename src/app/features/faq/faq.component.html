@@ -1,24 +1,38 @@
-<div class="screen sub-page-screen">
+<div class="screen faq-screen">
     <div class="page-header">
         <button class="back-btn" (click)="goBack()">
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-chevron-left"></i>
         </button>
-        <h2>Ko'p beriladigan savollar</h2>
+        <h2>{{ 'faq.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
 
     <div class="page-content">
-        <div class="faq-list">
-            <div class="faq-item" *ngFor="let item of faqItems; let i = index" [class.open]="item.isOpen"
-                (click)="toggleFaq(i)">
-                <div class="faq-question">
-                    <span>{{ item.question }}</span>
-                    <i class="fas" [class.fa-chevron-down]="!item.isOpen" [class.fa-chevron-up]="item.isOpen"></i>
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="loading()">
+            <div class="loading-spinner"></div>
+            <p>{{ 'common.loading' | translate }}</p>
+        </div>
+
+        <!-- FAQ List -->
+        <div class="faq-card" *ngIf="!loading() && faqItems().length > 0">
+            <div class="faq-item" *ngFor="let item of faqItems(); let i = index" [class.open]="item.isOpen">
+                <div class="faq-question" (click)="toggleFaq(i)">
+                    <span>{{ getQuestion(item) }}</span>
+                    <div class="toggle-icon" [class.open]="item.isOpen">
+                        <i class="fas fa-minus" *ngIf="item.isOpen"></i>
+                        <i class="fas fa-plus" *ngIf="!item.isOpen"></i>
+                    </div>
                 </div>
                 <div class="faq-answer" *ngIf="item.isOpen">
-                    {{ item.answer }}
+                    {{ getAnswer(item) }}
                 </div>
             </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="!loading() && faqItems().length === 0">
+            <p>{{ 'common.noData' | translate }}</p>
         </div>
     </div>
 </div>

@@ -2,11 +2,12 @@ import { Component, OnInit, NgZone, inject } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-bottom-nav',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TranslatePipe],
     templateUrl: './bottom-nav.component.html',
     styleUrl: './bottom-nav.component.scss'
 })

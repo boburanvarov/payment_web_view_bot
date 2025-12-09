@@ -10,11 +10,12 @@ import { ReportCardComponent } from '../../shared/components/report-card/report-
 import { BannerCarouselComponent, Banner } from '../../shared/components/banner-carousel/banner-carousel.component';
 import { ExchangeRateComponent } from '../../shared/components/exchange-rate/exchange-rate.component';
 import { Card } from '../../core/models';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent],
+    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent, TranslatePipe],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

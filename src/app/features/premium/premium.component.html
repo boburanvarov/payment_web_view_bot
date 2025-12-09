@@ -3,43 +3,43 @@
         <button class="back-btn" (click)="goBack()">
             <i class="fas fa-chevron-left"></i>
         </button>
-        <h2>Obunalar</h2>
+        <h2>{{ 'premium.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
 
     <!-- Period Toggle -->
     <div class="period-toggle">
         <button class="toggle-btn" [class.active]="isYearly" (click)="togglePeriod(true)">
-            Yillik
-            <span class="discount-badge" *ngIf="isYearly">20% chegirma</span>
+            {{ 'premium.yearly' | translate }}
+            <span class="discount-badge" *ngIf="isYearly">{{ 'premium.discount' | translate }}</span>
         </button>
         <button class="toggle-btn" [class.active]="!isYearly" (click)="togglePeriod(false)">
-            Oylik
+            {{ 'premium.monthly' | translate }}
         </button>
     </div>
 
     <!-- Subscription Plans -->
     <div class="plans-container">
         <div class="plan-card" *ngFor="let plan of plans" [class.premium]="plan.isPremium">
-            <div class="plan-badge">{{ plan.name }}</div>
+            <div class="plan-badge">{{ plan.nameKey | translate }}</div>
 
             <div class="plan-price">
                 <span class="amount">{{ formatPrice(getPrice(plan)) }} UZS</span>
                 <span class="period">/ {{ getPeriodLabel() }}</span>
             </div>
 
-            <p class="plan-description">{{ plan.description }}</p>
+            <p class="plan-description">{{ plan.descriptionKey | translate }}</p>
 
             <div class="plan-features">
                 <div class="feature-item" *ngFor="let feature of plan.features">
                     <i class="fas fa-check"></i>
-                    <span>{{ feature.text }}</span>
+                    <span>{{ feature.key | translate }}</span>
                 </div>
             </div>
 
             <button class="plan-btn" [class.current]="isCurrentPlanForPeriod(plan)"
                 [class.active]="!isCurrentPlanForPeriod(plan)" (click)="selectPlan(plan)">
-                {{ isCurrentPlanForPeriod(plan) ? 'Siz shu tarifdasiz' : 'Boshlash' }}
+                {{ isCurrentPlanForPeriod(plan) ? ('premium.currentPlan' | translate) : ('premium.start' | translate) }}
             </button>
         </div>
     </div>

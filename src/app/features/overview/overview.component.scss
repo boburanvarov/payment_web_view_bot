@@ -12,12 +12,12 @@
     justify-content: space-between;
     padding: 16px 20px;
     background: var(--screen-bg);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--border-color);
 
     h2 {
         font-size: 20px;
         font-weight: 700;
-        color: #1A1A1A;
+        color: var(--text-primary);
         margin: 0;
         flex: 1;
         text-align: center;
@@ -28,17 +28,17 @@
         width: 40px;
         height: 40px;
         border-radius: 12px;
-        background: #F5F5F7;
+        background: var(--card-bg);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #1A1A1A;
+        color: var(--text-primary);
         border: none;
         cursor: pointer;
         transition: all 0.2s ease;
 
         &:hover {
-            background: #E5E5EA;
+            background: var(--hover-bg);
             transform: scale(1.05);
         }
 
@@ -49,6 +49,19 @@
         svg {
             width: 24px;
             height: 24px;
+        }
+
+        img {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    .clock-btn img {
+
+        // Dark mode: invert to white
+        body.dark-theme & {
+            filter: brightness(0) invert(1);
         }
     }
 }

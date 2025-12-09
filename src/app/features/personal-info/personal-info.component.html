@@ -3,22 +3,22 @@
         <button class="back-btn" (click)="goBack()">
             <i class="fas fa-arrow-left"></i>
         </button>
-        <h2>Shaxsiy ma'lumotlar</h2>
+        <h2>{{ 'personalInfo.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
 
     <div class="page-content">
         <div class="info-card">
             <div class="info-item">
-                <span class="label">Ism</span>
+                <span class="label">{{ 'personalInfo.name' | translate }}</span>
                 <span class="value">{{ userName }}</span>
             </div>
             <div class="info-item">
-                <span class="label">Username</span>
+                <span class="label">{{ 'personalInfo.username' | translate }}</span>
                 <span class="value">{{ userEmail }}</span>
             </div>
             <div class="info-item">
-                <span class="label">Telefon raqam</span>
+                <span class="label">{{ 'personalInfo.phone' | translate }}</span>
                 <span class="value">{{ userPhone }}</span>
             </div>
         </div>

@@ -1,0 +1,205 @@
+{
+    "common": {
+        "save": "Сохранить",
+        "cancel": "Отмена",
+        "close": "Закрыть",
+        "back": "Назад",
+        "loading": "Загрузка...",
+        "continue": "Продолжить",
+        "confirm": "Подтвердить",
+        "success": "Успешно!",
+        "error": "Ошибка",
+        "yes": "Да",
+        "no": "Нет",
+        "apply": "Применить",
+        "filter": "Фильтр",
+        "all": "Все",
+        "noData": "Данные не найдены",
+        "period": "Период",
+        "reset": "Сбросить",
+        "select": "Выбрать"
+    },
+    "nav": {
+        "home": "Главная",
+        "overview": "Обзор",
+        "chart": "График",
+        "cards": "Карты",
+        "profile": "Профиль"
+    },
+    "home": {
+        "balance": "Баланс",
+        "income": "Доход",
+        "expenses": "Расход",
+        "transactions": "Транзакции",
+        "recentTransactions": "Последние транзакции",
+        "seeAll": "Все",
+        "noTransactions": "Нет транзакций",
+        "operations": "Операции",
+        "currencyRates": "Курсы валют",
+        "bestOffers": "Лучшие предложения",
+        "cardAndAccounts": "Карты и счета"
+    },
+    "overview": {
+        "title": "Отчёт",
+        "period": "Период",
+        "cardAndAccounts": "Карты и счета",
+        "sort": "Сортировка",
+        "totalIncome": "Общий доход",
+        "totalExpenses": "Общие расходы",
+        "myExpenses": "Мои расходы"
+    },
+    "chart": {
+        "title": "Мониторинг",
+        "myExpenses": "Мои расходы"
+    },
+    "filters": {
+        "all": "Все",
+        "income": "Доход",
+        "expense": "Расход",
+        "selectPeriod": "Выберите период",
+        "selectCard": "Выберите карту",
+        "allCards": "Все карты",
+        "sortBy": "Сортировка",
+        "sortByDate": "По дате",
+        "sortByAmount": "По сумме",
+        "ascending": "По возрастанию",
+        "descending": "По убыванию",
+        "from": "От",
+        "to": "До"
+    },
+    "months": {
+        "january": "Январь",
+        "february": "Февраль",
+        "march": "Март",
+        "april": "Апрель",
+        "may": "Май",
+        "june": "Июнь",
+        "july": "Июль",
+        "august": "Август",
+        "september": "Сентябрь",
+        "october": "Октябрь",
+        "november": "Ноябрь",
+        "december": "Декабрь",
+        "short": {
+            "jan": "Янв",
+            "feb": "Фев",
+            "mar": "Мар",
+            "apr": "Апр",
+            "may": "Май",
+            "jun": "Июн",
+            "jul": "Июл",
+            "aug": "Авг",
+            "sep": "Сен",
+            "oct": "Окт",
+            "nov": "Ноя",
+            "dec": "Дек"
+        }
+    },
+    "days": {
+        "monday": "Понедельник",
+        "tuesday": "Вторник",
+        "wednesday": "Среда",
+        "thursday": "Четверг",
+        "friday": "Пятница",
+        "saturday": "Суббота",
+        "sunday": "Воскресенье",
+        "short": {
+            "mon": "Пн",
+            "tue": "Вт",
+            "wed": "Ср",
+            "thu": "Чт",
+            "fri": "Пт",
+            "sat": "Сб",
+            "sun": "Вс"
+        }
+    },
+    "profile": {
+        "title": "Профиль",
+        "premium": "Подписки",
+        "personalInfo": "Личные данные",
+        "autoPayment": "Автоплатёж",
+        "settings": "Настройки",
+        "faq": "Часто задаваемые вопросы",
+        "help": "Помощь",
+        "logout": "Выход",
+        "version": "Версия"
+    },
+    "premium": {
+        "title": "Подписки",
+        "yearly": "Годовая",
+        "monthly": "Ежемесячная",
+        "discount": "Скидка 20%",
+        "freemium": "Freemium",
+        "premiumPlan": "Premium",
+        "currentPlan": "Ваш текущий тариф",
+        "start": "Начать",
+        "description": "Вы можете отменить подписку в любое время",
+        "features": {
+            "cards1": "Добавление 1 карты",
+            "cards10": "Добавление 10 карт",
+            "notification1": "Уведомление о балансе для 1 карты",
+            "notificationAll": "Уведомления для всех карт",
+            "transactions5": "Последние 5 транзакций",
+            "transactionsAll": "Просмотр всей истории транзакций",
+            "category1": "Статистика по 1 категории"
+        }
+    },
+    "subscription": {
+        "title": "Оформить подписку",
+        "subscriptionType": "Тип подписки",
+        "subscriptionPrice": "Стоимость подписки",
+        "total": "Итого",
+        "paymentCard": "Карта оплаты",
+        "paymentStatus": "Статус оплаты",
+        "paid": "Оплачено",
+        "confirmPayment": "Оплатить",
+        "noCards": "Карты не найдены"
+    },
+    "personalInfo": {
+        "title": "Личные данные",
+        "name": "Имя",
+        "username": "Username",
+        "phone": "Номер телефона"
+    },
+    "autoPayment": {
+        "title": "Автоплатёж",
+        "enabled": "Автоплатёж"
+    },
+    "settings": {
+        "title": "Настройки",
+        "language": "Язык",
+        "theme": "Тема",
+        "dayTheme": "Дневная",
+        "nightTheme": "Ночная"
+    },
+    "faq": {
+        "title": "Часто задаваемые вопросы"
+    },
+    "help": {
+        "title": "Служба поддержки",
+        "officialChannel": "Официальный канал",
+        "telegramBot": "Помощник - Telegram бот",
+        "contactUs": "Связаться с нами",
+        "workHours": "Понедельник-Суббота: с 09:00 до 18:00"
+    },
+    "cards": {
+        "title": "Карты",
+        "addCard": "Добавить карту",
+        "balance": "Баланс",
+        "noCards": "Нет карт",
+        "deleteCard": "Удалить карту",
+        "deleteConfirm": "Вы уверены, что хотите удалить эту карту?",
+        "cardDeleted": "Карта удалена"
+    },
+    "language": {
+        "title": "Язык",
+        "uzbek": "O'zbek tili",
+        "russian": "Русский язык",
+        "english": "English language"
+    },
+    "theme": {
+        "title": "Тема",
+        "light": "Дневная",
+        "dark": "Ночная"
+    }
+}

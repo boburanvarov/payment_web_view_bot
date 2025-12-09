@@ -1,14 +1,14 @@
 import {
-  Component,
-  Input,
-  OnChanges,
-  AfterViewInit,
-  OnDestroy,
-  SimpleChanges,
-  inject,
-  ElementRef,
-  ViewChild,
-  OnInit
+    Component,
+    Input,
+    OnChanges,
+    AfterViewInit,
+    OnDestroy,
+    SimpleChanges,
+    inject,
+    ElementRef,
+    ViewChild,
+    OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -26,11 +26,12 @@ import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionTypeModalComponent } from '../transaction-type-modal/transaction-type-modal.component';
 import { DateRangeModalComponent } from '../date-range-modal/date-range-modal.component';
 import { CardFilterModalComponent } from '../card-filter-modal/card-filter-modal.component';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent, CardFilterModalComponent],
+    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent, CardFilterModalComponent, TranslatePipe],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })

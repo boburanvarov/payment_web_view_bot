@@ -1,7 +1,7 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
     <div class="modal-content" (click)="stopPropagation($event)">
         <div class="modal-header">
-            <h3 class="modal-title">Amaliyotlar turi</h3>
+            <h3 class="modal-title">{{ 'home.operations' | translate }}</h3>
             <button class="modal-close-btn" (click)="onClose()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -13,7 +13,7 @@
         <div class="modal-body">
             <div class="radio-group">
                 <label class="radio-option" *ngFor="let option of filterOptions">
-                    <span class="radio-label">{{ option.label }}</span>
+                    <span class="radio-label">{{ option.labelKey | translate }}</span>
                     <input type="radio" name="transactionType" [value]="option.value" [(ngModel)]="tempSelectedType"
                         class="radio-input">
                     <span class="radio-custom"></span>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="modal-footer">
-            <button class="apply-btn" (click)="onApply()">Saralash</button>
+            <button class="apply-btn" (click)="onApply()">{{ 'common.filter' | translate }}</button>
         </div>
     </div>
 </div>

@@ -3,7 +3,7 @@
     min-height: 100vh;
     padding: 20px;
     padding-bottom: 100px;
-    background: #F8F9FA;
+    background: var(--screen-bg);
 }
 
 // Profile Header Card with Gradient
@@ -70,13 +70,13 @@
     h3 {
         font-size: 18px;
         font-weight: 600;
-        color: #FFFFFF;
+        color: var(--text-primary);
         margin: 0 0 4px 0;
     }
 
     p {
         font-size: 14px;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--text-secondary);
         margin: 0;
     }
 }
@@ -111,14 +111,15 @@
 }
 
 .menu-item {
-    background: #FFFFFF;
+    background: var(--card-bg);
+
     padding: 16px 20px;
     display: flex;
     align-items: center;
     gap: 14px;
     transition: all 0.2s ease;
     cursor: pointer;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid var(--border-color);
 
     &:first-child {
         border-radius: 16px 16px 0 0;
@@ -130,14 +131,14 @@
     }
 
     &:hover {
-        background: #F8F9FA;
+        background: var(--hover-bg);
     }
 
     span {
         flex: 1;
         font-size: 15px;
         font-weight: 500;
-        color: #1A1A1A;
+        color: var(--text-primary);
     }
 
     >img {

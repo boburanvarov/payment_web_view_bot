@@ -1,15 +1,19 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {
-    TransactionFilterType,
-    getTransactionFilterOptions
-} from '../../../core/models';
+import { TransactionFilterType } from '../../../core/models';
+import { TranslatePipe } from '../../pipes/translate.pipe';
+import { TranslateService } from '../../../core/services/translate.service';
+
+interface FilterOption {
+    value: TransactionFilterType;
+    labelKey: string;
+}
 
 @Component({
     selector: 'app-transaction-type-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, TranslatePipe],
     templateUrl: './transaction-type-modal.component.html',
     styleUrl: './transaction-type-modal.component.scss'
 })
@@ -20,11 +24,17 @@ export class TransactionTypeModalComponent implements OnInit {
     @Output() close = new EventEmitter<void>();
     @Output() apply = new EventEmitter<TransactionFilterType>();
 
+    private translateService = inject(TranslateService);
+
     // Temporary selection for radio buttons
     tempSelectedType: TransactionFilterType = TransactionFilterType.ALL;
 
-    // Filter options for radio buttons
-    filterOptions = getTransactionFilterOptions();
+    // Filter options for radio buttons with translation keys
+    filterOptions: FilterOption[] = [
+        { value: TransactionFilterType.ALL, labelKey: 'filters.all' },
+        { value: TransactionFilterType.INCOME, labelKey: 'filters.income' },
+        { value: TransactionFilterType.EXPENSE, labelKey: 'filters.expense' }
+    ];
 
     ngOnInit(): void {
         this.tempSelectedType = this.selectedType;

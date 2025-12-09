@@ -1,8 +1,8 @@
 <div class="exchange-rate" (click)="closeDropdowns()">
   <!-- Header -->
   <div class="section-header">
-    <h3 class="section-title">Valyuta kurslari</h3>
-    <button class="see-all-btn" (click)="navigateToAll()">Barchasi</button>
+    <h3 class="section-title">{{ 'home.currencyRates' | translate }}</h3>
+    <button class="see-all-btn" (click)="navigateToAll()">{{ 'home.seeAll' | translate }}</button>
   </div>
 
   <!-- Currency Converter -->
@@ -67,8 +67,8 @@
   <!-- Best Offers -->
   <div class="best-offers-section" *ngIf="currencyData() && currencyData()!.bestOffers.length > 0">
     <div class="section-header">
-      <h3 class="section-title">Eng yaxshi takliflar</h3>
-      <button class="see-all-btn" (click)="navigateToAll()">Barchasi</button>
+      <h3 class="section-title">{{ 'home.bestOffers' | translate }}</h3>
+      <button class="see-all-btn" (click)="navigateToAll()">{{ 'home.seeAll' | translate }}</button>
     </div>
     <div class="best-offers-table">
       <div class="table-header">
@@ -88,6 +88,6 @@
 
   <!-- Loading State -->
   <div *ngIf="loading()" class="loading-state">
-    <p>Loading...</p>
+    <p>{{ 'common.loading' | translate }}</p>
   </div>
 </div>

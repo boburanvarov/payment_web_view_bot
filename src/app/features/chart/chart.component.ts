@@ -1,10 +1,13 @@
-import { Component, OnInit, NgZone, inject } from '@angular/core';
+import { Component, OnInit, NgZone, inject, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NgxEchartsModule, NGX_ECHARTS_CONFIG } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
 import { environment } from '../../../environments/environment';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { TranslateService } from '../../core/services/translate.service';
+import { ThemeService } from '../../core/services/theme.service';
 
 interface CategoryData {
     category: string;
@@ -25,7 +28,7 @@ interface ChartTransaction {
 @Component({
     selector: 'app-chart',
     standalone: true,
-    imports: [CommonModule, NgxEchartsModule],
+    imports: [CommonModule, NgxEchartsModule, TranslatePipe],
     providers: [
         {
             provide: NGX_ECHARTS_CONFIG,
@@ -37,6 +40,8 @@ interface ChartTransaction {
 })
 export class ChartComponent implements OnInit {
     private ngZone = inject(NgZone);
+    private translateService = inject(TranslateService);
+    private themeService = inject(ThemeService);
 
     // Month navigation
     months: { name: string; startDate: string; endDate: string }[] = [];
@@ -65,7 +70,16 @@ export class ChartComponent implements OnInit {
     constructor(
         private router: Router,
         private http: HttpClient
-    ) { }
+    ) {
+        // React to language changes
+        effect(() => {
+            this.translateService.currentLanguage();
+            this.initMonths();
+            if (this.categories.length > 0) {
+                this.updateChart();
+            }
+        });
+    }
 
     ngOnInit(): void {
         this.initMonths();
@@ -94,9 +108,13 @@ export class ChartComponent implements OnInit {
     }
 
     private getMonthName(monthIndex: number): string {
-        const names = ['Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
-            'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr'];
-        return names[monthIndex];
+        const keys = [
+            'months.short.jan', 'months.short.feb', 'months.short.mar',
+            'months.short.apr', 'months.short.may', 'months.short.jun',
+            'months.short.jul', 'months.short.aug', 'months.short.sep',
+            'months.short.oct', 'months.short.nov', 'months.short.dec'
+        ];
+        return this.translateService.get(keys[monthIndex]);
     }
 
     selectMonth(index: number): void {
@@ -131,72 +149,71 @@ export class ChartComponent implements OnInit {
     }
 
     private processTransactions(transactions: ChartTransaction[]): void {
+        // Group transactions by category
         const categoryMap = new Map<string, {
-            totalAmount: number;
+            category: string;
             categoryDescription: string;
             mccLogoUrl: string;
+            total: number;
         }>();
 
-        let total = 0;
+        this.totalExpenses = 0;
 
-        transactions.forEach(t => {
-            const amount = Math.abs(t.amount);
-            total += amount;
+        transactions.forEach((tx: ChartTransaction) => {
+            const key = tx.category || 'OTHER';
+            const existing = categoryMap.get(key);
+            const amount = Math.abs(tx.amount);
 
-            const key = t.category || 'Boshqa';
-            if (categoryMap.has(key)) {
-                const existing = categoryMap.get(key)!;
-                existing.totalAmount += amount;
+            if (existing) {
+                existing.total += amount;
             } else {
                 categoryMap.set(key, {
-                    totalAmount: amount,
-                    categoryDescription: t.categoryDescription || t.category || 'Boshqa',
-                    mccLogoUrl: t.mccLogoUrl || ''
+                    category: tx.category,
+                    categoryDescription: tx.categoryDescription || tx.category || 'Other',
+                    mccLogoUrl: tx.mccLogoUrl || '',
+                    total: amount
                 });
             }
+            this.totalExpenses += amount;
         });
 
-        this.totalExpenses = total;
+        // Convert to array and calculate percentages
+        const categoriesArray = Array.from(categoryMap.values());
+        categoriesArray.sort((a, b) => b.total - a.total);
 
-        let colorIndex = 0;
-        this.categories = Array.from(categoryMap.entries())
-            .map(([category, data]) => ({
-                category,
-                categoryDescription: data.categoryDescription,
-                mccLogoUrl: data.mccLogoUrl,
-                totalAmount: data.totalAmount,
-                percentage: total > 0 ? Number(((data.totalAmount / total) * 100).toFixed(1)) : 0,
-                color: this.colors[colorIndex++ % this.colors.length]
-            }))
-            .sort((a, b) => b.totalAmount - a.totalAmount);
+        this.categories = categoriesArray.map((cat, index) => ({
+            category: cat.category,
+            categoryDescription: cat.categoryDescription,
+            mccLogoUrl: cat.mccLogoUrl,
+            totalAmount: cat.total,
+            percentage: this.totalExpenses > 0 ? Math.round((cat.total / this.totalExpenses) * 1000) / 10 : 0,
+            color: this.colors[index % this.colors.length]
+        }));
     }
 
     private updateChart(): void {
+        if (this.categories.length === 0) {
+            this.chartOption = {};
+            return;
+        }
+
         const chartData = this.categories.map((cat, index) => ({
-            value: cat.percentage,
+            value: cat.totalAmount,
             name: cat.categoryDescription,
-            icon: cat.mccLogoUrl,
             itemStyle: { color: cat.color },
             label: {
-                formatter: cat.mccLogoUrl && cat.percentage >= 10
-                    ? `{icon${index}|}\n{val|${cat.percentage}%}`
-                    : cat.percentage >= 5
-                        ? `{val|${cat.percentage}%}`
-                        : ''
+                formatter: `{iconPlaceholder|${cat.percentage}%}`,
+                rich: {
+                    iconPlaceholder: {
+                        color: '#fff',
+                        fontSize: 10,
+                        fontWeight: 700
+                    }
+                }
             }
         }));
 
-        // Build rich styles dynamically for each category icon
-        const richStyles: any = {
-            val: {
-                fontSize: 12,
-                color: '#fff',
-                fontWeight: 600,
-                padding: [2, 0, 0, 0],
-                textShadowColor: 'rgba(0, 0, 0, 0.4)',
-                textShadowBlur: 3
-            }
-        };
+        const richStyles: any = {};
 
         this.categories.forEach((cat, index) => {
             if (cat.mccLogoUrl) {
@@ -209,6 +226,8 @@ export class ChartComponent implements OnInit {
                 };
             }
         });
+
+        const expensesLabel = this.translateService.get('chart.myExpenses');
 
         this.chartOption = {
             tooltip: { show: false },
@@ -238,9 +257,9 @@ export class ChartComponent implements OnInit {
                         left: 'center',
                         top: -10,
                         style: {
-                            text: 'Xarajatlarim',
+                            text: expensesLabel,
                             textAlign: 'center',
-                            fill: '#6B7280',
+                            fill: this.themeService.isDarkMode() ? '#F7F7F7' : '#6B7280',
                             fontSize: 14
                         }
                     },
@@ -251,7 +270,7 @@ export class ChartComponent implements OnInit {
                         style: {
                             text: `${this.formatMoney(this.totalExpenses)} UZS`,
                             textAlign: 'center',
-                            fill: '#1A1A1A',
+                            fill: this.themeService.isDarkMode() ? '#F7F7F7' : '#1A1A1A',
                             fontSize: 18,
                             fontWeight: 700
                         }

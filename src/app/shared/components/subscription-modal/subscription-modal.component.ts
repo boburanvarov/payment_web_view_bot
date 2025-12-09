@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../../core/services/card.service';
 import { Card, SubscriptionPlan } from '../../../core/models';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 // Re-export for backward compatibility
 export type { SubscriptionPlan } from '../../../core/models';
@@ -9,7 +10,7 @@ export type { SubscriptionPlan } from '../../../core/models';
 @Component({
     selector: 'app-subscription-modal',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TranslatePipe],
     templateUrl: './subscription-modal.component.html',
     styleUrl: './subscription-modal.component.scss'
 })

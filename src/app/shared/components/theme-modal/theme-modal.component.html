@@ -1,0 +1,29 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+        <div class="modal-header">
+            <h3 class="modal-title">{{ 'theme.title' | translate }}</h3>
+            <button class="modal-close-btn" (click)="onClose()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="theme-options">
+                <div class="theme-option" *ngFor="let theme of themes" [class.selected]="selectedTheme === theme.code"
+                    (click)="selectTheme(theme.code)">
+                    <div class="theme-preview">
+                        <img [src]="theme.image" [alt]="theme.nameKey | translate">
+                    </div>
+                    <span class="theme-name">{{ theme.nameKey | translate }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="save-btn" (click)="onSave()">{{ 'common.save' | translate }}</button>
+        </div>
+    </div>
+</div>

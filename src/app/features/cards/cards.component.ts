@@ -6,6 +6,7 @@ import { BankCardComponent } from '../../shared/components/bank-card/bank-card.c
 import { AddCardModalComponent } from '../../shared/components/add-card-modal/add-card-modal.component';
 import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 interface SwipeState {
   startX: number;
@@ -18,7 +19,7 @@ interface SwipeState {
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, BankCardComponent, AddCardModalComponent],
+  imports: [CommonModule, BottomNavComponent, BankCardComponent, AddCardModalComponent, TranslatePipe],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })

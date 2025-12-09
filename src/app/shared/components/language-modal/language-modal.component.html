@@ -1,0 +1,27 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-container">
+        <!-- Header -->
+        <div class="modal-header">
+            <h3>{{ 'language.title' | translate }}</h3>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Content -->
+        <div class="modal-content">
+            <div class="language-list">
+                <div class="language-item" *ngFor="let lang of languages"
+                    [class.selected]="selectedLanguage === lang.code" (click)="selectLanguage(lang.code)">
+                    <img [src]="lang.flag" [alt]="lang.nameKey | translate" class="flag-icon">
+                    <span class="language-name">{{ lang.nameKey | translate }}</span>
+                    <div class="radio-circle" [class.active]="selectedLanguage === lang.code"></div>
+                </div>
+            </div>
+
+            <button class="save-btn" (click)="saveLanguage()">
+                {{ 'common.save' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

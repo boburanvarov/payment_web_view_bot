@@ -1,7 +1,7 @@
 <div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
     <div class="modal-content" (click)="stopPropagation($event)">
         <div class="modal-header">
-            <h3 class="modal-title">Davr</h3>
+            <h3 class="modal-title">{{ 'common.period' | translate }}</h3>
             <button class="modal-close-btn" (click)="onClose()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
@@ -17,7 +17,8 @@
         </div>
 
         <div class="modal-footer">
-            <button class="apply-btn" [disabled]="!isApplyEnabled()" (click)="onApply()">Qo'llash</button>
+            <button class="apply-btn" [disabled]="!isApplyEnabled()" (click)="onApply()">{{ 'common.apply' | translate
+                }}</button>
         </div>
     </div>
 </div>

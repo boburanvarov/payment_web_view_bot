@@ -1,20 +1,20 @@
 <div class="bottom-nav">
-    <div class="nav-buttons">
-        <button class="nav-item" [class.active]="isActive('/home')" (click)="navigateTo('/home')">
-          <img src="/assets/img/home.svg" alt="No menu">
-            <span class="nav-label">Asosiy</span>
-        </button>
-        <button class="nav-item" [class.active]="isActive('/cards')" (click)="navigateTo('/cards')">
-          <img src="/assets/img/cards.svg" alt="No menu">
-            <span class="nav-label">Kartalar</span>
-        </button>
-        <button class="nav-item" [class.active]="isActive('/overview')" (click)="navigateTo('/overview')">
-          <img src="/assets/img/chart.svg" alt="No menu">
-            <span class="nav-label">Hisobot</span>
-        </button>
-        <button class="nav-item" [class.active]="isActive('/profile')" (click)="navigateTo('/profile')">
-          <img src="/assets/img/user.svg" alt="No menu">
-            <span class="nav-label">Profil</span>
-        </button>
-    </div>
+  <div class="nav-buttons">
+    <button class="nav-item" [class.active]="isActive('/home')" (click)="navigateTo('/home')">
+      <img src="/assets/img/home.svg" alt="Home">
+      <span class="nav-label">{{ 'nav.home' | translate }}</span>
+    </button>
+    <button class="nav-item" [class.active]="isActive('/cards')" (click)="navigateTo('/cards')">
+      <img src="/assets/img/cards.svg" alt="Cards">
+      <span class="nav-label">{{ 'nav.cards' | translate }}</span>
+    </button>
+    <button class="nav-item" [class.active]="isActive('/overview')" (click)="navigateTo('/overview')">
+      <img src="/assets/img/chart.svg" alt="Overview">
+      <span class="nav-label">{{ 'nav.overview' | translate }}</span>
+    </button>
+    <button class="nav-item" [class.active]="isActive('/profile')" (click)="navigateTo('/profile')">
+      <img src="/assets/img/user.svg" alt="Profile">
+      <span class="nav-label">{{ 'nav.profile' | translate }}</span>
+    </button>
+  </div>
 </div>

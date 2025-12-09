@@ -1,0 +1,205 @@
+{
+    "common": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close",
+        "back": "Back",
+        "loading": "Loading...",
+        "continue": "Continue",
+        "confirm": "Confirm",
+        "success": "Success!",
+        "error": "Error",
+        "yes": "Yes",
+        "no": "No",
+        "apply": "Apply",
+        "filter": "Filter",
+        "all": "All",
+        "noData": "No data found",
+        "period": "Period",
+        "reset": "Reset",
+        "select": "Select"
+    },
+    "nav": {
+        "home": "Home",
+        "overview": "Overview",
+        "chart": "Chart",
+        "cards": "Cards",
+        "profile": "Profile"
+    },
+    "home": {
+        "balance": "Balance",
+        "income": "Income",
+        "expenses": "Expenses",
+        "transactions": "Transactions",
+        "recentTransactions": "Recent transactions",
+        "seeAll": "All",
+        "noTransactions": "No transactions",
+        "operations": "Operations",
+        "currencyRates": "Currency rates",
+        "bestOffers": "Best offers",
+        "cardAndAccounts": "Cards and accounts"
+    },
+    "overview": {
+        "title": "Report",
+        "period": "Period",
+        "cardAndAccounts": "Cards and accounts",
+        "sort": "Sort",
+        "totalIncome": "Total income",
+        "totalExpenses": "Total expenses",
+        "myExpenses": "My expenses"
+    },
+    "chart": {
+        "title": "Monitoring",
+        "myExpenses": "My expenses"
+    },
+    "filters": {
+        "all": "All",
+        "income": "Income",
+        "expense": "Expense",
+        "selectPeriod": "Select period",
+        "selectCard": "Select card",
+        "allCards": "All cards",
+        "sortBy": "Sort by",
+        "sortByDate": "By date",
+        "sortByAmount": "By amount",
+        "ascending": "Ascending",
+        "descending": "Descending",
+        "from": "From",
+        "to": "To"
+    },
+    "months": {
+        "january": "January",
+        "february": "February",
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December",
+        "short": {
+            "jan": "Jan",
+            "feb": "Feb",
+            "mar": "Mar",
+            "apr": "Apr",
+            "may": "May",
+            "jun": "Jun",
+            "jul": "Jul",
+            "aug": "Aug",
+            "sep": "Sep",
+            "oct": "Oct",
+            "nov": "Nov",
+            "dec": "Dec"
+        }
+    },
+    "days": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday",
+        "short": {
+            "mon": "Mon",
+            "tue": "Tue",
+            "wed": "Wed",
+            "thu": "Thu",
+            "fri": "Fri",
+            "sat": "Sat",
+            "sun": "Sun"
+        }
+    },
+    "profile": {
+        "title": "Profile",
+        "premium": "Subscriptions",
+        "personalInfo": "Personal Information",
+        "autoPayment": "Auto Payment",
+        "settings": "Settings",
+        "faq": "FAQ",
+        "help": "Help",
+        "logout": "Logout",
+        "version": "Version"
+    },
+    "premium": {
+        "title": "Subscriptions",
+        "yearly": "Yearly",
+        "monthly": "Monthly",
+        "discount": "20% discount",
+        "freemium": "Freemium",
+        "premiumPlan": "Premium",
+        "currentPlan": "Your current plan",
+        "start": "Start",
+        "description": "You can cancel subscription at any time",
+        "features": {
+            "cards1": "Add 1 card",
+            "cards10": "Add 10 cards",
+            "notification1": "Balance notification for 1 card",
+            "notificationAll": "Notifications for all cards",
+            "transactions5": "Last 5 transactions",
+            "transactionsAll": "View all transaction history",
+            "category1": "Statistics for 1 category"
+        }
+    },
+    "subscription": {
+        "title": "Subscribe",
+        "subscriptionType": "Subscription type",
+        "subscriptionPrice": "Subscription price",
+        "total": "Total",
+        "paymentCard": "Payment card",
+        "paymentStatus": "Payment status",
+        "paid": "Paid",
+        "confirmPayment": "Confirm payment",
+        "noCards": "No cards found"
+    },
+    "personalInfo": {
+        "title": "Personal Information",
+        "name": "Name",
+        "username": "Username",
+        "phone": "Phone number"
+    },
+    "autoPayment": {
+        "title": "Auto Payment",
+        "enabled": "Auto Payment"
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "theme": "Theme",
+        "dayTheme": "Light",
+        "nightTheme": "Dark"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions"
+    },
+    "help": {
+        "title": "Help Center",
+        "officialChannel": "Official Channel",
+        "telegramBot": "Support - Telegram Bot",
+        "contactUs": "Contact Us",
+        "workHours": "Monday-Saturday: 09:00 to 18:00"
+    },
+    "cards": {
+        "title": "Cards",
+        "addCard": "Add card",
+        "balance": "Balance",
+        "noCards": "No cards",
+        "deleteCard": "Delete card",
+        "deleteConfirm": "Are you sure you want to delete this card?",
+        "cardDeleted": "Card deleted"
+    },
+    "language": {
+        "title": "Language",
+        "uzbek": "O'zbek tili",
+        "russian": "Русский язык",
+        "english": "English language"
+    },
+    "theme": {
+        "title": "Theme",
+        "light": "Light",
+        "dark": "Dark"
+    }
+}

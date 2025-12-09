@@ -128,7 +128,7 @@
       left: 0;
       right: 0;
       height: 60px;
-      background: linear-gradient(to bottom, transparent 0%, rgba(248, 249, 250, 0.5) 50%, var(--screen-bg, #F8F9FA) 100%);
+      background: linear-gradient(to bottom, transparent 0%, var(--screen-bg) 100%);
       pointer-events: none;
       z-index: 1;
     }
@@ -360,13 +360,13 @@
   .section-title {
     font-size: 20px;
     font-weight: 700;
-    color: #1A1A1A;
+    color: var(--text-primary);
     margin: 0 0 16px 0;
   }
 
   .empty-box {
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 14px;
     padding: 40px 20px;
     display: flex;
@@ -382,7 +382,7 @@
 
     p {
       font-size: 14px;
-      color: #6B7280;
+      color: var(--text-secondary);
       margin: 0;
     }
   }
