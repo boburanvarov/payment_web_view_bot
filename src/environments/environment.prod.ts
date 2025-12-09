@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.kartaxabar.uz',
-  version: '1.0.51'
+  apiUrl: '',
+  version: '1.0.52'
 };
