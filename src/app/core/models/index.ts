@@ -105,3 +105,36 @@ export interface VerifyCardRequest {
   otpId: string;
   cardName: string;
 }
+
+// Profile interfaces
+export interface PlanSummary {
+  code: string;
+  name: string;
+  description: string;
+  paid: boolean;
+  highlighted: boolean;
+}
+
+export interface ProfileResponse {
+  userId: number;
+  phoneNumber: string;
+  name: string;
+  language: string;
+  subscribed: boolean;
+  autoPay: boolean;
+  paidDate: string;
+  expireDate: string;
+  createdAt: string;
+  subscriptionPlan: string;
+  billingCycle: string;
+  planSummary: PlanSummary;
+}
+
+// Subscription interfaces
+export interface SubscriptionPlan {
+  name: string;
+  price: number;
+  period: string;
+  description: string;
+}
+

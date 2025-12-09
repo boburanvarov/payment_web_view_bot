@@ -1,14 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../../core/services/card.service';
-import { Card } from '../../../core/models';
+import { Card, SubscriptionPlan } from '../../../core/models';
 
-export interface SubscriptionPlan {
-    name: string;
-    price: number;
-    period: string;
-    description: string;
-}
+// Re-export for backward compatibility
+export type { SubscriptionPlan } from '../../../core/models';
 
 @Component({
     selector: 'app-subscription-modal',
