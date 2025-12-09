@@ -39,14 +39,19 @@ body.dark-theme {
   --modal-bg: #22262F;
 }
 
-/* Body background */
+/* Body background with top blue area */
 body {
-  background: var(--screen-bg);
+  background: linear-gradient(to bottom, #2E90FA 0, #2E90FA 150px, var(--screen-bg) 150px);
   color: var(--text-color);
+  min-height: 100vh;
+}
+
+body.dark-theme {
+  background: linear-gradient(to bottom, #2E90FA 0, #2E90FA 150px, var(--screen-bg) 150px);
 }
 
 body.dark-theme .screen {
-  background: var(--screen-bg);
+  background: transparent;
 }
 
 /* Bottom Navigation dark mode */
@@ -226,7 +231,7 @@ html {
 
 /* Safe area padding for all screens */
 .screen {
-  padding-top: calc(60px + env(safe-area-inset-top, 0px));
+  padding-top: calc(100px + env(safe-area-inset-top, 0px));
 }
 
 /* Remove default button styles */
