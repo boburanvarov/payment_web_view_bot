@@ -57,7 +57,7 @@ export class TelegramService {
             const platform = this.tg.platform;
             const isMobile = platform === 'android' || platform === 'ios' || platform === 'android_x';
 
-            // Only expand and fullscreen on mobile
+            // Only expand on mobile (no fullscreen to avoid header overlap)
             if (isMobile) {
                 this.tg.expand();
 
@@ -68,15 +68,6 @@ export class TelegramService {
                     }
                 } catch (e) {
                     console.log('disableVerticalSwipes not supported');
-                }
-
-                // Request fullscreen mode (Bot API 8.0+, mobile only)
-                try {
-                    if (this.tg.requestFullscreen) {
-                        this.tg.requestFullscreen();
-                    }
-                } catch (e) {
-                    console.log('Fullscreen not supported in this WebApp version');
                 }
             }
 
