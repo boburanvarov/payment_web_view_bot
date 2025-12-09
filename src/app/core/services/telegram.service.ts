@@ -97,7 +97,7 @@ export class TelegramService {
             this.telegramReady$.next(true);
 
             this.tg.setHeaderColor('#2E90FA');
-            this.tg.setBackgroundColor('#F8F9FA');
+            this.tg.setBackgroundColor('#2E90FA');
         } else {
             this.telegramReady$.next(false);
         }
