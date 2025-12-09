@@ -1,0 +1,229 @@
+.screen {
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  padding-bottom: 100px;
+  background: #F8F9FA;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h2 {
+    flex: 1;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin: 0;
+    text-align: center;
+  }
+
+  .spacer {
+    width: 40px;
+  }
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A1A1A;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #F3F4F6;
+  }
+
+  i {
+    font-size: 16px;
+  }
+}
+
+// Period Toggle
+.period-toggle {
+  display: flex;
+  background: #fff;
+  border-radius: 24px;
+  padding: 4px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 26px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #535862;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: none !important;
+  }
+
+  &.active {
+    background: #2970FF;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+}
+
+.discount-badge {
+  background: #EEF4FF;
+  color: #3538CD;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+// Plans Container
+.plans-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// Plan Card
+.plan-card {
+  background: linear-gradient(135deg, rgba(166, 192, 254, 1) 0%, rgba(255, 234, 246, 1) 100%);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+
+  &.premium {
+    background: linear-gradient(135deg, rgba(209, 253, 255, 1) 0%, rgba(253, 219, 146, 1) 100%);
+  }
+}
+
+.plan-badge {
+  display: inline-block;
+  background: #F3F4F6;
+  color: #374151;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 16px;
+
+  .premium & {
+    background: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.plan-price {
+  margin-bottom: 8px;
+
+  .amount {
+    font-size: 30px;
+    font-weight: 700;
+    color: #181D27;
+  }
+
+  .period {
+    font-size: 14px;
+    font-weight: 500;
+    color: #181D27;
+    margin-left: 4px;
+  }
+}
+
+.plan-description {
+  font-size: 16px;
+  font-weight: 600;
+  color: #181D27;
+  margin: 0 0 20px 0;
+  line-height: 1.4;
+}
+
+.plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  i {
+    color: #535862;
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  span {
+    font-size: 14px;
+    color: #535862;
+    line-height: 1.4;
+  }
+
+  .premium & i {
+    color: #92400E;
+  }
+}
+
+.plan-btn {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  color: #414651;
+
+  &:hover {
+    background: #F9FAFB;
+  }
+
+  &.current {
+    background: #FFFFFF;
+    color: #9CA3AF;
+    cursor: default;
+    border-color: #E5E7EB;
+  }
+
+  .premium & {
+    background: #1A1A1A;
+    color: #FFFFFF;
+    border: none;
+
+    &:hover {
+      background: #374151;
+    }
+
+    &.current {
+      background: rgba(0, 0, 0, 0.1);
+      color: #92400E;
+    }
+  }
+}

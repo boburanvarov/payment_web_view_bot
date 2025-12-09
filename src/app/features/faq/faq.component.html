@@ -1,0 +1,24 @@
+<div class="screen sub-page-screen">
+    <div class="page-header">
+        <button class="back-btn" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>Ko'p beriladigan savollar</h2>
+        <div class="spacer"></div>
+    </div>
+
+    <div class="page-content">
+        <div class="faq-list">
+            <div class="faq-item" *ngFor="let item of faqItems; let i = index" [class.open]="item.isOpen"
+                (click)="toggleFaq(i)">
+                <div class="faq-question">
+                    <span>{{ item.question }}</span>
+                    <i class="fas" [class.fa-chevron-down]="!item.isOpen" [class.fa-chevron-up]="item.isOpen"></i>
+                </div>
+                <div class="faq-answer" *ngIf="item.isOpen">
+                    {{ item.answer }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="screen premium-screen">
+    <div class="page-header">
+        <button class="back-btn" (click)="goBack()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <h2>Obunalar</h2>
+        <div class="spacer"></div>
+    </div>
+
+    <!-- Period Toggle -->
+    <div class="period-toggle">
+        <button class="toggle-btn" [class.active]="isYearly" (click)="togglePeriod(true)">
+            Yillik
+            <span class="discount-badge" *ngIf="isYearly">20% chegirma</span>
+        </button>
+        <button class="toggle-btn" [class.active]="!isYearly" (click)="togglePeriod(false)">
+            Oylik
+        </button>
+    </div>
+
+    <!-- Subscription Plans -->
+    <div class="plans-container">
+        <div class="plan-card" *ngFor="let plan of plans" [class.premium]="plan.isPremium">
+            <div class="plan-badge">{{ plan.name }}</div>
+
+            <div class="plan-price">
+                <span class="amount">{{ formatPrice(getPrice(plan)) }} UZS</span>
+                <span class="period">/ {{ getPeriodLabel() }}</span>
+            </div>
+
+            <p class="plan-description">{{ plan.description }}</p>
+
+            <div class="plan-features">
+                <div class="feature-item" *ngFor="let feature of plan.features">
+                    <i class="fas fa-check"></i>
+                    <span>{{ feature.text }}</span>
+                </div>
+            </div>
+
+            <button class="plan-btn" [class.current]="plan.isCurrentPlan" (click)="selectPlan(plan)">
+                {{ plan.isCurrentPlan ? 'Siz shu tarifdasiz' : 'Boshlash' }}
+            </button>
+        </div>
+    </div>
+</div>

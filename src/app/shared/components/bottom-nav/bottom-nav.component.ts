@@ -57,6 +57,12 @@ export class BottomNavComponent implements OnInit {
             return this.activeRoute === '/' || this.activeRoute === '/home' || this.activeRoute.startsWith('/home');
         }
 
+        // Profile sub-pages should show profile as active
+        if (route === '/profile') {
+            const profileSubPages = ['/profile', '/premium', '/personal-info', '/auto-payment', '/faq', '/help', '/settings', '/security'];
+            return profileSubPages.some(page => this.activeRoute === page || this.activeRoute.startsWith(page));
+        }
+
         // For other routes, check startsWith to handle query params
         return this.activeRoute === route || this.activeRoute.startsWith(route);
     }

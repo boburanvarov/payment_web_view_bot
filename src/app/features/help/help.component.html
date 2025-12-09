@@ -1,0 +1,41 @@
+<div class="screen sub-page-screen">
+    <div class="page-header">
+        <button class="back-btn" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h2>Yordam xizmati</h2>
+        <div class="spacer"></div>
+    </div>
+
+    <div class="page-content">
+        <div class="help-card">
+            <img src="assets/img/help.svg" alt="Help" class="help-icon">
+            <h3>Qanday yordam bera olamiz?</h3>
+            <p>Savollaringiz bo'lsa, quyidagi usullar orqali biz bilan bog'laning</p>
+        </div>
+
+        <div class="contact-options">
+            <div class="contact-item" (click)="openTelegram()">
+                <div class="contact-icon telegram">
+                    <i class="fab fa-telegram-plane"></i>
+                </div>
+                <div class="contact-info">
+                    <span class="title">Telegram orqali</span>
+                    <span class="subtitle">24/7 onlayn qo'llab-quvvatlash</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+
+            <div class="contact-item" (click)="callSupport()">
+                <div class="contact-icon phone">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="contact-info">
+                    <span class="title">Telefon orqali</span>
+                    <span class="subtitle">+998 71 200 00 00</span>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </div>
+</div>

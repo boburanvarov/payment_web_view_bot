@@ -54,6 +54,26 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(['/security']);
     }
 
+    goToPremium(): void {
+        this.router.navigate(['/premium']);
+    }
+
+    goToPersonalInfo(): void {
+        this.router.navigate(['/personal-info']);
+    }
+
+    goToAutoPayment(): void {
+        this.router.navigate(['/auto-payment']);
+    }
+
+    goToFaq(): void {
+        this.router.navigate(['/faq']);
+    }
+
+    goToHelp(): void {
+        this.router.navigate(['/help']);
+    }
+
     logout(): void {
         this.router.navigate(['/onboarding']);
     }
