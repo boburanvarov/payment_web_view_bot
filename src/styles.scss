@@ -226,7 +226,7 @@ html {
 
 /* Safe area padding for all screens */
 .screen {
-  padding-top: calc(20px + env(safe-area-inset-top, 0px));
+  padding-top: calc(60px + env(safe-area-inset-top, 0px));
 }
 
 /* Remove default button styles */
