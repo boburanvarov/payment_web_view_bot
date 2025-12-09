@@ -37,9 +37,15 @@
                 </div>
             </div>
 
-            <button class="plan-btn" [class.current]="plan.isCurrentPlan" (click)="selectPlan(plan)">
-                {{ plan.isCurrentPlan ? 'Siz shu tarifdasiz' : 'Boshlash' }}
+            <button class="plan-btn" [class.current]="isCurrentPlanForPeriod(plan)"
+                [class.active]="!isCurrentPlanForPeriod(plan)" (click)="selectPlan(plan)">
+                {{ isCurrentPlanForPeriod(plan) ? 'Siz shu tarifdasiz' : 'Boshlash' }}
             </button>
         </div>
     </div>
 </div>
+
+<!-- Subscription Modal -->
+<app-subscription-modal [isOpen]="showSubscriptionModal" [plan]="selectedPlanForModal" (close)="onModalClose()"
+    (success)="onSubscriptionSuccess()">
+</app-subscription-modal>

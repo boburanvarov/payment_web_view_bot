@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SubscriptionModalComponent, SubscriptionPlan } from '../../shared/components/subscription-modal/subscription-modal.component';
 
 interface PlanFeature {
     text: string;
 }
 
-interface SubscriptionPlan {
+interface Plan {
     name: string;
     priceYearly: number;
     priceMonthly: number;
@@ -19,14 +20,20 @@ interface SubscriptionPlan {
 @Component({
     selector: 'app-premium',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, SubscriptionModalComponent],
     templateUrl: './premium.component.html',
     styleUrl: './premium.component.scss'
 })
 export class PremiumComponent {
     isYearly: boolean = true;
+    showSubscriptionModal: boolean = false;
+    selectedPlanForModal: SubscriptionPlan | null = null;
 
-    plans: SubscriptionPlan[] = [
+    // Current user's subscription - Freemium with yearly period
+    currentPlanName: string = 'Freemium';
+    currentPlanIsYearly: boolean = true;
+
+    plans: Plan[] = [
         {
             name: 'Freemium',
             priceYearly: 60000,
@@ -66,7 +73,7 @@ export class PremiumComponent {
         this.isYearly = yearly;
     }
 
-    getPrice(plan: SubscriptionPlan): number {
+    getPrice(plan: Plan): number {
         return this.isYearly ? plan.priceYearly : plan.priceMonthly;
     }
 
@@ -78,10 +85,30 @@ export class PremiumComponent {
         return price.toLocaleString('uz-UZ').replace(/,/g, ' ');
     }
 
-    selectPlan(plan: SubscriptionPlan): void {
-        if (!plan.isCurrentPlan) {
-            console.log('Selected plan:', plan.name);
-            // Handle plan selection/purchase
+    // Check if this plan is current user's plan for the selected period
+    isCurrentPlanForPeriod(plan: Plan): boolean {
+        return plan.name === this.currentPlanName && this.isYearly === this.currentPlanIsYearly;
+    }
+
+    selectPlan(plan: Plan): void {
+        if (!this.isCurrentPlanForPeriod(plan)) {
+            this.selectedPlanForModal = {
+                name: plan.name,
+                price: this.getPrice(plan),
+                period: this.getPeriodLabel(),
+                description: plan.description
+            };
+            this.showSubscriptionModal = true;
         }
+    }
+
+    onModalClose(): void {
+        this.showSubscriptionModal = false;
+        this.selectedPlanForModal = null;
+    }
+
+    onSubscriptionSuccess(): void {
+        // Handle successful subscription
+        console.log('Subscription successful!');
     }
 }

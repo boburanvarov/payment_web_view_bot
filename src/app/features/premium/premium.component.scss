@@ -212,6 +212,16 @@
     border-color: #E5E7EB;
   }
 
+  &.active {
+    background: #1A1A1A;
+    color: #FFFFFF;
+    border: none;
+
+    &:hover {
+      background: #374151;
+    }
+  }
+
   .premium & {
     background: #1A1A1A;
     color: #FFFFFF;

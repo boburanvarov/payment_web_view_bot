@@ -1,0 +1,116 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="onBackdropClick($event)">
+    <div class="modal-container">
+        <!-- Header -->
+        <div class="modal-header">
+            <h3>Obuna yoqish</h3>
+            <button class="close-btn" (click)="closeModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Step 1: Card Selection -->
+        <div class="modal-content" *ngIf="currentStep === 1">
+            <div class="plan-info">
+                <div class="plan-badge">
+                    <img src="assets/img/premium.png" alt="Premium" class="plan-icon">
+                </div>
+                <div class="plan-price">{{ formatPrice(plan?.price || 0) }} UZS</div>
+                <p class="plan-description">{{ plan?.description }}</p>
+            </div>
+
+            <div class="cards-list">
+                <!-- Use cardService.cards() signal directly -->
+                <div class="card-item" *ngFor="let card of cardService.cards()"
+                    [class.selected]="selectedCard?.id === card.id" (click)="selectCard(card)">
+                    <div class="card-logo">
+                        <img [src]="card.processingLogo" alt="Bank" *ngIf="card.bankLogo">
+                        <div class="default-logo" *ngIf="!card.bankLogo">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <span class="card-name">{{ card.bankName }}</span>
+                        <span class="card-number">{{ formatCardNumber(card.number) }}</span>
+                    </div>
+                    <div class="card-radio">
+                        <div class="radio-circle" [class.active]="selectedCard?.id === card.id"></div>
+                    </div>
+                </div>
+
+                <!-- Empty state if no cards -->
+                <div class="no-cards" *ngIf="cardService.cards().length === 0">
+                    <p>Kartalar topilmadi</p>
+                </div>
+            </div>
+
+            <button class="action-btn primary" [disabled]="!selectedCard" (click)="goToConfirmation()">
+                Davom etish
+            </button>
+        </div>
+
+        <!-- Step 2: Confirmation -->
+        <div class="modal-content" *ngIf="currentStep === 2">
+            <div class="plan-info">
+                <div class="plan-badge">
+                    <img src="assets/img/premium.png" alt="Premium" class="plan-icon">
+                </div>
+                <div class="plan-price">{{ formatPrice(plan?.price || 0) }} UZS</div>
+                <p class="plan-description">{{ plan?.description }}</p>
+            </div>
+
+            <div class="summary-table">
+                <div class="summary-row">
+                    <span class="label">Obuna turi</span>
+                    <span class="value">{{ plan?.period }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Obuna narxi</span>
+                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                </div>
+                <div class="summary-row total">
+                    <span class="label">Jami</span>
+                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                </div>
+            </div>
+
+            <button class="action-btn primary" [disabled]="processing" (click)="confirmPayment()">
+                <span *ngIf="!processing">To'lovni amalga oshirish</span>
+                <span *ngIf="processing">Yuklanmoqda...</span>
+            </button>
+        </div>
+
+        <!-- Step 3: Success -->
+        <div class="modal-content" *ngIf="currentStep === 3">
+            <div class="success-header">
+                <h2>Muvaffaqiyatli!</h2>
+            </div>
+
+            <div class="summary-table">
+                <div class="summary-row">
+                    <span class="label">Obuna turi</span>
+                    <span class="value">{{ plan?.period }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Obuna narxi</span>
+                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">Jami</span>
+                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">To'lov kartasi</span>
+                    <span class="value">{{ formatCardNumber(selectedCard?.number || '') }}</span>
+                </div>
+                <div class="summary-row">
+                    <span class="label">To'lov holati</span>
+                    <span class="value success">To'landi</span>
+                </div>
+            </div>
+
+            <button class="action-btn success" (click)="onSuccess()">
+                Yopish
+            </button>
+        </div>
+    </div>
+</div>
