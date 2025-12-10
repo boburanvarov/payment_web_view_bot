@@ -38,7 +38,7 @@
                     <div class="input-icon">
                         <i class="far fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-input" placeholder="Amal qilish muddati (MM/YY)"
+                    <input type="text" class="form-input" placeholder="Amal qilish muddati (MM/YY)" inputmode="numeric"
                         [value]="cardForm.get('expiryDate')?.value || ''" (input)="onExpiryDateInput($event)"
                         maxlength="5" />
                 </div>
