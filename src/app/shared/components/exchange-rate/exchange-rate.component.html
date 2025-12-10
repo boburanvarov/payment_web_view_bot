@@ -27,7 +27,7 @@
           <span class="currency-full-name">{{ pair.baseCurrencyName }}</span>
         </div>
       </div>
-      <input type="text" class="currency-amount-input" [value]="currentBaseAmount"
+      <input type="text" class="currency-amount-input" [value]="currentBaseAmount" inputmode="numeric"
         (input)="onAmountChange($event, 'base')" (click)="$event.stopPropagation()" />
     </div>
 
@@ -59,7 +59,7 @@
           <span class="currency-full-name">{{ pair.baseCurrencyName }}</span>
         </div>
       </div>
-      <input type="text" class="currency-amount-input" [value]="currentQuoteAmount"
+      <input type="text" class="currency-amount-input" [value]="currentQuoteAmount" inputmode="numeric"
         (input)="onAmountChange($event, 'quote')" (click)="$event.stopPropagation()" />
     </div>
   </div>
