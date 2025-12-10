@@ -40,6 +40,7 @@ export interface CardApiResponse {
   cardType: string;
   active: boolean;
   balance: number;
+  cardName?: string; // Optional card title from backend
   cardDesignInfo: {
     cardType: string;
     bankName: string;

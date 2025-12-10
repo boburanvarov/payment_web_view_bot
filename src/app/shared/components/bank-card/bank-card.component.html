@@ -7,7 +7,7 @@
     <div class="card-content">
         <!-- Bank Logo and Name -->
         <div class="bank-header">
-            <div class="bank-label">{{ card.cardName || 'Bank' }}</div>
+            <div class="bank-label">{{ card.cardName }}</div>
             <div class="bank-logo-wrapper">
                 <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
             </div>

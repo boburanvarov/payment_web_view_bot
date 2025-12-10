@@ -571,7 +571,8 @@
     }
 
     .swipe-card-container {
-      max-width: 340px;
+      min-width: 340px;
+      max-width: 380px;
       width: 100%;
       margin: 0 auto;
     }
@@ -593,6 +594,9 @@
     }
   }
   .card-wrapper.swiped {
-    transform: translateX(-99px) !important;
+    transform: translateX(-110px) !important;
+  }
+  .delete-action{
+    right: 10px;
   }
 }

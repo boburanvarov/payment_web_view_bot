@@ -114,8 +114,19 @@
     }
   }
 }
+
+@media (max-width: 768px) and (min-width: 375px) {
+  .bank-card {
+    min-width: 340px;
+    max-width: 380px;
+    width: 100%;
+  }
+}
+
 @media (max-width: 375px) and (min-width: 350px) {
   .bank-card {
-    width: 300px;
+    min-width: 300px;
+    max-width: 330px;
+    width: 100%;
   }
 }

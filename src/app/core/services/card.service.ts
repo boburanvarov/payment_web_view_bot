@@ -37,6 +37,7 @@ export class CardService {
 
     private mapApiCardToCard(apiCard: CardApiResponse): Card {
         const bankName = (apiCard.cardDesignInfo?.bankName || 'BANK').replace(/^AO\s+/i, '');
+        const cardName = apiCard.cardName || bankName;
 
         return {
             id: apiCard.id,
@@ -48,6 +49,7 @@ export class CardService {
             balance: apiCard.balance,
             gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             bankName: bankName,
+            cardName: cardName,
             active: apiCard.active,
             bankLogo: apiCard.cardDesignInfo?.bankLogo,
             bankLogoMini: apiCard.cardDesignInfo?.bankLogoMini,
