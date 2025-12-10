@@ -1,562 +1,598 @@
 .screen {
-    width: 100%;
-    min-height: 100vh;
-    padding: 20px;
-    padding-bottom: 100px;
-    background: var(--screen-bg);
-    transition: background-color 0.3s ease;
+  width: 100%;
+  min-height: 100vh;
+  padding: 20px;
+  padding-bottom: 100px;
+  background: var(--screen-bg);
+  transition: background-color 0.3s ease;
 }
 
 .screen-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
 
-    h2 {
-        font-size: 20px;
-        font-weight: 600;
-        color: var(--text-color);
-        margin: 0;
-    }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+  }
 }
 
 .icon-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: var(--card-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-color);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    border: none;
-    cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
 }
 
 .cards-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 }
 
 // Swipe to delete styles
 .swipe-card-container {
-    position: relative;
-    width: 100%;
-    max-width: 380px;
-    overflow: hidden;
-    border-radius: 16px;
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 .card-wrapper {
-    position: relative;
-    z-index: 2;
-    transition: transform 0.3s ease;
-    user-select: none;
-    border-radius: 16px;
-    background: transparent;
-    width: 100%;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.3s ease;
+  user-select: none;
+  border-radius: 16px;
+  background: transparent;
+  width: 100%;
 
-    &.swiping {
-        transition: none;
-    }
+  &.swiping {
+    transition: none;
+  }
 
-    &.swiped {
-        // Card shifts left: delete button width (72px) + gap (10px) = 82px
-        transform: translateX(-82px) !important;
-    }
+  &.swiped {
+    // Card shifts left: delete button width (88px)
+    transform: translateX(-88px) !important;
+  }
 }
 
 .delete-action {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 72px;
-    height: calc(100% - 8px);
-    background: #FF3B30;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 16px;
-    z-index: 1;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  // Must stay in sync with SWIPE_THRESHOLD in cards.component.ts
+  width: 88px;
+  height: calc(100% - 8px);
+  background: #FF3B30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 
-    &.visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
+  &.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .delete-btn {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.2s ease;
 
-    &:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 
-    &:active {
-        transform: scale(0.95);
-    }
+  &:active {
+    transform: scale(0.95);
+  }
 
-    i {
-        font-size: 24px;
-    }
+  i {
+    font-size: 24px;
+  }
 }
 
 .plus-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--card-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-primary);
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-    &:hover {
-        background: var(--hover-bg);
-    }
+  &:hover {
+    background: var(--hover-bg);
+  }
 }
 
 // Empty State
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  min-height: 60vh;
+
+  .empty-image {
+    width: 177px;
+    height: 177px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .empty-card-image {
+    width: 280px;
+    height: auto;
+    margin-bottom: 32px;
+    max-width: 100%;
+  }
+
+  .empty-state-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin: 0 0 32px 0;
+  }
+
+  .add-card-btn {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
-    text-align: center;
-    min-height: 60vh;
+    gap: 8px;
+    background: #0088cc;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
 
-    .empty-image {
-        width: 177px;
-        height: 177px;
-
-        img {
-            width: 100%;
-        }
+    &:hover {
+      background: #0077b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 136, 204, 0.4);
     }
 
-    .empty-card-image {
-        width: 280px;
-        height: auto;
-        margin-bottom: 32px;
-        max-width: 100%;
+    &:active {
+      transform: translateY(0);
     }
 
-    .empty-state-text {
-        font-size: 20px;
-        font-weight: bold;
-        color: var(--text-color);
-        margin: 0 0 32px 0;
+    i {
+      font-size: 18px;
     }
-
-    .add-card-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        background: #0088cc;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        padding: 14px 24px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0, 136, 204, 0.3);
-
-        &:hover {
-            background: #0077b3;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 136, 204, 0.4);
-        }
-
-        &:active {
-            transform: translateY(0);
-        }
-
-        i {
-            font-size: 18px;
-        }
-    }
+  }
 }
 
 .loading-state {
-    padding: 40px 20px;
-    text-align: center;
-    color: var(--secondary-text);
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--secondary-text);
 }
 
 // Custom Dialog Overlay
 .dialog-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.2s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .dialog-container {
-    background: var(--modal-bg);
-    border-radius: 20px;
-    padding: 32px 24px;
-    width: 90%;
-    max-width: 340px;
-    text-align: center;
-    animation: slideUp 0.3s ease;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  background: var(--modal-bg);
+  border-radius: 20px;
+  padding: 32px 24px;
+  width: 90%;
+  max-width: 340px;
+  text-align: center;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .dialog-icon {
-    width: 64px;
-    height: 64px;
-    background: #FFF3E0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
+  width: 64px;
+  height: 64px;
+  background: #FFF3E0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
 
-    img {
-        width: 24px;
-        height: 24px;
-    }
+  img {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .dialog-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0 0 12px;
 }
 
 .dialog-message {
-    font-size: 15px;
-    color: var(--text-secondary);
-    margin: 0 0 24px;
-    line-height: 1.5;
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  line-height: 1.5;
 }
 
 .dialog-actions {
-    display: flex;
-    gap: 12px;
+  display: flex;
+  gap: 12px;
 }
 
 .dialog-btn {
-    flex: 1;
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-    &.cancel-btn {
-        background: var(--card-bg);
-        color: var(--text-primary);
+  &.cancel-btn {
+    background: var(--card-bg);
+    color: var(--text-primary);
 
-        &:hover {
-            background: var(--hover-bg);
-        }
+    &:hover {
+      background: var(--hover-bg);
     }
+  }
 
-    &.confirm-btn {
-        background: #FF3B30;
-        color: white;
+  &.confirm-btn {
+    background: #FF3B30;
+    color: white;
 
-        &:hover {
-            background: #E53528;
-        }
+    &:hover {
+      background: #E53528;
     }
+  }
 
-    &:active {
-        transform: scale(0.98);
-    }
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 // Add Card Modal
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    z-index: 1000;
-    animation: fadeIn 0.2s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
 .modal-container {
-    background: var(--modal-bg);
-    border-radius: 24px 24px 0 0;
-    padding: 24px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    animation: slideUp 0.3s ease;
+  background: var(--modal-bg);
+  border-radius: 24px 24px 0 0;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
 }
 
 .modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .modal-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1A1A1A;
-    margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin: 0;
 }
 
 .modal-close {
-    width: 32px;
-    height: 32px;
-    background: #F5F5F7;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #666;
-    transition: all 0.2s ease;
+  width: 32px;
+  height: 32px;
+  background: #F5F5F7;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #666;
+  transition: all 0.2s ease;
 
-    &:hover {
-        background: #E5E5EA;
-    }
+  &:hover {
+    background: #E5E5EA;
+  }
 
-    i {
-        font-size: 14px;
-    }
+  i {
+    font-size: 14px;
+  }
 }
 
 .card-preview {
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: center;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 .card-form {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .form-group {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: var(--input-bg);
-    border: 2px solid var(--border-color);
-    border-radius: 12px;
-    padding: 0 16px;
-    transition: all 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--input-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0 16px;
+  transition: all 0.2s ease;
 
-    &:focus-within {
-        border-color: #3B82F6;
-        background: var(--surface-color);
-    }
+  &:focus-within {
+    border-color: #3B82F6;
+    background: var(--surface-color);
+  }
 }
 
 .input-icon {
-    width: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 12px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
 
-    i {
-        font-size: 16px;
-        color: var(--text-secondary);
-    }
+  i {
+    font-size: 16px;
+    color: var(--text-secondary);
+  }
 }
 
 .form-input {
-    flex: 1;
-    padding: 16px 0;
-    border: none;
-    background: transparent;
-    font-size: 15px;
-    color: #1A1A1A;
-    outline: none;
+  flex: 1;
+  padding: 16px 0;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #1A1A1A;
+  outline: none;
 
-    &::placeholder {
-        color: #9CA3AF;
-    }
+  &::placeholder {
+    color: #9CA3AF;
+  }
 }
 
 .submit-btn {
-    width: 100%;
-    padding: 16px;
-    background: #3B82F6;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin-top: 8px;
+  width: 100%;
+  padding: 16px;
+  background: #3B82F6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
 
-    &:hover:not(:disabled) {
-        background: #2563EB;
-    }
+  &:hover:not(:disabled) {
+    background: #2563EB;
+  }
 
-    &:active:not(:disabled) {
-        transform: scale(0.98);
-    }
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
 
-    &:disabled {
-        background: #9CA3AF;
-        cursor: not-allowed;
-    }
+  &:disabled {
+    background: #9CA3AF;
+    cursor: not-allowed;
+  }
 }
 
 // Custom Toast - Figma design
 .toast-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100px);
-    opacity: 0;
-    visibility: hidden;
-    z-index: 10000;
-    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    pointer-events: none;
-    width: calc(100% - 32px);
-    max-width: 400px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10000;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  width: calc(100% - 32px);
+  max-width: 400px;
 
-    &.show {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto;
-    }
+  &.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 }
 
 .toast-content {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: #1E293B;
-    padding: 16px 20px;
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
-        0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #1E293B;
+  padding: 16px 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+  0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .toast-icon {
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    background: #10B981;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #10B981;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    i {
-        color: white;
-        font-size: 20px;
-    }
+  i {
+    color: white;
+    font-size: 20px;
+  }
 }
 
 .toast-text {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 4px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
 }
 
 .toast-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
 }
 
 .toast-message {
-    font-size: 14px;
-    color: #94A3B8;
-    line-height: 1.4;
+  font-size: 14px;
+  color: #94A3B8;
+  line-height: 1.4;
 }
 
 .toast-close {
-    width: 32px;
-    height: 32px;
-    min-width: 32px;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    align-self: flex-start;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
 
+  i {
+    color: #64748B;
+    font-size: 16px;
+  }
+
+  &:hover {
     i {
-        color: #64748B;
-        font-size: 16px;
+      color: #94A3B8;
+    }
+  }
+}
+
+// Responsive layout for cards list and swipe area
+// 768px down to 350px: cards block is centered and delete button stays in the same column
+@media (max-width: 768px) and (min-width: 350px) {
+  .cards-screen {
+    .cards-list {
+      align-items: center;
     }
 
-    &:hover {
-        i {
-            color: #94A3B8;
-        }
+    .swipe-card-container {
+      max-width: 340px;
+      width: 100%;
+      margin: 0 auto;
     }
+
+    .delete-action {
+      height: 100%;
+    }
+  }
+  .card-wrapper.swiped {
+    transform: translateX(-99px) !important;
+  }
+}
+
+// Extra fine-tuning for 350px–375px: a bit narrower card width for better side paddings
+@media (max-width: 375px) and (min-width: 350px) {
+  .cards-screen {
+    .swipe-card-container {
+      max-width: 300px;
+    }
+  }
+  .card-wrapper.swiped {
+    transform: translateX(-99px) !important;
+  }
 }

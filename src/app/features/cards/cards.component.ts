@@ -29,7 +29,8 @@ export class CardsComponent implements OnInit {
   loading;
 
   swipeStates: SwipeState[] = [];
-  private readonly SWIPE_THRESHOLD = 80;
+  // How far the card can be swiped left to fully reveal delete button (must match CSS width)
+  private readonly SWIPE_THRESHOLD = 88;
 
   // Dialog states
   showDeleteDialog = false;
