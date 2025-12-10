@@ -201,5 +201,25 @@
         "title": "Тема",
         "light": "Дневная",
         "dark": "Ночная"
+    },
+    "transactionDetails": {
+        "incomeDetails": "Детали дохода",
+        "expenseDetails": "Детали расхода",
+        "transactionInfo": "Информация о транзакции",
+        "transactionId": "ID транзакции",
+        "category": "Категория",
+        "transfer": "Переводы",
+        "sender": "Отправитель",
+        "recipient": "Получатель",
+        "name": "Имя",
+        "address": "Адрес",
+        "merchantId": "ID мерчанта",
+        "terminal": "Терминал",
+        "cardInfo": "Данные карты",
+        "cardNumber": "Номер карты",
+        "bank": "Банк",
+        "balanceAfter": "Баланс после транзакции",
+        "share": "Поделиться",
+        "downloadReceipt": "Скачать чек"
     }
 }

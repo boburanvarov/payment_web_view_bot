@@ -58,11 +58,14 @@
     }
 
     .clock-btn img {
+        // Dark mode: invert to white (#F7F7F7)
+        filter: none;
+    }
+}
 
-        // Dark mode: invert to white
-        body.dark-theme & {
-            filter: brightness(0) invert(1);
-        }
+:host-context(body.dark-mode) {
+    .clock-btn img {
+        filter: brightness(0) invert(1);
     }
 }
 

@@ -26,26 +26,38 @@
     }
 }
 
-.back-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--text-primary);
-    cursor: pointer;
-    transition: all 0.2s ease;
+.back-btn,
+.clock-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-    &:hover {
-        background: var(--hover-bg);
-    }
+  &:hover {
+    background: var(--hover-bg);
+    transform: scale(1.05);
+  }
 
-    i {
-        font-size: 16px;
-    }
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 .page-content {

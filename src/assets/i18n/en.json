@@ -201,5 +201,25 @@
         "title": "Theme",
         "light": "Light",
         "dark": "Dark"
+    },
+    "transactionDetails": {
+        "incomeDetails": "Income Details",
+        "expenseDetails": "Expense Details",
+        "transactionInfo": "Transaction Information",
+        "transactionId": "Transaction ID",
+        "category": "Category",
+        "transfer": "Transfers",
+        "sender": "Sender",
+        "recipient": "Recipient",
+        "name": "Name",
+        "address": "Address",
+        "merchantId": "Merchant ID",
+        "terminal": "Terminal",
+        "cardInfo": "Card Information",
+        "cardNumber": "Card Number",
+        "bank": "Bank",
+        "balanceAfter": "Balance After Transaction",
+        "share": "Share",
+        "downloadReceipt": "Download Receipt"
     }
 }

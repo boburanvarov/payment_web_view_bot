@@ -1,3 +1,7 @@
+:host {
+    display: contents;
+}
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -35,7 +39,7 @@
 }
 
 .modal-container {
-    background: white;
+    background: var(--modal-bg, #FFFFFF);
     border-radius: 24px 24px 0 0;
     padding: 24px;
     width: 100%;
@@ -55,25 +59,25 @@
 .modal-title {
     font-size: 20px;
     font-weight: 700;
-    color: #1A1A1A;
+    color: var(--text-primary, #1A1A1A);
     margin: 0;
 }
 
 .modal-close {
     width: 32px;
     height: 32px;
-    background: #F5F5F7;
+    background: var(--input-bg, #F5F5F7);
     border: none;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #666;
+    color: var(--text-secondary, #666);
     transition: all 0.2s ease;
 
     &:hover {
-        background: #E5E5EA;
+        background: var(--hover-bg, #E5E5EA);
     }
 
     i {
@@ -97,15 +101,15 @@
     position: relative;
     display: flex;
     align-items: center;
-    background: #F8F9FA;
-    border: 2px solid #E9EAEB;
+    background: var(--input-bg, #F8F9FA);
+    border: 2px solid var(--border-color, #E9EAEB);
     border-radius: 12px;
     padding: 0 16px;
     transition: all 0.2s ease;
 
     &:focus-within {
         border-color: #3B82F6;
-        background: white;
+        background: var(--modal-bg, #FFFFFF);
     }
 }
 
@@ -118,7 +122,7 @@
 
     i {
         font-size: 16px;
-        color: #9CA3AF;
+        color: var(--text-secondary, #9CA3AF);
     }
 }
 
@@ -128,11 +132,11 @@
     border: none;
     background: transparent;
     font-size: 15px;
-    color: #1A1A1A;
+    color: var(--text-primary, #1A1A1A);
     outline: none;
 
     &::placeholder {
-        color: #9CA3AF;
+        color: var(--text-secondary, #9CA3AF);
     }
 }
 
@@ -190,7 +194,7 @@
 .otp-info {
     text-align: center;
     font-size: 15px;
-    color: #1A1A1A;
+    color: var(--text-primary, #1A1A1A);
     margin-bottom: 24px;
     line-height: 1.5;
 }
@@ -209,28 +213,28 @@
 .otp-input {
     width: 48px;
     height: 56px;
-    border: 2px solid #E9EAEB;
+    border: 2px solid var(--border-color, #E9EAEB);
     border-radius: 12px;
-    background: #F8F9FA;
+    background: var(--input-bg, #F8F9FA);
     text-align: center;
     font-size: 24px;
     font-weight: 600;
-    color: #1A1A1A;
+    color: var(--text-primary, #1A1A1A);
     outline: none;
     transition: all 0.2s ease;
 
     &:focus {
         border-color: #3B82F6;
-        background: white;
+        background: var(--modal-bg, #FFFFFF);
     }
 
     &::placeholder {
-        color: #9CA3AF;
+        color: var(--text-secondary, #9CA3AF);
     }
 }
 
 .otp-timer {
-    background: #F8F9FA;
+    background: var(--input-bg, #F8F9FA);
     border-radius: 20px;
     padding: 8px 20px;
     margin-bottom: 16px;
@@ -239,7 +243,7 @@
 .timer-text {
     font-size: 16px;
     font-weight: 600;
-    color: #1A1A1A;
+    color: var(--text-primary, #1A1A1A);
 }
 
 .resend-btn {
@@ -265,7 +269,7 @@
     }
 
     &:disabled {
-        color: #9CA3AF;
+        color: var(--text-secondary, #9CA3AF);
         cursor: not-allowed;
     }
 }

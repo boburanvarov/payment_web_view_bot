@@ -1,6 +1,7 @@
 // Transaction interfaces
 
 export interface Transaction {
+    id?: number;
     date: string;
     time: string;
     type: 'income' | 'expense';
@@ -10,6 +11,7 @@ export interface Transaction {
     merchantName?: string;
     processingLogoMini?: string;
     bankLogoMini?: string;
+    raw?: any;
 }
 
 export interface TransactionGroup {

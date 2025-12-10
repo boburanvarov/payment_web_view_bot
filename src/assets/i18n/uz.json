@@ -201,5 +201,25 @@
         "title": "Mavzu",
         "light": "Kunduzgi",
         "dark": "Tungi"
+    },
+    "transactionDetails": {
+        "incomeDetails": "Kirim tafsilotlari",
+        "expenseDetails": "Chiqim tafsilotlari",
+        "transactionInfo": "Tranzaksiya ma'lumotlari",
+        "transactionId": "Tranzaksiya ID",
+        "category": "Kategoriya",
+        "transfer": "O'tkazmalar",
+        "sender": "Jo'natuvchi",
+        "recipient": "Qabul qiluvchi",
+        "name": "Nomi",
+        "address": "Manzil",
+        "merchantId": "Merchant ID",
+        "terminal": "Terminal",
+        "cardInfo": "Karta ma'lumotlari",
+        "cardNumber": "Karta raqami",
+        "bank": "Bank",
+        "balanceAfter": "Tranzaksiyadan keyingi balans",
+        "share": "Ulashish",
+        "downloadReceipt": "Chekni yuklash"
     }
 }

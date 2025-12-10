@@ -26,12 +26,13 @@ import { TransactionService } from '../../../core/services/transaction.service';
 import { TransactionTypeModalComponent } from '../transaction-type-modal/transaction-type-modal.component';
 import { DateRangeModalComponent } from '../date-range-modal/date-range-modal.component';
 import { CardFilterModalComponent } from '../card-filter-modal/card-filter-modal.component';
+import { TransactionDetailsModalComponent } from '../transaction-details-modal/transaction-details-modal.component';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-report-card',
     standalone: true,
-    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent, CardFilterModalComponent, TranslatePipe],
+    imports: [CommonModule, MoneyPipe, TransactionTypeModalComponent, DateRangeModalComponent, CardFilterModalComponent, TransactionDetailsModalComponent, TranslatePipe],
     templateUrl: './report-card.component.html',
     styleUrl: './report-card.component.scss'
 })
@@ -61,6 +62,10 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     processedTransactions: Transaction[] = [];
     processedIncome: number = 0;
     processedExpenses: number = 0;
+
+    // Transaction details modal state
+    showTransactionDetailsModal: boolean = false;
+    selectedTransaction: OverviewTransaction | null = null;
 
     // Inject services
     private transactionService = inject(TransactionService);
@@ -265,6 +270,7 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         const formattedTime = `${date.getDate()}-${monthName}, ${hours}:${minutes}`;
 
         return {
+            id: tx.id,
             date: formattedDate,
             time: formattedTime,
             type: tx.tranType === '+' ? 'income' : 'expense',
@@ -272,7 +278,8 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
             amount: tx.tranType === '+' ? tx.tranAmount : -tx.tranAmount,
             merchantName: tx.merchantName || (tx.tranType === '+' ? 'Kirim' : 'Chiqim'),
             processingLogoMini: tx.bin?.processingLogoMini,
-            bankLogoMini: tx.bin?.bankLogoMini
+            bankLogoMini: tx.bin?.bankLogoMini,
+            raw: tx
         };
     }
 
@@ -291,6 +298,7 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         const formattedTime = `${date.getDate()}-${monthName}, ${hours}:${minutes}`;
 
         return {
+            id: tx.id,
             date: formattedDate,
             time: formattedTime,
             type: tx.tranType === '+' ? 'income' : 'expense',
@@ -298,7 +306,8 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
             amount: tx.tranType === '+' ? tx.amount : -tx.amount,
             merchantName: tx.merchantName || (tx.tranType === '+' ? 'Kirim' : 'Chiqim'),
             processingLogoMini: tx.bin?.processingLogoMini,
-            bankLogoMini: tx.bin?.bankLogoMini
+            bankLogoMini: tx.bin?.bankLogoMini,
+            raw: tx
         };
     }
 
@@ -319,7 +328,18 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         }));
     }
 
+    openTransactionDetails(tx: Transaction): void {
+        const original = tx.raw as any | undefined;
+        const payload = original || tx;
+        console.log('Selected transaction details:', payload);
+        this.selectedTransaction = payload as OverviewTransaction;
+        this.showTransactionDetailsModal = true;
+    }
 
+    closeTransactionDetailsModal(): void {
+        this.showTransactionDetailsModal = false;
+        this.selectedTransaction = null;
+    }
     onSeeAllClick(): void {
         console.log('See all clicked');
     }

@@ -90,7 +90,8 @@
       <div class="date-group" *ngFor="let group of groupedTransactions">
         <div class="date-header">{{ group.date }}</div>
 
-        <div class="transaction-item" *ngFor="let transaction of group.transactions">
+        <div class="transaction-item" *ngFor="let transaction of group.transactions"
+          (click)="openTransactionDetails(transaction)">
 
           <div class="transaction-top-row">
             <div class="transaction-type" [ngClass]="transaction.type === 'income' ? 'income-type' : 'expense-type'">
@@ -148,4 +149,9 @@
     <!-- Scroll sentinel for infinite scroll -->
     <div #scrollSentinel class="scroll-sentinel" *ngIf="enableInfiniteScroll && hasMore"></div>
   </div>
+
+  <!-- Transaction Details Modal -->
+  <app-transaction-details-modal [isOpen]="showTransactionDetailsModal" [transaction]="selectedTransaction"
+    (close)="closeTransactionDetailsModal()">
+  </app-transaction-details-modal>
 </div>
