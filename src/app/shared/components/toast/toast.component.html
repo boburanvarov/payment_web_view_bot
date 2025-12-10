@@ -1,0 +1,14 @@
+<div class="toast-container" [class.show]="show" [class.error]="type === 'error'">
+  <div class="toast-content">
+    <div class="toast-icon">
+      <i class="fas" [ngClass]="type === 'success' ? 'fa-check' : 'fa-exclamation'"></i>
+    </div>
+    <div class="toast-text">
+      <span class="toast-title">{{ title }}</span>
+      <span class="toast-message">{{ message }}</span>
+    </div>
+    <button class="toast-close" (click)="onClose()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>

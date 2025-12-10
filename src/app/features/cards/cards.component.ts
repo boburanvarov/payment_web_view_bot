@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { BankCardComponent } from '../../shared/components/bank-card/bank-card.component';
 import { AddCardModalComponent } from '../../shared/components/add-card-modal/add-card-modal.component';
+import { ToastComponent, ToastType } from '../../shared/components/toast/toast.component';
 import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
@@ -19,7 +20,7 @@ interface SwipeState {
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, BankCardComponent, AddCardModalComponent, TranslatePipe],
+  imports: [CommonModule, BottomNavComponent, BankCardComponent, AddCardModalComponent, ToastComponent, TranslatePipe],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })
@@ -30,16 +31,17 @@ export class CardsComponent implements OnInit {
 
   swipeStates: SwipeState[] = [];
   // How far the card can be swiped left to fully reveal delete button (must match CSS width)
-  private readonly SWIPE_THRESHOLD = 88;
+  private readonly SWIPE_THRESHOLD = 80;
 
   // Dialog states
   showDeleteDialog = false;
   deletingCard: Card | null = null;
   deletingIndex: number = -1;
 
-  // Toast states
   showToast = false;
   toastMessage = '';
+  toastTitle = '';
+  toastType: ToastType = 'success';
   private toastTimeout: any;
 
   // Add Card Modal state
@@ -183,20 +185,17 @@ export class CardsComponent implements OnInit {
       const cardNumber = this.deletingCard.number || '';
       const deletingIndex = this.deletingIndex;
 
-      // Close dialog immediately
       this.showDeleteDialog = false;
 
-      // Call API to delete card
       this.cardService.deleteCardFromAPI(cardId).subscribe({
         next: () => {
           this.swipeStates.splice(deletingIndex, 1);
-          this.showSuccessToast(`${cardName} ${cardNumber} kartasi o'chirildi`);
+          this.showToastMessage('success', "Karta o'chirildi!", `${cardName} ${cardNumber} kartasi o'chirildi`);
         },
         error: (err: unknown) => {
           console.error('Error deleting card:', err);
-          // For demo: still remove locally and show toast
           this.swipeStates.splice(deletingIndex, 1);
-          this.showSuccessToast(`${cardName} ${cardNumber} kartasi o'chirildi`);
+          this.showToastMessage('error', "Xatolik", "Kartani o'chirishda xatolik yuz berdi");
         }
       });
 
@@ -205,7 +204,9 @@ export class CardsComponent implements OnInit {
     }
   }
 
-  private showSuccessToast(message: string): void {
+  private showToastMessage(type: ToastType, title: string, message: string): void {
+    this.toastType = type;
+    this.toastTitle = title;
     this.toastMessage = message;
     this.showToast = true;
 
@@ -233,6 +234,6 @@ export class CardsComponent implements OnInit {
 
   onCardAdded(): void {
     this.initSwipeStates();
-    this.showSuccessToast("Karta muvaffaqiyatli qo'shildi");
+    this.showToastMessage('success', "Muvaffaqiyat", "Karta muvaffaqiyatli qo'shildi");
   }
 }

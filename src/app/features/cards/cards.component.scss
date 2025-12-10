@@ -40,16 +40,29 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  align-items: center;
+  align-items: stretch;
 }
 
-// Swipe to delete styles
 .swipe-card-container {
   position: relative;
   width: 100%;
-  max-width: 380px;
-  overflow: hidden;
-  border-radius: 16px;
+  overflow: visible;
+}
+
+.swipe-card-container.swiped-container {
+  width: calc(100% + 20px);
+  margin-left: -20px;
+}
+
+@media (min-width: 421px) {
+  .swipe-card-container {
+    overflow: hidden;
+  }
+
+  .swipe-card-container.swiped-container {
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .card-wrapper {
@@ -66,8 +79,7 @@
   }
 
   &.swiped {
-    // Card shifts left: delete button width (88px)
-    transform: translateX(-88px) !important;
+    transform: translateX(-80px) !important;
   }
 }
 
@@ -76,9 +88,8 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  // Must stay in sync with SWIPE_THRESHOLD in cards.component.ts
-  width: 88px;
-  height: calc(100% - 8px);
+  width: 70px;
+  height: 100%;
   background: #FF3B30;
   display: flex;
   align-items: center;
@@ -559,44 +570,5 @@
     i {
       color: #94A3B8;
     }
-  }
-}
-
-// Responsive layout for cards list and swipe area
-// 768px down to 350px: cards block is centered and delete button stays in the same column
-@media (max-width: 768px) and (min-width: 350px) {
-  .cards-screen {
-    .cards-list {
-      align-items: center;
-    }
-
-    .swipe-card-container {
-      min-width: 340px;
-      max-width: 380px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    .delete-action {
-      height: 100%;
-    }
-  }
-  .card-wrapper.swiped {
-    transform: translateX(-99px) !important;
-  }
-}
-
-// Extra fine-tuning for 350px–375px: a bit narrower card width for better side paddings
-@media (max-width: 375px) and (min-width: 350px) {
-  .cards-screen {
-    .swipe-card-container {
-      max-width: 300px;
-    }
-  }
-  .card-wrapper.swiped {
-    transform: translateX(-110px) !important;
-  }
-  .delete-action{
-    right: 10px;
   }
 }

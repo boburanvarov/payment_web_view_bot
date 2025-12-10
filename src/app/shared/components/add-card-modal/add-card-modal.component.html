@@ -97,5 +97,13 @@
             </div>
         </ng-container>
 
+        <app-toast
+            [show]="showToast"
+            [title]="toastTitle"
+            [message]="toastMessage"
+            [type]="toastType"
+            (close)="hideToast()">
+        </app-toast>
+
     </div>
 </div>

@@ -72,19 +72,11 @@
     </div>
   </div>
 
-  <!-- Custom Success Toast -->
-  <div class="toast-container" [class.show]="showToast">
-    <div class="toast-content">
-      <div class="toast-icon">
-        <i class="fas fa-check"></i>
-      </div>
-      <div class="toast-text">
-        <span class="toast-title">Karta o'chirildi!</span>
-        <span class="toast-message">{{ toastMessage }}</span>
-      </div>
-      <button class="toast-close" (click)="hideToast()">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  </div>
+  <app-toast
+    [show]="showToast"
+    [title]="toastTitle"
+    [message]="toastMessage"
+    [type]="toastType"
+    (close)="hideToast()">
+  </app-toast>
 </div>

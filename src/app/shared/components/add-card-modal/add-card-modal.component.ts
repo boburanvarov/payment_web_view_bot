@@ -2,13 +2,14 @@ import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angu
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { BankCardComponent } from '../bank-card/bank-card.component';
+import { ToastComponent, ToastType } from '../toast/toast.component';
 import { Card, AddCardResponse } from '../../../core/models';
 import { CardService } from '../../../core/services/card.service';
 
 @Component({
     selector: 'app-add-card-modal',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, BankCardComponent],
+    imports: [CommonModule, ReactiveFormsModule, BankCardComponent, ToastComponent],
     templateUrl: './add-card-modal.component.html',
     styleUrl: './add-card-modal.component.scss'
 })
@@ -34,6 +35,12 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
     timerSeconds = 60;
     timerInterval: any;
     isVerifying = false;
+
+    showToast = false;
+    toastTitle = '';
+    toastMessage = '';
+    toastType: ToastType = 'success';
+    private toastTimeout: any;
 
     constructor(
         private cardService: CardService,
@@ -103,6 +110,8 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
         this.phoneMask = '';
         this.timerSeconds = 60;
         this.clearTimer();
+
+        this.hideToast();
 
         if (this.cardForm) {
             this.cardForm.reset();
@@ -192,6 +201,13 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
             }).subscribe({
                 next: (response: AddCardResponse) => {
                     this.isSubmitting = false;
+
+                    if (!response.success) {
+                        const message = response.message || "Karta qo'shishda xatolik yuz berdi";
+                        this.showToastMessage('error', 'Xatolik', message);
+                        return;
+                    }
+
                     this.otpId = response.otpId || '';
                     this.cardType = response.cardType || '';
                     this.phoneMask = response.phoneMask || '+998 ** *** ** **';
@@ -201,12 +217,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
                 error: (err: unknown) => {
                     this.isSubmitting = false;
                     console.error('Error adding card:', err);
-                    // For demo: show OTP step anyway
-                    this.otpId = 'demo-otp-id';
-                    this.cardType = 'UZCARD';
-                    this.phoneMask = '+998 ** *** ** **';
-                    this.showOtpStep = true;
-                    this.startTimer();
+                    this.showToastMessage('error', 'Xatolik', "Karta qo'shishda xatolik yuz berdi. Iltimos, keyinroq yana urinib ko'ring.");
                 }
             });
         }
@@ -310,6 +321,13 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
             cardName: cardName
         }).subscribe({
             next: (response: AddCardResponse) => {
+                if (!response.success) {
+                    const message = response.message || "Kodni qayta yuborishda xatolik yuz berdi";
+                    this.showToastMessage('error', 'Xatolik', message);
+                    this.otpDigits.controls.forEach(c => c.reset());
+                    return;
+                }
+
                 this.otpId = response.otpId || '';
                 this.cardType = response.cardType || '';
                 this.otpDigits.controls.forEach(c => c.reset());
@@ -318,7 +336,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
             error: (err: unknown) => {
                 console.error('Error resending OTP:', err);
                 this.otpDigits.controls.forEach(c => c.reset());
-                this.startTimer();
+                this.showToastMessage('error', 'Xatolik', "Kodni qayta yuborishda xatolik yuz berdi");
             }
         });
     }
@@ -347,18 +365,28 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
             error: (err: unknown) => {
                 this.isVerifying = false;
                 console.error('Error verifying OTP:', err);
-                // For demo: close anyway
-                this.cardAdded.emit();
-                this.closeModal();
+                this.showToastMessage('error', 'Xatolik', "Tasdiqlash kodini tekshirishda xatolik yuz berdi");
             }
         });
     }
 
-    // Go back to card form
-    goBack(): void {
-        this.showOtpStep = false;
-        this.clearTimer();
-        this.otpDigits.controls.forEach(c => c.reset());
+    private showToastMessage(type: ToastType, title: string, message: string): void {
+        this.toastType = type;
+        this.toastTitle = title;
+        this.toastMessage = message;
+        this.showToast = true;
+
+        if (this.toastTimeout) {
+            clearTimeout(this.toastTimeout);
+        }
+
+        this.toastTimeout = setTimeout(() => {
+            this.hideToast();
+        }, 3000);
+    }
+
+    hideToast(): void {
+        this.showToast = false;
     }
 
     closeModal(): void {

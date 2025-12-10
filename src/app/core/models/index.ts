@@ -92,6 +92,7 @@ export interface AddCardRequest {
 }
 
 export interface AddCardResponse {
+  success: boolean;
   cardType: string | null;
   phoneMask: string | null;
   message: string | null;
