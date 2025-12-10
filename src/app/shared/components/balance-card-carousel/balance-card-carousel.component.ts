@@ -55,7 +55,9 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
       bankName: card.bankName,
       expiryDate: card.expiryDate,
     }));
-    // Emit initial card selection
+    // Initial active card: always start from the first card
+    this.currentIndex = 0;
+
     if (this.allCards.length > 0) {
       this.emitCardSelection();
     }
@@ -179,8 +181,19 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
   }
 
   getTransformValue(): number {
-    const cardWidth = 300; // Card width
-    const cardGap = 20; // Gap between cards
+    // Desktop defaults
+    let cardWidth = 300;
+    let cardGap = 28;
+
+    // Mobile layout (350–375px): fixed 300px width, 5px gap (CSS padding centers cards)
+    if (typeof window !== 'undefined') {
+      const viewportWidth = window.innerWidth;
+      if (viewportWidth <= 375 && viewportWidth >= 350) {
+        cardGap = 5; // match 5px gap in SCSS for this breakpoint
+        cardWidth = 300; // match SCSS fixed width
+      }
+    }
+
     return -this.currentIndex * (cardWidth + cardGap);
   }
 

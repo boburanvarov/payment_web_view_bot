@@ -2,7 +2,12 @@
 
 $card-width: 300px;
 $card-gap: 28px;
-$side-card-visible: 28px; // How much of side cards are visible
+$side-card-visible: 28px; // How much of side cards are visible on large screens
+
+// Mobile (<= 375px) layout tuning
+// Show prev/next cards around 20-30px while keeping center card dominant
+$mobile-card-gap: 12px;
+$mobile-side-visible: 24px; // how much of prev/next card is visible on the sides
 
 .carousel-wrapper {
   width: 100%;
@@ -56,5 +61,45 @@ $side-card-visible: 28px; // How much of side cards are visible
     opacity: 0.65;
     transform: scale(0.9);
     z-index: 1;
+  }
+}
+
+// Small screens (350px–375px): fixed card width 300px, prev/next peek from sides
+@media (max-width: 375px) and (min-width: 350px) {
+  .carousel-wrapper {
+    padding: 16px 0 20px;
+  }
+
+  .carousel-track {
+    // 5px gap between cards, center 300px card in viewport
+    gap: 5px;
+    padding-left: calc((100vw - 300px) / 2);
+    padding-right: calc((100vw - 300px) / 2);
+  }
+
+  .card-slide {
+    // Fixed 300px card width on this breakpoint
+    flex: 0 0 300px;
+    width: 300px;
+  }
+}
+
+// Small screens: show previous and next cards slightly (peeking) like in the design
+@media (max-width: 350px) {
+  .carousel-wrapper {
+    padding: 16px 0 20px;
+  }
+
+  .carousel-track {
+    gap: $mobile-card-gap;
+    // Keep a bit of space on both sides so next/prev cards peek in
+    padding-left: $mobile-side-visible;
+    padding-right: $mobile-side-visible;
+  }
+
+  .card-slide {
+    // Card width = viewport - 2 * side visible (so prev/next cards are visible)
+    flex: 0 0 calc(100% - (#{$mobile-side-visible * 2}));
+    width: calc(100% - (#{$mobile-side-visible * 2}));
   }
 }
