@@ -29,7 +29,7 @@
                     <div class="input-icon">
                         <i class="far fa-credit-card"></i>
                     </div>
-                    <input type="text" class="form-input" placeholder="Karta raqami"
+                    <input type="text" class="form-input" placeholder="Karta raqami" inputmode="numeric"
                         [value]="formatCardNumberDisplay(cardForm.get('cardNumber')?.value || '')"
                         (input)="onCardNumberInput($event)" maxlength="19" />
                 </div>
