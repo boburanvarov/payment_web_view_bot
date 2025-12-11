@@ -194,18 +194,14 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
 
     const cardSize = cardWidth + gap;
 
-    // 1-karta uchun alohida holat: chap devordan 20px (offset) da tursin
     if (this.currentIndex === 0) {
-      return 0; // carousel-track padding-left offsetni allaqachon 20px qilib turibdi
+      return 0;
     }
 
-    // Har bir kartaning markazi: offset + index * (cardWidth + gap) + cardWidth / 2
     const currentCenter = offset + this.currentIndex * cardSize + cardWidth / 2;
 
-    // Aktiv kartaning markazini viewport markaziga tenglashtiramiz
     const viewportCenter = vw / 2;
 
-    // translateX qiymati: viewport markazi - kartaning hozirgi markazi
     const shift = viewportCenter - currentCenter;
 
     return shift;
