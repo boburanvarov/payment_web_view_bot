@@ -1,37 +1,30 @@
 // WIDTHS
 $w-xs: 280px;
 $w-s: 300px;
-$w-m: 320px;
-$w-l: 340px;
+$w-m: 330px;
+$w-l: 360px;
 
 // GAP BETWEEN CARDS
 $gap: 20px;
 
-// FIRST CARD OFFSET (bigger)
-$offset: 32px;
+// FIRST CARD OFFSET
+$offset: 20px;
 
 .carousel-wrapper {
   width: 100%;
   padding: 12px 0 20px;
   overflow: hidden;
   position: relative;
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
 }
 
 .carousel-track {
   display: flex;
   align-items: center;
   gap: $gap;
-  transition: transform 0.3s ease;
-  will-change: transform;
-
-  // First card distance from edge
-  padding-left: $offset;
+  transition: transform 0.35s cubic-bezier(.25,.8,.25,1);
+  padding-left: $offset;   // 1-card devordan 20px
   padding-right: $offset;
+  will-change: transform;
 }
 
 .card-slide {
@@ -39,25 +32,26 @@ $offset: 32px;
   justify-content: center;
   align-items: center;
 
-  opacity: 0.55;
-  transform: scale(0.85);
+  opacity: 0.45;
+  transform: scale(.85);
   transition: transform .3s ease, opacity .3s ease;
+  z-index: 1;
 
-  // center/active
   &.active {
     opacity: 1;
     transform: scale(1);
     z-index: 3;
   }
 
-  // left & right cards
   &.prev,
   &.next {
-    opacity: 0.8;
-    transform: scale(0.93);
+    opacity: .8;
+    transform: scale(.93);
     z-index: 2;
   }
 }
+
+/* -------- CARD WIDTH BREAKPOINTS -------- */
 
 /* < 375px */
 @media (max-width: 374px) {
@@ -67,7 +61,7 @@ $offset: 32px;
   }
 }
 
-/* 375–424 */
+/* 375 – 424 */
 @media (min-width: 375px) and (max-width: 424px) {
   .card-slide {
     flex: 0 0 $w-s;
@@ -75,7 +69,7 @@ $offset: 32px;
   }
 }
 
-/* 425–767 */
+/* 425 – 767 */
 @media (min-width: 425px) and (max-width: 767px) {
   .card-slide {
     flex: 0 0 $w-m;
