@@ -1,11 +1,11 @@
 <div class="screen auto-payment-screen">
     <div class="page-header">
-      <button class="back-btn" (click)="goBack()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-      </button>
+        <button class="back-btn" (click)="goBack()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
         <h2>{{ 'autoPayment.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
@@ -23,7 +23,7 @@
         </div>
 
         <div class="loading-state" *ngIf="loading">
-            <p>{{ 'common.loading' | translate }}</p>
+            <div class="loader-5"><span></span></div>
         </div>
     </div>
 </div>
