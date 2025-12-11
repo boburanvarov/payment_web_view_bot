@@ -115,18 +115,36 @@
   }
 }
 
-@media (max-width: 768px) and (min-width: 375px) {
+/* < 420px: karta eni slayd kengligiga moslashadi, silliq breakpointlar bilan */
+@media (max-width: 374px) {
   .bank-card {
-    min-width: 340px;
-    max-width: 380px;
+    min-width: 280px;
+    max-width: 300px;
     width: 100%;
   }
 }
 
-@media (max-width: 375px) and (min-width: 350px) {
+@media (min-width: 375px) and (max-width: 399px) {
   .bank-card {
-    min-width: 300px;
+    min-width: 320px;
     max-width: 330px;
+    width: 100%;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 419px) {
+  .bank-card {
+    min-width: 330px;
+    max-width: 340px;
+    width: 100%;
+  }
+}
+
+/* 420px+ da avvalgi dizaynni saqlaymiz */
+@media (min-width: 420px) and (max-width: 768px) {
+  .bank-card {
+    min-width: 340px;
+    max-width: 380px;
     width: 100%;
   }
 }

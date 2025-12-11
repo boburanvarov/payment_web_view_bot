@@ -183,20 +183,23 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
   getTransformValue(): number {
     const vw = window.innerWidth;
 
-    let cardWidth = 320;
-    // gap: 15px on mobile/tablet, 20px on larger screens (matches SCSS)
-    const gap = vw < 768 ? 15 : 20;
-    const offset = 20; // SCSS $offset: 20px, prev/next peek around 20px
+    let cardWidth: number;
+    let gap: number;
+    let offset: number;
 
-    if (vw < 375) {
-      // < 375px -> $w-xs (280px)
-      cardWidth = 280;
-    } else if (vw < 768) {
-      // 375–767px -> $w-m (320px) so 375–420 va 425–767 bir xil bo'ladi
-      cardWidth = 320;
+    if (vw < 768) {
+      if (vw >= 375 && vw < 400) {
+        cardWidth = 300;
+        gap = 14;
+      } else {
+        cardWidth = 320;
+        gap = 15;
+      }
+      offset = 20;
     } else {
-      // 768+ -> $w-l (360px)
       cardWidth = 360;
+      gap = 20;
+      offset = 20;
     }
 
     const cardSize = cardWidth + gap;
@@ -206,9 +209,7 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
     }
 
     const currentCenter = offset + this.currentIndex * cardSize + cardWidth / 2;
-
     const viewportCenter = vw / 2;
-
     const shift = viewportCenter - currentCenter;
 
     return shift;
@@ -219,7 +220,6 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
 
 
   getCardGradientIndex(index: number): number {
-        // Return gradient index based on card position
         return index;
     }
 }

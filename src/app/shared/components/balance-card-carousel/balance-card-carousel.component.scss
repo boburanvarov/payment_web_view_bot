@@ -4,10 +4,8 @@ $w-s: 300px;
 $w-m: 320px;
 $w-l: 360px;
 
-// GAP BETWEEN CARDS
 $gap: 20px;
 
-// FIRST CARD OFFSET (controls how much of side cards peek on edges)
 $offset: 20px;
 
 .carousel-wrapper {
@@ -22,7 +20,7 @@ $offset: 20px;
   align-items: center;
   gap: $gap;
   transition: transform 0.35s cubic-bezier(.25,.8,.25,1);
-  padding-left: $offset;   // 1-card devordan 20px
+  padding-left: $offset;   
   padding-right: $offset;
   will-change: transform;
 }
@@ -51,28 +49,39 @@ $offset: 20px;
   }
 }
 
-/* -------- CARD WIDTH BREAKPOINTS -------- */
 
-/* < 375px */
 @media (max-width: 374px) {
-  .card-slide {
-    flex: 0 0 $w-xs;
-    width: $w-xs;
+  .carousel-track {
+    padding-left: $offset;   
+    padding-right: $offset; 
+    gap: 15px;
   }
 }
 
-/* 375 – 767: same layout for 375–420 and 425–767 */
-@media (min-width: 375px) and (max-width: 767px) {
+@media (min-width: 375px) and (max-width: 399px) {
   .carousel-track {
-    gap: 15px; // slightly more space between cards on mobile/tablet
+    padding-left: $offset;   
+    padding-right: $offset;  
+    gap: 14px;
   }
   .card-slide {
-    flex: 0 0 $w-m;
+    flex: 0 0 300px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 767px) {
+  .carousel-track {
+    padding-left: $offset;   
+    padding-right: $offset;  
+    gap: 15px;               
+  }
+  .card-slide {
+    flex: 0 0 $w-m;          
     width: $w-m;
   }
 }
 
-/* 768+ */
 @media (min-width: 768px) {
   .card-slide {
     flex: 0 0 $w-l;
