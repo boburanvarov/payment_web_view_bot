@@ -13,7 +13,7 @@
         </div>
         <span class="stat-label">{{ 'home.income' | translate }}</span>
       </div>
-      <span class="stat-value">{{ (processedIncome || income) | money }} so'm</span>
+      <span class="stat-value">{{ processedIncome | money }} so'm</span>
     </div>
 
     <div class="stat-card expense-stat">
@@ -27,7 +27,8 @@
         </div>
         <span class="stat-label">{{ 'home.expenses' | translate }}</span>
       </div>
-      <span class="stat-value">{{ (processedExpenses || expenses) | money }} so'm</span>
+      <span class="stat-value">{{ processedExpenses | money }} so'm</span>
+
     </div>
   </div>
 

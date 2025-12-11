@@ -241,15 +241,32 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         if ('content' in this.reportData) {
             // HomePageReportResponse
             const homeData = this.reportData as HomePageReportResponse;
-            this.processedIncome = homeData.incomeAmount;
-            this.processedExpenses = homeData.expensesAmount;
-            this.processedTransactions = homeData.content.map(tx => this.mapHomeTransactionToTransaction(tx));
+            const hasContent = Array.isArray(homeData.content) && homeData.content.length > 0;
+
+            if (!hasContent || !homeData.incomeAmount && !homeData.expensesAmount) {
+                // Hech qanday tranzaksiya yo'q yoki income/expenses 0 bo'lsa, hammasini 0 qilamiz
+                this.processedIncome = 0;
+                this.processedExpenses = 0;
+                this.processedTransactions = [];
+            } else {
+                this.processedIncome = homeData.incomeAmount || 0;
+                this.processedExpenses = homeData.expensesAmount || 0;
+                this.processedTransactions = homeData.content.map(tx => this.mapHomeTransactionToTransaction(tx));
+            }
         } else if ('transactions' in this.reportData) {
             // OverviewReportResponse
             const overviewData = this.reportData as OverviewReportResponse;
-            this.processedIncome = overviewData.summary.income;
-            this.processedExpenses = overviewData.summary.expenses;
-            this.processedTransactions = overviewData.transactions.map(tx => this.mapOverviewTransactionToTransaction(tx));
+            const hasTransactions = Array.isArray(overviewData.transactions) && overviewData.transactions.length > 0;
+
+            if (!hasTransactions || !overviewData.summary.income && !overviewData.summary.expenses) {
+                this.processedIncome = 0;
+                this.processedExpenses = 0;
+                this.processedTransactions = [];
+            } else {
+                this.processedIncome = overviewData.summary.income || 0;
+                this.processedExpenses = overviewData.summary.expenses || 0;
+                this.processedTransactions = overviewData.transactions.map(tx => this.mapOverviewTransactionToTransaction(tx));
+            }
         }
     }
 

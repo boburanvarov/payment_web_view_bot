@@ -1,13 +1,13 @@
 // WIDTHS
 $w-xs: 280px;
 $w-s: 300px;
-$w-m: 330px;
+$w-m: 320px;
 $w-l: 360px;
 
 // GAP BETWEEN CARDS
 $gap: 20px;
 
-// FIRST CARD OFFSET
+// FIRST CARD OFFSET (controls how much of side cards peek on edges)
 $offset: 20px;
 
 .carousel-wrapper {
@@ -61,16 +61,11 @@ $offset: 20px;
   }
 }
 
-/* 375 – 424 */
-@media (min-width: 375px) and (max-width: 424px) {
-  .card-slide {
-    flex: 0 0 $w-s;
-    width: $w-s;
+/* 375 – 767: same layout for 375–420 and 425–767 */
+@media (min-width: 375px) and (max-width: 767px) {
+  .carousel-track {
+    gap: 15px; // slightly more space between cards on mobile/tablet
   }
-}
-
-/* 425 – 767 */
-@media (min-width: 425px) and (max-width: 767px) {
   .card-slide {
     flex: 0 0 $w-m;
     width: $w-m;
