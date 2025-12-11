@@ -103,3 +103,17 @@ $mobile-side-visible: 24px; // how much of prev/next card is visible on the side
     width: calc(100% - (#{$mobile-side-visible * 2}));
   }
 }
+
+// Medium to large screens (420px+): first card 20px from left, others centered via JS
+@media (min-width: 420px) {
+  .carousel-track {
+    gap: $card-gap;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .card-slide {
+    flex: 0 0 $card-width;
+    width: $card-width;
+  }
+}

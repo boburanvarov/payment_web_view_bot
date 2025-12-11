@@ -194,7 +194,31 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
       }
     }
 
+    // For 420px+ screens: first card at 20px from left, others centered
+    if (typeof window !== 'undefined' && window.innerWidth >= 420) {
+      const viewportWidth = window.innerWidth;
+      const paddingLeft = 20; // CSS padding-left value
+
+      if (this.currentIndex === 0) {
+        // First card: stays at 20px from left (no transform needed)
+        return 0;
+      } else {
+        // Other cards: center them in viewport
+        // Center position = (viewport - cardWidth) / 2
+        // Current card's natural position from left = paddingLeft + currentIndex * (cardWidth + cardGap)
+        // Transform needed = centerPosition - naturalPosition + paddingLeft
+        const centerPosition = (viewportWidth - cardWidth) / 2;
+        const naturalPosition = paddingLeft + this.currentIndex * (cardWidth + cardGap);
+        return centerPosition - naturalPosition;
+      }
+    }
+
     return -this.currentIndex * (cardWidth + cardGap);
+  }
+
+  // Check if currently showing first card (for dynamic padding)
+  get isFirstCard(): boolean {
+    return this.currentIndex === 0;
   }
 
   getCardGradientIndex(index: number): number {
