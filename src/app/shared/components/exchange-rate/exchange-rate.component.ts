@@ -150,6 +150,9 @@ export class ExchangeRateComponent implements OnInit {
 
   onAmountChange(event: Event, type: 'base' | 'quote'): void {
     const input = event.target as HTMLInputElement;
+    const cursorPos = input.selectionStart || 0;
+    const oldLength = input.value.length;
+
     const value = parseFloat(input.value.replace(/\s/g, '')) || 0;
 
     if (type === 'base') {
@@ -157,6 +160,13 @@ export class ExchangeRateComponent implements OnInit {
     } else {
       this.quoteAmount.set(value);
     }
+
+    // Restore cursor position after Angular updates the value
+    setTimeout(() => {
+      const newLength = input.value.length;
+      const newPos = cursorPos + (newLength - oldLength);
+      input.setSelectionRange(newPos, newPos);
+    }, 0);
 
     this.amountSubject.next({ value, type });
   }
