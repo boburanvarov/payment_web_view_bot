@@ -114,7 +114,7 @@
 // Report Section
 .report-section {
   padding: 0 20px;
-  margin-bottom: 24px;
+  margin-bottom: 5px;
   position: relative;
 
   &.initial-reports {
@@ -357,6 +357,77 @@
   padding: 0 20px;
   margin-bottom: 24px;
 
+  .stats-section {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .stat-card {
+    min-width: 120px;
+    width: 100%;
+    max-width: 400px;
+    height: 78px;
+    padding: 12px;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .stat-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .income-stat .stat-icon {
+    background: rgba(16, 185, 129, 0.1);
+
+    svg {
+      color: #10B981;
+      stroke: #10B981;
+    }
+  }
+
+  .expense-stat .stat-icon {
+    background: rgba(239, 68, 68, 0.1);
+
+    svg {
+      color: #EF4444;
+      stroke: #EF4444;
+    }
+  }
+
+  .stat-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .stat-label {
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+  }
+
   .section-title {
     font-size: 20px;
     font-weight: 700;
@@ -384,6 +455,14 @@
       font-size: 14px;
       color: var(--text-secondary);
       margin: 0;
+    }
+  }
+}
+
+@media (max-width: 410px) {
+  .empty-transactions {
+    .stat-value {
+      font-size: 14px;
     }
   }
 }

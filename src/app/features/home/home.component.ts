@@ -11,11 +11,12 @@ import { BannerCarouselComponent, Banner } from '../../shared/components/banner-
 import { ExchangeRateComponent } from '../../shared/components/exchange-rate/exchange-rate.component';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { MoneyPipe } from '../../shared/pipe/money.pipe';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent, TranslatePipe],
+    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent, TranslatePipe, MoneyPipe],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

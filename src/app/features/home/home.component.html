@@ -40,6 +40,36 @@
     <!-- Empty Transaction State -->
     <div class="empty-transactions"
         *ngIf="!loading() && cards().length > 0 && (!cardReport() || !$any(cardReport()).content?.length)">
+
+        <!-- Stats Section (shows 0 values) -->
+        <div class="stats-section">
+            <div class="stat-card income-stat">
+                <div class="stat-content">
+                    <div class="stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19V5m-7 7l7 7 7-7" />
+                        </svg>
+                    </div>
+                    <span class="stat-label">{{ 'home.income' | translate }}</span>
+                </div>
+                <span class="stat-value">{{ income | money }} so'm</span>
+            </div>
+
+            <div class="stat-card expense-stat">
+                <div class="stat-content">
+                    <div class="stat-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 5v14m-7-7l7-7 7 7" />
+                        </svg>
+                    </div>
+                    <span class="stat-label">{{ 'home.expenses' | translate }}</span>
+                </div>
+                <span class="stat-value">{{ expenses | money }} so'm</span>
+            </div>
+        </div>
+
         <h3 class="section-title">{{ 'home.recentTransactions' | translate }}</h3>
         <div class="empty-box">
             <img src="assets/img/transaction-empty.png" alt="No transactions">
