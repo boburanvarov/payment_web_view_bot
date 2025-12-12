@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { TranslateService } from '../../core/services/translate.service';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
 import { environment } from '../../../environments/environment';
 
 interface FaqItem {
@@ -22,7 +24,7 @@ interface FaqItem {
 @Component({
     selector: 'app-faq',
     standalone: true,
-    imports: [CommonModule, TranslatePipe],
+    imports: [CommonModule, TranslatePipe, EmptyStateComponent, LoadingStateComponent],
     templateUrl: './faq.component.html',
     styleUrl: './faq.component.scss'
 })

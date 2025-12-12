@@ -1,92 +1,91 @@
-<div class="screen home-screen">
-    <!-- Profile Header -->
-    <div class="profile-header">
-        <div class="profile-info">
-            <div class="profile-avatar-wrapper">
-                <div class="profile-avatar" *ngIf="!userProfile.photoUrl">
-                    <span class="avatar-initials">{{ getUserInitials() }}</span>
-                </div>
-                <img *ngIf="userProfile.photoUrl" [src]="userProfile.photoUrl" alt="Avatar" class="avatar-img">
-                <div class="verified-badge">
-                    <img src="/assets/img/verified.svg" alt="Verified" />
-                </div>
-            </div>
-            <div class="profile-text">
-                <h2 class="profile-name">{{ userProfile.name }}</h2>
-                <p class="profile-username">{{ userProfile.username }}</p>
-            </div>
-        </div>
-        <button class="notification-btn">
-            <i class="fas fa-bell"></i>
-        </button>
-    </div>
-
-    <!-- Loading -->
-    <div *ngIf="loading()" class="loading-state">
-        <div class="loader-5"><span></span></div>
-    </div>
-
-    <!-- Cards carousel -->
-    <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
-        [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses" (cardSelected)="onCardSelected($event)">
-    </app-balance-card-carousel>
-
-    <!-- Report Section - Card Reports -->
-    <div class="report-section initial-reports" *ngIf="cardReport() && $any(cardReport()).content?.length > 0">
-        <app-report-card [reportData]="cardReport()!" [showFilters]="false" [showSeeAll]="true" [maxTransactions]="3">
-        </app-report-card>
-    </div>
-
-    <!-- Empty Transaction State -->
-    <div class="empty-transactions"
-        *ngIf="!loading() && cards().length > 0 && (!cardReport() || !$any(cardReport()).content?.length)">
-
-        <!-- Stats Section (shows 0 values) -->
-        <div class="stats-section">
-            <div class="stat-card income-stat">
-                <div class="stat-content">
-                    <div class="stat-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 19V5m-7 7l7 7 7-7" />
-                        </svg>
+<app-pull-to-refresh (refresh)="onRefresh()">
+    <div class="screen home-screen">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-info">
+                <div class="profile-avatar-wrapper">
+                    <div class="profile-avatar" *ngIf="!userProfile.photoUrl">
+                        <span class="avatar-initials">{{ getUserInitials() }}</span>
                     </div>
-                    <span class="stat-label">{{ 'home.income' | translate }}</span>
-                </div>
-                <span class="stat-value">{{ ($any(cardReport())?.incomeAmount || 0) | money }} so'm</span>
-            </div>
-
-            <div class="stat-card expense-stat">
-                <div class="stat-content">
-                    <div class="stat-icon">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 5v14m-7-7l7-7 7 7" />
-                        </svg>
+                    <img *ngIf="userProfile.photoUrl" [src]="userProfile.photoUrl" alt="Avatar" class="avatar-img">
+                    <div class="verified-badge">
+                        <img src="/assets/img/verified.svg" alt="Verified" />
                     </div>
-                    <span class="stat-label">{{ 'home.expenses' | translate }}</span>
                 </div>
-                <span class="stat-value">{{ ($any(cardReport())?.expensesAmount || 0) | money }} so'm</span>
+                <div class="profile-text">
+                    <h2 class="profile-name">{{ userProfile.name }}</h2>
+                    <p class="profile-username">{{ userProfile.username }}</p>
+                </div>
             </div>
+            <button class="notification-btn">
+                <i class="far fa-bell"></i>
+            </button>
         </div>
 
-        <h3 class="section-title">{{ 'home.recentTransactions' | translate }}</h3>
-        <div class="empty-box">
-            <img src="assets/img/transaction-empty.png" alt="No transactions">
-            <p>{{ 'common.noData' | translate }}</p>
+        <!-- Cards carousel -->
+        <app-loading-state *ngIf="loading()" [inline]="true"></app-loading-state>
+        <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
+            [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses"
+            (cardSelected)="onCardSelected($event)">
+        </app-balance-card-carousel>
+
+        <!-- Report Section - Card Reports -->
+        <app-loading-state *ngIf="cardReportLoading()" [inline]="true"></app-loading-state>
+        <div class="report-section initial-reports"
+            *ngIf="!cardReportLoading() && cardReport() && $any(cardReport()).content?.length > 0">
+            <app-report-card [reportData]="cardReport()!" [showFilters]="false" [showSeeAll]="true"
+                [maxTransactions]="3">
+            </app-report-card>
+        </div>
+
+        <!-- Empty Transaction State -->
+        <div class="empty-transactions"
+            *ngIf="!loading() && cards().length > 0 && (!cardReport() || !$any(cardReport()).content?.length)">
+
+            <!-- Stats Section (shows 0 values) -->
+            <div class="stats-section">
+                <div class="stat-card income-stat">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 19V5m-7 7l7 7 7-7" />
+                            </svg>
+                        </div>
+                        <span class="stat-label">{{ 'home.income' | translate }}</span>
+                    </div>
+                    <span class="stat-value">{{ ($any(cardReport())?.incomeAmount || 0) | money }} so'm</span>
+                </div>
+
+                <div class="stat-card expense-stat">
+                    <div class="stat-content">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 5v14m-7-7l7-7 7 7" />
+                            </svg>
+                        </div>
+                        <span class="stat-label">{{ 'home.expenses' | translate }}</span>
+                    </div>
+                    <span class="stat-value">{{ ($any(cardReport())?.expensesAmount || 0) | money }} so'm</span>
+                </div>
+            </div>
+
+            <h3 class="section-title">{{ 'home.recentTransactions' | translate }}</h3>
+            <app-empty-state></app-empty-state>
+        </div>
+
+        <!-- Advertising Banners -->
+        <div class="advertising-banners" *ngIf="banners.length > 0">
+            <app-banner-carousel [banners]="banners"></app-banner-carousel>
+        </div>
+
+        <!-- Exchange Rate Component -->
+        <app-exchange-rate></app-exchange-rate>
+
+        <!-- Empty state -->
+        <div *ngIf="!loading() && cards().length === 0">
+            <app-empty-state message="cards.noCards"></app-empty-state>
         </div>
     </div>
-
-    <!-- Advertising Banners -->
-    <div class="advertising-banners" *ngIf="banners.length > 0">
-        <app-banner-carousel [banners]="banners"></app-banner-carousel>
-    </div>
-
-    <!-- Exchange Rate Component -->
-    <app-exchange-rate></app-exchange-rate>
-
-    <!-- Empty state -->
-    <div *ngIf="!loading() && cards().length === 0" class="empty-state">
-        <p>{{ 'cards.noCards' | translate }}</p>
-    </div>
-</div>
+</app-pull-to-refresh>

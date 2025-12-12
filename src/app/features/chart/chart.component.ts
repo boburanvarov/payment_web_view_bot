@@ -8,6 +8,8 @@ import { environment } from '../../../environments/environment';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { TranslateService } from '../../core/services/translate.service';
 import { ThemeService } from '../../core/services/theme.service';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
 
 interface CategoryData {
     category: string;
@@ -28,7 +30,7 @@ interface ChartTransaction {
 @Component({
     selector: 'app-chart',
     standalone: true,
-    imports: [CommonModule, NgxEchartsModule, TranslatePipe],
+    imports: [CommonModule, NgxEchartsModule, TranslatePipe, EmptyStateComponent, LoadingStateComponent],
     providers: [
         {
             provide: NGX_ECHARTS_CONFIG,

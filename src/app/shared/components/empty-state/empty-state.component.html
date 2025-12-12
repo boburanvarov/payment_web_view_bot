@@ -1,0 +1,5 @@
+<div class="empty-state-box">
+    <img src="assets/img/transaction-empty.png" alt="empty">
+    <p *ngIf="useTranslate">{{ message | translate }}</p>
+    <p *ngIf="!useTranslate">{{ message }}</p>
+</div>

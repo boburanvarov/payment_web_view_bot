@@ -5,11 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ProfileResponse } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
 
 @Component({
     selector: 'app-auto-payment',
     standalone: true,
-    imports: [CommonModule, TranslatePipe],
+    imports: [CommonModule, TranslatePipe, LoadingStateComponent],
     templateUrl: './auto-payment.component.html',
     styleUrl: './auto-payment.component.scss'
 })

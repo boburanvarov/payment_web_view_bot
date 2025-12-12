@@ -9,9 +9,7 @@
 
     <div class="page-content">
         <!-- Loading State -->
-        <div class="loading-state" *ngIf="loading()">
-            <div class="loader-5"><span></span></div>
-        </div>
+        <app-loading-state *ngIf="loading()"></app-loading-state>
 
         <!-- FAQ List -->
         <div class="faq-card" *ngIf="!loading() && faqItems().length > 0">
@@ -30,8 +28,8 @@
         </div>
 
         <!-- Empty State -->
-        <div class="empty-state" *ngIf="!loading() && faqItems().length === 0">
-            <p>{{ 'common.noData' | translate }}</p>
+        <div *ngIf="!loading() && faqItems().length === 0">
+            <app-empty-state></app-empty-state>
         </div>
     </div>
 </div>

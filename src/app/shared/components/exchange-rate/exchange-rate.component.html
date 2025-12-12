@@ -28,7 +28,7 @@
         </div>
       </div>
       <input type="text" class="currency-amount-input" [value]="currentBaseAmount" inputmode="numeric"
-        (input)="onAmountChange($event, 'base')" (click)="$event.stopPropagation()" />
+        (input)="onAmountChange($event, 'base')" (focus)="onInputFocus($event)" (click)="onInputClick($event)" />
     </div>
 
     <!-- Swap Button -->
@@ -60,7 +60,7 @@
         </div>
       </div>
       <input type="text" class="currency-amount-input" [value]="currentQuoteAmount" inputmode="numeric"
-        (input)="onAmountChange($event, 'quote')" (click)="$event.stopPropagation()" />
+        (input)="onAmountChange($event, 'quote')" (focus)="onInputFocus($event)" (click)="onInputClick($event)" />
     </div>
   </div>
 

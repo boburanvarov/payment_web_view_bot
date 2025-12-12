@@ -168,6 +168,25 @@ export class ExchangeRateComponent implements OnInit {
     this.amountSubject.next({ value, type });
   }
 
+  onInputFocus(event: FocusEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Move cursor to the end after focus
+    setTimeout(() => {
+      const len = input.value.length;
+      input.setSelectionRange(len, len);
+    }, 0);
+  }
+
+  onInputClick(event: MouseEvent): void {
+    const input = event.target as HTMLInputElement;
+    // Move cursor to the end on click
+    setTimeout(() => {
+      const len = input.value.length;
+      input.setSelectionRange(len, len);
+    }, 0);
+    event.stopPropagation();
+  }
+
   calculateRate(amount: number, type: 'base' | 'quote'): void {
     const base = this.selectedBaseCurrency();
     const quote = this.selectedQuoteCurrency();

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { AddCardModalComponent } from '../../shared/components/add-card-modal/add-card-modal.component';
 import { ToastComponent, ToastType } from '../../shared/components/toast/toast.component';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
+import { PullToRefreshComponent } from '../../shared/components/pull-to-refresh/pull-to-refresh.component';
 import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
@@ -20,7 +22,7 @@ interface SwipeState {
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, AddCardModalComponent, ToastComponent, TranslatePipe, MoneyPipe],
+  imports: [CommonModule, BottomNavComponent, AddCardModalComponent, ToastComponent, LoadingStateComponent, PullToRefreshComponent, TranslatePipe, MoneyPipe],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })
@@ -276,5 +278,9 @@ export class CardsComponent implements OnInit {
   onCardAdded(): void {
     this.initSwipeStates();
     this.showToastMessage('success', "Muvaffaqiyat", "Karta muvaffaqiyatli qo'shildi");
+  }
+
+  onRefresh(): void {
+    this.cardService.loadCardsFromAPI();
   }
 }

@@ -183,7 +183,7 @@
 // Delete action - inside card row
 .delete-action {
   position: absolute;
-  right: 0px;
+  right: 0;
   top: 0;
   bottom: 0;
   width: 80px;
@@ -575,5 +575,98 @@
   &:disabled {
     background: #9CA3AF;
     cursor: not-allowed;
+  }
+}
+
+// Custom Toast - Figma design
+.toast-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10000;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  width: calc(100% - 32px);
+  max-width: 400px;
+
+  &.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #1E293B;
+  padding: 16px 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3),
+    0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.toast-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background: #10B981;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    color: white;
+    font-size: 20px;
+  }
+}
+
+.toast-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+
+.toast-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+
+.toast-message {
+  font-size: 14px;
+  color: #94A3B8;
+  line-height: 1.4;
+}
+
+.toast-close {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+
+  i {
+    color: #64748B;
+    font-size: 16px;
+  }
+
+  &:hover {
+    i {
+      color: #94A3B8;
+    }
   }
 }

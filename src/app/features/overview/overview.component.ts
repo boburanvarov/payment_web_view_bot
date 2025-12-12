@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
+import { PullToRefreshComponent } from '../../shared/components/pull-to-refresh/pull-to-refresh.component';
 import { TransactionService } from '../../core/services/transaction.service';
 import { TransactionFilterType, OverviewReportResponse } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
@@ -10,7 +12,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, ReportCardComponent, TranslatePipe],
+  imports: [CommonModule, BottomNavComponent, ReportCardComponent, LoadingStateComponent, PullToRefreshComponent, TranslatePipe],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
 })
@@ -80,5 +82,10 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   navigateToChart(): void {
     this.router.navigate(['/chart']);
+  }
+
+  onRefresh(): void {
+    this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
+    this.checkDataLoaded();
   }
 }

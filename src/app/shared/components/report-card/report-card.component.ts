@@ -105,6 +105,18 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
+     * Handle stat card click to filter by income or expense
+     */
+    onStatCardClick(type: 'INCOME' | 'EXPENSE'): void {
+        // Toggle: if already selected, go back to ALL
+        if (this.selectedFilterType === type) {
+            this.onFilterApply(TransactionFilterType.ALL);
+        } else {
+            this.onFilterApply(type as TransactionFilterType);
+        }
+    }
+
+    /**
      * Check if a filter type is currently active
      */
     isFilterActive(): boolean {

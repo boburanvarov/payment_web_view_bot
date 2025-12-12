@@ -89,23 +89,29 @@
   }
 
   .notification-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: transparent;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card-bg, #F5F5F7);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-color);
     border: none;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
     &:hover {
-      background: var(--screen-bg);
+      background: var(--hover-bg, #EBEBEB);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
     }
 
     i {
+      color: var(--secondary-text, #9CA3AF);
       font-size: 20px;
     }
   }

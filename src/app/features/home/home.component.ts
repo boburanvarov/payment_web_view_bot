@@ -9,6 +9,9 @@ import { BalanceCardCarouselComponent } from '../../shared/components/balance-ca
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { BannerCarouselComponent, Banner } from '../../shared/components/banner-carousel/banner-carousel.component';
 import { ExchangeRateComponent } from '../../shared/components/exchange-rate/exchange-rate.component';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
+import { PullToRefreshComponent } from '../../shared/components/pull-to-refresh/pull-to-refresh.component';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { MoneyPipe } from '../../shared/pipe/money.pipe';
@@ -16,7 +19,7 @@ import { MoneyPipe } from '../../shared/pipe/money.pipe';
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent, TranslatePipe, MoneyPipe],
+    imports: [CommonModule, BottomNavComponent, BalanceCardCarouselComponent, ReportCardComponent, BannerCarouselComponent, ExchangeRateComponent, EmptyStateComponent, LoadingStateComponent, PullToRefreshComponent, TranslatePipe, MoneyPipe],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
@@ -130,5 +133,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             // Clear card report when total balance card is selected
             this.transactionService.clearCardReport();
         }
+    }
+
+    onRefresh(): void {
+        // Reload cards data
+        this.cardService.loadCardsFromAPI();
     }
 }

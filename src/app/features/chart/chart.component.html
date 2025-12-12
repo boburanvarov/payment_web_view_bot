@@ -18,9 +18,7 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="isLoading" class="loading-state">
-    <div class="loader-5"><span></span></div>
-  </div>
+  <app-loading-state *ngIf="isLoading"></app-loading-state>
 
   <!-- Chart Content -->
   <div *ngIf="!isLoading" class="chart-content">
@@ -30,8 +28,8 @@
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="categories.length === 0" class="empty-state">
-      <p>{{ 'common.noData' | translate }}</p>
+    <div *ngIf="categories.length === 0">
+      <app-empty-state></app-empty-state>
     </div>
 
     <!-- Category List -->

@@ -1,0 +1,13 @@
+<div class="pull-to-refresh-container" (touchstart)="onTouchStart($event)" (touchmove)="onTouchMove($event)"
+    (touchend)="onTouchEnd()">
+
+    <!-- Refresh Indicator -->
+    <div class="refresh-indicator" [style.height.px]="pullDistance()" [class.refreshing]="isRefreshing()">
+        <div class="refresh-icon" [class.spin]="isRefreshing()">
+            <i class="fas fa-redo"></i>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <ng-content></ng-content>
+</div>

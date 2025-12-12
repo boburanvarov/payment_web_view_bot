@@ -3,7 +3,8 @@
 
   <!-- Income/Expense Stats -->
   <div class="stats-section">
-    <div class="stat-card income-stat">
+    <div class="stat-card income-stat" [class.active]="selectedFilterType === 'INCOME'"
+      (click)="onStatCardClick('INCOME')">
       <div class="stat-content">
         <div class="stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -16,8 +17,8 @@
       <span class="stat-value">{{ processedIncome | money }} so'm</span>
     </div>
 
-    <div class="stat-card expense-stat">
-
+    <div class="stat-card expense-stat" [class.active]="selectedFilterType === 'EXPENSE'"
+      (click)="onStatCardClick('EXPENSE')">
       <div class="stat-content">
         <div class="stat-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -28,7 +29,6 @@
         <span class="stat-label">{{ 'home.expenses' | translate }}</span>
       </div>
       <span class="stat-value">{{ processedExpenses | money }} so'm</span>
-
     </div>
   </div>
 
