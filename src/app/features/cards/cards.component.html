@@ -24,20 +24,56 @@
       (touchmove)="onTouchMove($event, i)" (touchend)="onTouchEnd($event, i)" (mousedown)="onMouseDown($event, i)"
       (mousemove)="onMouseMove($event, i)" (mouseup)="onMouseUp($event, i)" (mouseleave)="onMouseUp($event, i)">
 
-      <!-- Delete button background -->
-      <div class="delete-action" [class.visible]="swipeStates[i]?.showDelete">
-        <button class="delete-btn" (click)="deleteCard(card, i)">
-          <i class="fas fa-trash-alt fa-2x"></i>
-        </button>
-      </div>
+      <!-- Card + Delete combined container -->
+      <div class="card-swipe-track">
+        <!-- Bank Card - exact copy from bank-card component -->
+        <div class="bank-card" [style.background]="getCardBackgroundStyle(i)" [style.background-size]="'cover, contain'"
+          [style.background-position]="'center, center'" [style.background-repeat]="'no-repeat, no-repeat'"
+          [style.transform]="'translateX(' + (swipeStates[i]?.translateX || 0) + 'px)'"
+          [class.swiping]="swipeStates[i]?.isSwiping">
 
-      <!-- Card content -->
-      <div class="card-wrapper" [style.transform]="'translateX(' + (swipeStates[i]?.translateX || 0) + 'px)'"
-        [class.swiping]="swipeStates[i]?.isSwiping" [class.swiped]="swipeStates[i]?.showDelete">
-        <app-bank-card [card]="card" [gradientIndex]="i"></app-bank-card>
+          <!-- Card Content -->
+          <div class="card-content">
+            <!-- Bank Logo and Name -->
+            <div class="bank-header">
+              <div class="bank-label">{{ card.cardName }}</div>
+              <div class="bank-logo-wrapper">
+                <img *ngIf="card.bankLogoMini" [src]="card.bankLogo" alt="Bank Logo">
+              </div>
+            </div>
+
+            <!-- Balance Section -->
+            <div class="balance-section">
+              <div class="balance-amount">{{ card.balance | money }} <span class="currency">so'm</span></div>
+            </div>
+
+            <!-- Card Details -->
+            <div class="card-info">
+              <div class="card-number-row">
+                <div class="card-left">
+                  <span class="card-number">{{ formatCardNumberWithMask(card.number) }}</span>
+                </div>
+                <div class="card-right">
+                  <div class="card-type-logo">
+                    <img *ngIf="card.processingLogoMini" [src]="card.processingLogoMini" [alt]="card.cardType">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete button -->
+        <div class="delete-action" [class.visible]="swipeStates[i]?.showDelete">
+          <button class="delete-btn" (click)="deleteCard(card, i)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+
 
   <!-- Empty state -->
   <div *ngIf="!loading() && cards().length === 0" class="empty-state">

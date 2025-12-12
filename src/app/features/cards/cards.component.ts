@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
-import { BankCardComponent } from '../../shared/components/bank-card/bank-card.component';
 import { AddCardModalComponent } from '../../shared/components/add-card-modal/add-card-modal.component';
 import { ToastComponent, ToastType } from '../../shared/components/toast/toast.component';
 import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { MoneyPipe } from '../../shared/pipe/money.pipe';
 
 interface SwipeState {
   startX: number;
@@ -20,7 +20,7 @@ interface SwipeState {
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [CommonModule, BottomNavComponent, BankCardComponent, AddCardModalComponent, ToastComponent, TranslatePipe],
+  imports: [CommonModule, BottomNavComponent, AddCardModalComponent, ToastComponent, TranslatePipe, MoneyPipe],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })
@@ -31,7 +31,7 @@ export class CardsComponent implements OnInit {
 
   swipeStates: SwipeState[] = [];
   // How far the card can be swiped left to fully reveal delete button (must match CSS width)
-  private readonly SWIPE_THRESHOLD = 80;
+  private readonly SWIPE_THRESHOLD = 100;
 
   // Dialog states
   showDeleteDialog = false;
@@ -47,6 +47,25 @@ export class CardsComponent implements OnInit {
   // Add Card Modal state
   showAddCardModal = false;
 
+  // Beautiful gradient colors for each card - copied from bank-card component
+  private cardGradients: string[] = [
+    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Purple to violet
+    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', // Pink to red
+    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', // Blue to cyan
+    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', // Green to teal
+    'linear-gradient(135deg, #fa709a 0%, #fee140 100%)', // Pink to yellow
+    'linear-gradient(135deg, #30cfd0 0%, #330867 100%)', // Cyan to dark purple
+    'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)', // Light teal to pink
+    'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)', // Coral to pink
+    'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)', // Peach to orange
+    'linear-gradient(135deg, #ff6b9d 0%, #c44569 100%)', // Pink to dark pink
+    'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)', // Lavender to pink
+    'linear-gradient(135deg, #fad0c4 0%, #ffd1ff 100%)', // Peach to light pink
+    'linear-gradient(135deg, #ff8a80 0%, #ea4c89 100%)', // Red to magenta
+    'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)', // Green to blue
+    'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)', // Purple to yellow
+  ];
+
   constructor(
     public cardService: CardService,
     public router: Router
@@ -59,6 +78,28 @@ export class CardsComponent implements OnInit {
   ngOnInit(): void {
     this.initSwipeStates();
   }
+
+  // Card gradient methods - copied from bank-card component
+  getCardGradient(index: number): string {
+    return this.cardGradients[index % this.cardGradients.length];
+  }
+
+  getCardBackgroundStyle(index: number): string {
+    const gradient = this.getCardGradient(index);
+    // Gradient as base layer, card vector overlays on top
+    return `${gradient}, url('/assets/img/card-vector.png')`;
+  }
+
+  formatCardNumberWithMask(cardNumber: string): string {
+    if (!cardNumber || cardNumber.length < 16) {
+      return cardNumber;
+    }
+    const first4 = cardNumber.substring(0, 4);
+    const next2 = cardNumber.substring(4, 6);
+    const last4 = cardNumber.substring(12, 16);
+    return `${first4} ${next2}** **** ${last4}`;
+  }
+
 
   private initSwipeStates(): void {
     const cardCount = this.cards().length;
