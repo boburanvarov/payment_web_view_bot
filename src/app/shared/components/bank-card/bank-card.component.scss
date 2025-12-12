@@ -1,7 +1,7 @@
 @use '../../styles/colors' as *;
 
 .bank-card {
-  width: 338px;
+  width: 100%;
   height: 132px;
   border-radius: 16px;
   padding: 0;
@@ -13,7 +13,6 @@
   background-blend-mode: overlay;
 }
 
-// Individual Card Content
 .card-content {
   display: flex;
   flex-direction: column;
@@ -21,7 +20,6 @@
   padding: 16px;
 }
 
-// Bank Header
 .bank-header {
   display: flex;
   align-items: center;
@@ -46,7 +44,6 @@
   }
 }
 
-// Card Info Section
 .card-info {
   flex: 1;
   display: flex;
@@ -92,7 +89,6 @@
   }
 }
 
-// Balance Section
 .balance-section {
   display: flex;
   align-items: center;
@@ -115,36 +111,38 @@
   }
 }
 
-/* < 420px: karta eni slayd kengligiga moslashadi, silliq breakpointlar bilan */
-@media (max-width: 374px) {
+// Responsiv qismlar
+@media (max-width: 349px) {
   .bank-card {
     min-width: 280px;
+    max-width: 280px;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 374px) {
+  .bank-card {
+    min-width: 300px;
     max-width: 300px;
-    width: 100%;
   }
 }
 
 @media (min-width: 375px) and (max-width: 399px) {
   .bank-card {
+    min-width: 300px;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 767px) {
+  .bank-card {
     min-width: 320px;
-    max-width: 330px;
-    width: 100%;
+    max-width: 320px;
   }
 }
 
-@media (min-width: 400px) and (max-width: 419px) {
+@media (min-width: 768px) {
   .bank-card {
-    min-width: 330px;
-    max-width: 340px;
-    width: 100%;
-  }
-}
-
-/* 420px+ da avvalgi dizaynni saqlaymiz */
-@media (min-width: 420px) and (max-width: 768px) {
-  .bank-card {
-    min-width: 340px;
-    max-width: 380px;
-    width: 100%;
+    min-width: 360px;
+    max-width: 360px;
   }
 }

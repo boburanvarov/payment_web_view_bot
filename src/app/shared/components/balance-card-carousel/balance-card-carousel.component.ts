@@ -4,197 +4,198 @@ import { Card } from '../../../core/models';
 import { BankCardComponent } from '../bank-card/bank-card.component';
 
 interface CarouselCard extends Card {
-    type: 'card';
-    bankName?: string;
-    expiryDate?: string;
+  type: 'card';
+  bankName?: string;
+  expiryDate?: string;
 }
 
 @Component({
-    selector: 'app-balance-card-carousel',
-    standalone: true,
-    imports: [CommonModule, BankCardComponent],
-    templateUrl: './balance-card-carousel.component.html',
-    styleUrl: './balance-card-carousel.component.scss'
+  selector: 'app-balance-card-carousel',
+  standalone: true,
+  imports: [CommonModule, BankCardComponent],
+  templateUrl: './balance-card-carousel.component.html',
+  styleUrl: './balance-card-carousel.component.scss'
 })
 export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
-    @Input() cards: Card[] = [];
-    @Input() totalBalance: number = 0;
-    @Input() income: number = 0;
-    @Input() expenses: number = 0;
-    @Output() cardSelected = new EventEmitter<Card | null>();
+  @Input() cards: Card[] = [];
+  @Input() totalBalance: number = 0;
+  @Input() income: number = 0;
+  @Input() expenses: number = 0;
+  @Output() cardSelected = new EventEmitter<Card | null>();
 
-    allCards: CarouselCard[] = [];
-    currentIndex: number = 0;
-    isDarkMode: boolean = false;
+  allCards: CarouselCard[] = [];
+  currentIndex: number = 0;
+  isDarkMode: boolean = false;
 
-    touchStartX: number = 0;
-    touchEndX: number = 0;
+  touchStartX: number = 0;
+  touchEndX: number = 0;
 
-    mouseStartX: number = 0;
-    mouseEndX: number = 0;
-    isDragging: boolean = false;
+  mouseStartX: number = 0;
+  mouseEndX: number = 0;
+  isDragging: boolean = false;
 
-    private themeChangeListener: () => void;
+  private themeChangeListener: () => void;
 
-    constructor() {
-        this.themeChangeListener = () => this.checkDarkMode();
+  constructor() {
+    this.themeChangeListener = () => this.checkDarkMode();
+  }
+
+  ngOnInit(): void {
+    this.checkDarkMode();
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.themeChangeListener);
+    window.addEventListener('theme-changed', this.themeChangeListener);
+
+    this.allCards = this.cards.map(card => ({
+      ...card,
+      type: 'card' as const,
+      bankName: card.bankName,
+      expiryDate: card.expiryDate,
+    }));
+
+    this.currentIndex = 0;
+
+    if (this.allCards.length > 0) {
+      this.emitCardSelection();
     }
+  }
 
-    ngOnInit(): void {
-        this.checkDarkMode();
+  ngOnDestroy(): void {
+    window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.themeChangeListener);
+    window.removeEventListener('theme-changed', this.themeChangeListener);
+  }
 
-        // Listen for system theme changes
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.themeChangeListener);
-
-        // Listen for manual theme toggle from ProfileComponent
-        window.addEventListener('theme-changed', this.themeChangeListener);
-
-        this.allCards = this.cards.map(card => ({
-            ...card,
-            type: 'card' as const,
-            bankName: card.bankName,
-            expiryDate: card.expiryDate,
-        }));
-        // Initial active card: always start from the first card
-        this.currentIndex = 0;
-
-        if (this.allCards.length > 0) {
-            this.emitCardSelection();
-        }
+  private checkDarkMode(): void {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      this.isDarkMode = savedTheme === 'dark';
+    } else {
+      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+  }
 
-    ngOnDestroy(): void {
-        window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.themeChangeListener);
-        window.removeEventListener('theme-changed', this.themeChangeListener);
+  getBankLogo(card: Card): string | undefined {
+    if (this.isDarkMode && card.bankWhiteLogoMini) {
+      return card.bankWhiteLogoMini;
     }
+    return card.bankLogoMini;
+  }
 
-    private checkDarkMode(): void {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            this.isDarkMode = savedTheme === 'dark';
-        } else {
-            this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        }
+  formatCardNumberWithMask(cardNumber: string): string {
+    if (!cardNumber || cardNumber.length < 16) {
+      return cardNumber;
     }
+    const first4 = cardNumber.substring(0, 4);
+    const next2 = cardNumber.substring(4, 6);
+    const last4 = cardNumber.substring(12, 16);
+    return `${first4} ${next2}** **** ${last4}`;
+  }
 
-    getBankLogo(card: Card): string | undefined {
-        if (this.isDarkMode && card.bankWhiteLogoMini) {
-            return card.bankWhiteLogoMini;
-        }
-        return card.bankLogoMini;
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.changedTouches[0].screenX;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    this.touchEndX = event.changedTouches[0].screenX;
+    this.handleSwipe();
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.isDragging = true;
+    this.mouseStartX = event.clientX;
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (!this.isDragging) return;
+    this.mouseEndX = event.clientX;
+  }
+
+  onMouseUp(event: MouseEvent) {
+    if (!this.isDragging) return;
+    this.isDragging = false;
+    this.mouseEndX = event.clientX;
+    this.handleMouseDrag();
+  }
+
+  onMouseLeave() {
+    this.isDragging = false;
+  }
+
+  handleSwipe() {
+    const swipeThreshold = 50;
+    const diff = this.touchStartX - this.touchEndX;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        this.next();
+      } else {
+        this.prev();
+      }
     }
+  }
 
-    formatCardNumberWithMask(cardNumber: string): string {
-        if (!cardNumber || cardNumber.length < 16) {
-            return cardNumber;
-        }
-        const first4 = cardNumber.substring(0, 4);
-        const next2 = cardNumber.substring(4, 6);
-        const last4 = cardNumber.substring(12, 16);
-        return `${first4} ${next2}** **** ${last4}`;
+  handleMouseDrag() {
+    const dragThreshold = 50;
+    const diff = this.mouseStartX - this.mouseEndX;
+
+    if (Math.abs(diff) > dragThreshold) {
+      if (diff > 0) {
+        this.next();
+      } else {
+        this.prev();
+      }
     }
+  }
 
-    // Touch events (mobile)
-    onTouchStart(event: TouchEvent) {
-        this.touchStartX = event.changedTouches[0].screenX;
+  next() {
+    if (this.currentIndex < this.allCards.length - 1) {
+      this.currentIndex++;
+      this.emitCardSelection();
     }
+  }
 
-    onTouchEnd(event: TouchEvent) {
-        this.touchEndX = event.changedTouches[0].screenX;
-        this.handleSwipe();
+  prev() {
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+      this.emitCardSelection();
     }
+  }
 
-    // Mouse events (desktop)
-    onMouseDown(event: MouseEvent) {
-        this.isDragging = true;
-        this.mouseStartX = event.clientX;
+  goToCard(index: number) {
+    this.currentIndex = index;
+    this.emitCardSelection();
+  }
+
+  private emitCardSelection(): void {
+    const currentCard = this.allCards[this.currentIndex];
+    if (currentCard) {
+      this.cardSelected.emit(currentCard as Card);
+    } else {
+      this.cardSelected.emit(null);
     }
-
-    onMouseMove(event: MouseEvent) {
-        if (!this.isDragging) return;
-        this.mouseEndX = event.clientX;
-    }
-
-    onMouseUp(event: MouseEvent) {
-        if (!this.isDragging) return;
-        this.isDragging = false;
-        this.mouseEndX = event.clientX;
-        this.handleMouseDrag();
-    }
-
-    onMouseLeave() {
-        this.isDragging = false;
-    }
-
-    handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = this.touchStartX - this.touchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                this.next();
-            } else {
-                this.prev();
-            }
-        }
-    }
-
-    handleMouseDrag() {
-        const dragThreshold = 50;
-        const diff = this.mouseStartX - this.mouseEndX;
-
-        if (Math.abs(diff) > dragThreshold) {
-            if (diff > 0) {
-                this.next();
-            } else {
-                this.prev();
-            }
-        }
-    }
-
-    next() {
-        if (this.currentIndex < this.allCards.length - 1) {
-            this.currentIndex++;
-            this.emitCardSelection();
-        }
-    }
-
-    prev() {
-        if (this.currentIndex > 0) {
-            this.currentIndex--;
-            this.emitCardSelection();
-        }
-    }
-
-    goToCard(index: number) {
-        this.currentIndex = index;
-        this.emitCardSelection();
-    }
-
-    private emitCardSelection(): void {
-        const currentCard = this.allCards[this.currentIndex];
-        if (currentCard) {
-            this.cardSelected.emit(currentCard as Card);
-        } else {
-            this.cardSelected.emit(null);
-        }
-    }
+  }
 
   getTransformValue(): number {
     const vw = window.innerWidth;
-
     let cardWidth: number;
     let gap: number;
     let offset: number;
 
-    if (vw < 768) {
-      if (vw >= 375 && vw < 400) {
-        cardWidth = 300;
-        gap = 14;
-      } else {
-        cardWidth = 320;
-        gap = 15;
-      }
+    if (vw < 350) {
+      cardWidth = 280;
+      gap = 10;
+      offset = 20;
+    } else if (vw >= 350 && vw < 375) {
+      cardWidth = 300;
+      gap = 10;
+      offset = 20;
+    } else if (vw >= 375 && vw < 400) {
+      cardWidth = 300;
+      gap = 15;
+      offset = 20;
+    } else if (vw >= 400 && vw < 768) {
+      cardWidth = 320;
+      gap = 15;
       offset = 20;
     } else {
       cardWidth = 360;
@@ -202,24 +203,21 @@ export class BalanceCardCarouselComponent implements OnInit, OnDestroy {
       offset = 20;
     }
 
-    const cardSize = cardWidth + gap;
-
     if (this.currentIndex === 0) {
       return 0;
     }
 
+    const cardSize = cardWidth + gap;
     const currentCenter = offset + this.currentIndex * cardSize + cardWidth / 2;
+
     const viewportCenter = vw / 2;
+
     const shift = viewportCenter - currentCenter;
 
     return shift;
   }
 
-
-
-
-
   getCardGradientIndex(index: number): number {
-        return index;
-    }
+    return index;
+  }
 }
