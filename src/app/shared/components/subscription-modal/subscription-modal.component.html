@@ -88,15 +88,17 @@
             <div class="summary-table">
                 <div class="summary-row">
                     <span class="label">{{ 'subscription.subscriptionType' | translate }}</span>
-                    <span class="value">{{ plan?.period }}</span>
+                    <span class="value">{{ paymentInfo?.cycleLabel || plan?.period }}</span>
                 </div>
                 <div class="summary-row">
                     <span class="label">{{ 'subscription.subscriptionPrice' | translate }}</span>
-                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                    <span class="value">{{ formatPrice(paymentInfo?.amount || plan?.price || 0) }} {{
+                        paymentInfo?.currency || 'UZS' }}</span>
                 </div>
                 <div class="summary-row">
                     <span class="label">{{ 'subscription.total' | translate }}</span>
-                    <span class="value">{{ formatPrice(plan?.price || 0) }}</span>
+                    <span class="value">{{ formatPrice(paymentInfo?.amount || plan?.price || 0) }} {{
+                        paymentInfo?.currency || 'UZS' }}</span>
                 </div>
                 <div class="summary-row">
                     <span class="label">{{ 'subscription.paymentCard' | translate }}</span>

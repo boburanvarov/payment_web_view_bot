@@ -53,6 +53,6 @@
     </ng-container>
 </div>
 
-<app-subscription-modal [isOpen]="showSubscriptionModal" [plan]="selectedPlanForModal" (close)="onModalClose()"
-    (success)="onSubscriptionSuccess()">
+<app-subscription-modal [isOpen]="showSubscriptionModal" [plan]="selectedPlanForModal" [planCode]="selectedPlanCode"
+    [billingCycle]="selectedBillingCycle" (close)="onModalClose()" (success)="onSubscriptionSuccess()">
 </app-subscription-modal>

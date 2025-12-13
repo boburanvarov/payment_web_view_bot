@@ -17,8 +17,11 @@ import { SubscriptionPlan, SubscriptionPlansResponse, SubscriptionPlanDetailed, 
     styleUrl: './premium.component.scss'
 })
 export class PremiumComponent implements OnInit {
+    // Modal state
     showSubscriptionModal: boolean = false;
     selectedPlanForModal: SubscriptionPlan | null = null;
+    selectedPlanCode: string = '';
+    selectedBillingCycle: 'MONTHLY' | 'YEARLY' = 'MONTHLY';
 
     // API response data
     plansResponse = signal<SubscriptionPlansResponse | null>(null);
@@ -93,6 +96,10 @@ export class PremiumComponent implements OnInit {
                 period: plan.cycleLabel,
                 description: plan.description
             };
+            // Store planCode and billingCycle for modal
+            this.selectedPlanCode = plan.code;
+            this.selectedBillingCycle = this.currentBillingCycle;
+
             this.showSubscriptionModal = true;
         }
     }
@@ -100,6 +107,7 @@ export class PremiumComponent implements OnInit {
     onModalClose(): void {
         this.showSubscriptionModal = false;
         this.selectedPlanForModal = null;
+        this.selectedPlanCode = '';
     }
 
     onSubscriptionSuccess(): void {

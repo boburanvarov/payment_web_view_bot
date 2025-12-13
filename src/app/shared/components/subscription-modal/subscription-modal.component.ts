@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardService } from '../../../core/services/card.service';
+import { SubscriptionService } from '../../../core/services/subscription.service';
 import { Card, SubscriptionPlan } from '../../../core/models';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 
@@ -17,6 +18,8 @@ export type { SubscriptionPlan } from '../../../core/models';
 export class SubscriptionModalComponent implements OnChanges {
     @Input() isOpen: boolean = false;
     @Input() plan: SubscriptionPlan | null = null;
+    @Input() planCode: string = ''; // From API response
+    @Input() billingCycle: string = 'MONTHLY'; // From API response
     @Output() close = new EventEmitter<void>();
     @Output() success = new EventEmitter<void>();
 
@@ -27,8 +30,17 @@ export class SubscriptionModalComponent implements OnChanges {
     selectedCard: Card | null = null;
     loading: boolean = false;
     processing: boolean = false;
+    errorMessage: string = '';
+    paymentInfo: {
+        amount: number;
+        currency: string;
+        cycleLabel: string;
+    } | null = null;
 
-    constructor(public cardService: CardService) { }
+    constructor(
+        public cardService: CardService,
+        private subscriptionService: SubscriptionService
+    ) { }
 
     ngOnChanges(changes: SimpleChanges): void {
         // When modal opens, load cards and reset state
@@ -36,6 +48,8 @@ export class SubscriptionModalComponent implements OnChanges {
             this.loadCards();
             this.currentStep = 1;
             this.selectedCard = null;
+            this.errorMessage = '';
+            this.paymentInfo = null;
         }
     }
 
@@ -56,17 +70,52 @@ export class SubscriptionModalComponent implements OnChanges {
     }
 
     confirmPayment(): void {
+        if (!this.selectedCard || !this.planCode) {
+            this.errorMessage = 'Please select a card and plan';
+            return;
+        }
+
+        if (!this.selectedCard.cardId) {
+            this.errorMessage = 'Card ID is missing';
+            return;
+        }
+
         this.processing = true;
-        // Simulate payment processing
-        setTimeout(() => {
-            this.processing = false;
-            this.currentStep = 3;
-        }, 1500);
+        this.errorMessage = '';
+
+        // Call API with planCode, billingCycle, and cardId
+        this.subscriptionService.changePlan(
+            this.planCode,
+            this.billingCycle,
+            this.selectedCard.cardId
+        ).subscribe({
+            next: (response) => {
+                console.log('Subscription changed successfully:', response);
+
+                // Store payment info from response
+                if (response.payment) {
+                    this.paymentInfo = {
+                        amount: response.payment.amount,
+                        currency: response.payment.currency,
+                        cycleLabel: response.payment.cycleLabel
+                    };
+                }
+
+                this.processing = false;
+                this.currentStep = 3;
+            },
+            error: (error) => {
+                console.error('Error changing subscription:', error);
+                this.processing = false;
+                this.errorMessage = error.error?.message || 'Failed to change subscription';
+            }
+        });
     }
 
     closeModal(): void {
         this.currentStep = 1;
         this.selectedCard = null;
+        this.errorMessage = '';
         this.close.emit();
     }
 

@@ -238,13 +238,55 @@ export class ChartComponent implements OnInit {
                 {
                     name: 'Expenses',
                     type: 'pie',
-                    radius: ['55%', '85%'],
-                    avoidLabelOverlap: false,
-                    labelLine: { show: false },
+                    radius: ['50%', '75%'],
+                    center: ['50%', '50%'],
+                    padAngle: 3,
+                    itemStyle: {
+                        borderRadius: 6,
+                        borderColor: this.themeService.isDarkMode() ? '#0C0E12' : '#FFFFFF',
+                        borderWidth: 3
+                    },
                     label: {
                         show: true,
-                        position: 'inside',
-                        rich: richStyles
+                        position: 'outside',
+                        formatter: (params: any) => {
+                            return `{name|${params.name}}\n{percent|${params.percent}%}`;
+                        },
+                        rich: {
+                            name: {
+                                fontSize: 13,
+                                fontWeight: 600,
+                                color: this.themeService.isDarkMode() ? '#F7F7F7' : '#1A1A1A',
+                                padding: [0, 0, 4, 0]
+                            },
+                            percent: {
+                                fontSize: 12,
+                                color: this.themeService.isDarkMode() ? '#9CA3AF' : '#6B7280'
+                            }
+                        },
+                        alignTo: 'labelLine',
+                        distanceToLabelLine: 5
+                    },
+                    labelLine: {
+                        show: true,
+                        length: 20,
+                        length2: 15,
+                        smooth: 0.2,
+                        lineStyle: {
+                            width: 2,
+                            type: 'solid',
+                            color: this.themeService.isDarkMode() ? '#4B5563' : '#D1D5DB'
+                        }
+                    },
+                    labelLayout: {
+                        hideOverlap: false
+                    },
+                    emphasis: {
+                        scaleSize: 8,
+                        itemStyle: {
+                            shadowBlur: 12,
+                            shadowColor: 'rgba(0, 0, 0, 0.4)'
+                        }
                     },
                     data: chartData
                 }
