@@ -12,8 +12,14 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    z-index: 1000;
+    z-index: 9999;
     animation: fadeIn 0.2s ease;
+
+    // iOS Safari optimizations
+    transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes fadeIn {
@@ -46,6 +52,26 @@
     max-height: 70vh;
     display: flex;
     flex-direction: column;
+
+    // iOS Safari optimizations
+    transform: translateZ(0);
+    will-change: transform;
+    touch-action: manipulation;
+}
+
+// iOS Safari specific fixes
+@supports (-webkit-touch-callout: none) {
+    .modal-overlay {
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+    }
+
+    .modal-content {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
 }
 
 .modal-header {
@@ -69,6 +95,7 @@
     cursor: pointer;
     color: var(--text-secondary);
     transition: color 0.2s ease;
+    touch-action: manipulation;
 
     &:hover {
         color: var(--text-primary);
@@ -97,6 +124,7 @@
     border-radius: 14px;
     background: var(--card-bg);
     transition: all 0.2s ease;
+    touch-action: manipulation;
 
     &:hover {
         background: var(--hover-bg);
@@ -204,6 +232,7 @@
     color: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
+    touch-action: manipulation;
 
     &:hover {
         background: #1D4ED8;

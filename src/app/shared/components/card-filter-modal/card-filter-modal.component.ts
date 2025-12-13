@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Card } from '../../../core/models';
@@ -20,6 +20,7 @@ export class CardFilterModalComponent implements OnChanges {
     @Output() apply = new EventEmitter<string | null>();
 
     private cardService = inject(CardService);
+    private cdr = inject(ChangeDetectorRef);
 
     // Temporary selection
     tempSelectedCardId: string | null = null;
@@ -36,7 +37,39 @@ export class CardFilterModalComponent implements OnChanges {
             if (this.cards.length === 0) {
                 this.cardService.loadCardsFromAPI();
             }
+            this.cdr.detectChanges();
         }
+    }
+
+    /**
+     * iOS/Android optimized button click handler
+     */
+    handleButtonClick(event: Event, action: string, cardId?: string): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Force change detection for iOS
+        this.cdr.detectChanges();
+
+        // Execute action based on string parameter
+        switch (action) {
+            case 'onClose':
+                this.onClose();
+                break;
+            case 'onApply':
+                this.onApply();
+                break;
+            case 'selectCard':
+                if (cardId) {
+                    this.selectCard(cardId);
+                }
+                break;
+        }
+
+        // Additional iOS Safari fix - slight delay
+        requestAnimationFrame(() => {
+            this.cdr.detectChanges();
+        });
     }
 
     onClose(): void {

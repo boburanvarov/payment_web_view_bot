@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
@@ -20,6 +20,8 @@ export class DateRangeModalComponent implements OnChanges {
     @Output() close = new EventEmitter<void>();
     @Output() apply = new EventEmitter<{ startDate: Date | null; endDate: Date | null }>();
 
+    private cdr = inject(ChangeDetectorRef);
+
     // Temporary date range for selection
     tempDateRange: Date[] = [];
 
@@ -39,7 +41,34 @@ export class DateRangeModalComponent implements OnChanges {
             } else {
                 this.tempDateRange = [];
             }
+            this.cdr.detectChanges();
         }
+    }
+
+    /**
+     * iOS/Android optimized button click handler
+     */
+    handleButtonClick(event: Event, action: string): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Force change detection for iOS
+        this.cdr.detectChanges();
+
+        // Execute action based on string parameter
+        switch (action) {
+            case 'onClose':
+                this.onClose();
+                break;
+            case 'onApply':
+                this.onApply();
+                break;
+        }
+
+        // Additional iOS Safari fix - slight delay
+        requestAnimationFrame(() => {
+            this.cdr.detectChanges();
+        });
     }
 
     /**

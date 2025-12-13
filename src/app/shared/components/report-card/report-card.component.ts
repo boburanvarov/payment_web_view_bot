@@ -202,6 +202,38 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     /**
+     * iOS/Android optimized button click handler
+     */
+    handleButtonClick(event: Event, action: string): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Force change detection for iOS
+        this.cdr.detectChanges();
+
+        // Execute action based on string parameter
+        switch (action) {
+            case 'clearAllFilters':
+                this.clearAllFilters();
+                break;
+            case 'openTransactionTypeModal':
+                this.openTransactionTypeModal();
+                break;
+            case 'openDateRangeModal':
+                this.openDateRangeModal();
+                break;
+            case 'openCardFilterModal':
+                this.openCardFilterModal();
+                break;
+        }
+
+        // Additional iOS Safari fix - slight delay
+        requestAnimationFrame(() => {
+            this.cdr.detectChanges();
+        });
+    }
+
+    /**
      * Clear all filters and reload data
      */
     clearAllFilters(): void {

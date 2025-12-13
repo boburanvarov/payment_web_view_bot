@@ -1,8 +1,8 @@
-<div class="modal-overlay" *ngIf="isOpen" (click)="onClose()">
+<div class="modal-overlay" *ngIf="isOpen" (click)="handleButtonClick($event, 'onClose')">
     <div class="modal-content" (click)="stopPropagation($event)">
         <div class="modal-header">
             <h3 class="modal-title">{{ 'home.operations' | translate }}</h3>
-            <button class="modal-close-btn" (click)="onClose()">
+            <button class="modal-close-btn" (click)="handleButtonClick($event, 'onClose')">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 6L6 18M6 6l12 12" />
@@ -22,7 +22,8 @@
         </div>
 
         <div class="modal-footer">
-            <button class="apply-btn" (click)="onApply()">{{ 'common.filter' | translate }}</button>
+            <button class="apply-btn" (click)="handleButtonClick($event, 'onApply')">{{ 'common.filter' |
+                translate }}</button>
         </div>
     </div>
 </div>

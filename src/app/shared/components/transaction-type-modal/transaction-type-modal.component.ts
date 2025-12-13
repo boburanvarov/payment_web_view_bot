@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TransactionFilterType } from '../../../core/models';
@@ -25,6 +25,7 @@ export class TransactionTypeModalComponent implements OnInit {
     @Output() apply = new EventEmitter<TransactionFilterType>();
 
     private translateService = inject(TranslateService);
+    private cdr = inject(ChangeDetectorRef);
 
     // Temporary selection for radio buttons
     tempSelectedType: TransactionFilterType = TransactionFilterType.ALL;
@@ -46,7 +47,34 @@ export class TransactionTypeModalComponent implements OnInit {
     ngOnChanges(): void {
         if (this.isOpen) {
             this.tempSelectedType = this.selectedType;
+            this.cdr.detectChanges();
         }
+    }
+
+    /**
+     * iOS/Android optimized button click handler
+     */
+    handleButtonClick(event: Event, action: string): void {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Force change detection for iOS
+        this.cdr.detectChanges();
+
+        // Execute action based on string parameter
+        switch (action) {
+            case 'onClose':
+                this.onClose();
+                break;
+            case 'onApply':
+                this.onApply();
+                break;
+        }
+
+        // Additional iOS Safari fix - slight delay
+        requestAnimationFrame(() => {
+            this.cdr.detectChanges();
+        });
     }
 
     /**
