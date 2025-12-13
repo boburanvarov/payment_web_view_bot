@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
-import { ProfileResponse } from '../../core/models';
+import { ProfileService } from '../../core/services/profile.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
 
@@ -15,34 +13,33 @@ import { LoadingStateComponent } from '../../shared/components/loading-state/loa
     styleUrl: './auto-payment.component.scss'
 })
 export class AutoPaymentComponent implements OnInit {
-    autoPaymentEnabled: boolean = true;
+    autoPaymentEnabled: boolean = false;
     loading: boolean = false;
     updating: boolean = false;
 
     constructor(
         private router: Router,
-        private http: HttpClient
-    ) { }
-
-    ngOnInit(): void {
-        this.loadProfile();
-    }
-
-    loadProfile(): void {
-        this.loading = true;
-        // PUT request to get current autoPay status
-        this.http.put<ProfileResponse>(`${environment.apiUrl}/api/profile/autopay`, {
-            enabled: this.autoPaymentEnabled
-        }).subscribe({
-            next: (response) => {
-                this.autoPaymentEnabled = response.autoPay;
+        private profileService: ProfileService
+    ) {
+        // Use cached profile signal from ProfileService
+        effect(() => {
+            const profile = this.profileService.getProfileSignal()();
+            if (profile) {
+                this.autoPaymentEnabled = profile.autoPay;
                 this.loading = false;
-            },
-            error: (error) => {
-                this.loading = false;
-                console.error('Failed to load profile:', error);
             }
         });
+    }
+
+    ngOnInit(): void {
+        // Check if profile is already cached
+        const cachedProfile = this.profileService.getProfileData();
+        if (cachedProfile) {
+            this.autoPaymentEnabled = cachedProfile.autoPay;
+        } else {
+            // Profile not loaded yet, show loading
+            this.loading = true;
+        }
     }
 
     goBack(): void {
@@ -55,9 +52,8 @@ export class AutoPaymentComponent implements OnInit {
         const newValue = !this.autoPaymentEnabled;
         this.updating = true;
 
-        this.http.put<ProfileResponse>(`${environment.apiUrl}/api/profile/autopay`, {
-            enabled: newValue
-        }).subscribe({
+        // Use ProfileService to update autoPay
+        this.profileService.updateAutoPay(newValue).subscribe({
             next: (response) => {
                 this.autoPaymentEnabled = response.autoPay;
                 this.updating = false;

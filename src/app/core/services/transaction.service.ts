@@ -220,5 +220,13 @@ export class TransactionService {
         this.cardReport.set(null);
         this.selectedCardId.set(null);
     }
+
+    /**
+     * Get expense transactions for a date range (for chart component)
+     */
+    getExpenseTransactions(startDate: string, endDate: string, page: number = 0, size: number = 100) {
+        const url = `${environment.apiUrl}/api/history/transactions?type=EXPENSE&start=${startDate}&end=${endDate}&page=${page}&size=${size}`;
+        return this.http.get<any>(url);
+    }
 }
 

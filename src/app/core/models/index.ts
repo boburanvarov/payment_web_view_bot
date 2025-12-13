@@ -205,6 +205,29 @@ export interface SubscriptionPlanDetailed {
   priceOptions: PriceOption[];
 }
 
+// Profile API Response
+export interface ProfileResponse {
+  userId: number;
+  phoneNumber: string;
+  name: string;
+  username?: string;
+  language: string;
+  subscribed: boolean;
+  autoPay: boolean;
+  paidDate: string;
+  expireDate: string;
+  createdAt: string;
+  subscriptionPlan: string;
+  billingCycle: string;
+  planSummary: {
+    code: string;
+    name: string;
+    description: string;
+    paid: boolean;
+    highlighted: boolean;
+  };
+}
+
 export interface BillingCycle {
   cycle: 'MONTHLY' | 'YEARLY';
   label: string;

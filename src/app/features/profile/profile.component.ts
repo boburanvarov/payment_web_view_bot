@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { TelegramService } from '../../core/services/telegram.service';
 import { TranslateService } from '../../core/services/translate.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { ProfileService } from '../../core/services/profile.service';
+import { ProfileResponse } from '../../core/models';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -16,19 +18,44 @@ import { environment } from '../../../environments/environment';
 export class ProfileComponent implements OnInit {
     userName: string = 'User';
     userEmail: string = '@username';
+    userPhone: string = '';
     userPhotoUrl: string = '';
     isDarkMode: boolean = false;
     hasPremiumIcon: boolean = false;
     appVersion: string = environment.version;
 
+    // Profile data from API
+    profile = signal<ProfileResponse | null>(null);
+    isLoading = signal<boolean>(true);
+
     constructor(
         private router: Router,
-        private telegramService: TelegramService
+        private telegramService: TelegramService,
+        private profileService: ProfileService
     ) { }
 
     ngOnInit(): void {
         this.forceLightMode();
 
+        // Load profile from API
+        this.profileService.getProfile().subscribe({
+            next: (profile) => {
+                this.profile.set(profile);
+                this.userName = profile.name || 'User';
+                this.userEmail = profile.username ? `@${profile.username}` : '';
+                this.userPhone = profile.phoneNumber || '';
+                this.isLoading.set(false);
+            },
+            error: (error) => {
+                console.error('Error loading profile:', error);
+                this.isLoading.set(false);
+                // Fallback to Telegram data
+                this.loadTelegramData();
+            }
+        });
+    }
+
+    private loadTelegramData(): void {
         this.telegramService.getUserData().subscribe(user => {
             if (user) {
                 this.userName = user.first_name || 'User';

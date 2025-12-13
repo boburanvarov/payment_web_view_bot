@@ -8,7 +8,8 @@ import {
     inject,
     ElementRef,
     ViewChild,
-    OnInit
+    OnInit,
+    ChangeDetectorRef
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -71,29 +72,40 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     // Inject services
     private transactionService = inject(TransactionService);
 
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private cdr: ChangeDetectorRef
+    ) {
         // Sync filter state from service (preserves state across navigation)
         this.selectedFilterType = this.transactionService.selectedFilterType();
         this.selectedStartDate = this.transactionService.selectedStartDate();
         this.selectedEndDate = this.transactionService.selectedEndDate();
         this.selectedCardId = this.transactionService.selectedCardId();
-
-
-
     }
 
     /**
      * Open transaction type modal
      */
     openTransactionTypeModal(): void {
+        console.log('[iOS Debug] Opening transaction type modal...');
+        console.log('[iOS Debug] Before:', this.showTransactionTypeModal);
         this.showTransactionTypeModal = true;
+        this.cdr.detectChanges(); // Force change detection for iOS
+        console.log('[iOS Debug] After:', this.showTransactionTypeModal);
+
+        // iOS Safari sometimes needs a slight delay
+        setTimeout(() => {
+            console.log('[iOS Debug] Delayed check:', this.showTransactionTypeModal);
+        }, 100);
     }
 
     /**
      * Close transaction type modal without saving
      */
     closeTransactionTypeModal(): void {
+        console.log('[iOS Debug] Closing transaction type modal');
         this.showTransactionTypeModal = false;
+        this.cdr.detectChanges();
     }
 
     /**
@@ -128,14 +140,18 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
      * Open date range modal
      */
     openDateRangeModal(): void {
+        console.log('[iOS Debug] Opening date range modal...');
         this.showDateRangeModal = true;
+        this.cdr.detectChanges();
     }
 
     /**
      * Close date range modal without saving
      */
     closeDateRangeModal(): void {
+        console.log('[iOS Debug] Closing date range modal');
         this.showDateRangeModal = false;
+        this.cdr.detectChanges();
     }
 
     /**

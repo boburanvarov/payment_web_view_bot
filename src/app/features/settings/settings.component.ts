@@ -5,6 +5,7 @@ import { LanguageModalComponent, Language } from '../../shared/components/langua
 import { ThemeModalComponent } from '../../shared/components/theme-modal/theme-modal.component';
 import { TranslateService, LanguageCode } from '../../core/services/translate.service';
 import { ThemeService, ThemeMode } from '../../core/services/theme.service';
+import { ProfileService } from '../../core/services/profile.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
@@ -19,6 +20,7 @@ export class SettingsComponent {
   showThemeModal: boolean = false;
 
   private themeService = inject(ThemeService);
+  private profileService = inject(ProfileService);
 
   constructor(
     private router: Router,
@@ -51,8 +53,19 @@ export class SettingsComponent {
   }
 
   onLanguageChange(language: Language): void {
-    this.translateService.setLanguage(language.code as LanguageCode);
-    console.log('Language changed to:', language);
+    // Use ProfileService to update language on backend
+    this.profileService.updateLanguage(language.code).subscribe({
+      next: () => {
+        // Update local language after successful API call
+        this.translateService.setLanguage(language.code as LanguageCode);
+        console.log('Language updated on backend:', language.code);
+      },
+      error: (error) => {
+        console.error('Failed to update language on backend:', error);
+        // Still update locally even if API fails (for better UX)
+        this.translateService.setLanguage(language.code as LanguageCode);
+      }
+    });
   }
 
   openThemeSettings(): void {

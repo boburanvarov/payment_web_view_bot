@@ -1,25 +1,11 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { FaqService, FaqItem } from '../../core/services/faq.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { TranslateService } from '../../core/services/translate.service';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
-import { environment } from '../../../environments/environment';
-
-interface FaqItem {
-    id: number;
-    questionUz: string;
-    questionRu: string;
-    questionEn: string;
-    answerUz: string;
-    answerRu: string;
-    answerEn: string;
-    displayOrder: number;
-    active: boolean;
-    isOpen?: boolean;
-}
 
 @Component({
     selector: 'app-faq',
@@ -30,7 +16,7 @@ interface FaqItem {
 })
 export class FaqComponent implements OnInit {
     private router = inject(Router);
-    private http = inject(HttpClient);
+    private faqService = inject(FaqService);
     private translateService = inject(TranslateService);
 
     faqItems = signal<FaqItem[]>([]);
@@ -42,21 +28,16 @@ export class FaqComponent implements OnInit {
 
     loadFaqs(): void {
         this.loading.set(true);
-        this.http.get<FaqItem[]>(`${environment.apiUrl}/api/faqs?activeOnly=true`)
-            .subscribe({
-                next: (data) => {
-                    // Sort by displayOrder and add isOpen property
-                    const sorted = data
-                        .sort((a, b) => a.displayOrder - b.displayOrder)
-                        .map((item, index) => ({ ...item, isOpen: index === 0 }));
-                    this.faqItems.set(sorted);
-                    this.loading.set(false);
-                },
-                error: (err) => {
-                    console.error('Error loading FAQs:', err);
-                    this.loading.set(false);
-                }
-            });
+        this.faqService.getActiveFaqs().subscribe({
+            next: (data) => {
+                this.faqItems.set(data);
+                this.loading.set(false);
+            },
+            error: (err) => {
+                console.error('Error loading FAQs:', err);
+                this.loading.set(false);
+            }
+        });
     }
 
     goBack(): void {

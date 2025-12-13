@@ -1,11 +1,11 @@
 <div class="screen sub-page-screen">
     <div class="page-header">
-      <button class="back-btn" (click)="goBack()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-      </button>
+        <button class="back-btn" (click)="goBack()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </button>
         <h2>{{ 'personalInfo.title' | translate }}</h2>
         <div class="spacer"></div>
     </div>
@@ -16,7 +16,7 @@
                 <span class="label">{{ 'personalInfo.name' | translate }}</span>
                 <span class="value">{{ userName }}</span>
             </div>
-            <div class="info-item">
+            <div class="info-item" *ngIf="hasUsername()">
                 <span class="label">{{ 'personalInfo.username' | translate }}</span>
                 <span class="value">{{ userEmail }}</span>
             </div>
