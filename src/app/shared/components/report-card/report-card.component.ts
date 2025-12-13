@@ -370,7 +370,8 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.selectedTransaction = null;
     }
     onSeeAllClick(): void {
-        console.log('See all clicked');
+        console.log('Navigating to overview page');
+        this.router.navigate(['/overview']);
     }
 
     formatNumber(value: number): string {

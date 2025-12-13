@@ -5,11 +5,12 @@ import { CurrencyPair } from '../../../core/models/currency.interfaces';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { LoadingStateComponent } from '../loading-state/loading-state.component';
+import { EmptyStateComponent } from '../empty-state/empty-state.component';
 
 @Component({
   selector: 'app-exchange-rate',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, LoadingStateComponent],
+  imports: [CommonModule, TranslatePipe, LoadingStateComponent, EmptyStateComponent],
   templateUrl: './exchange-rate.component.html',
   styleUrl: './exchange-rate.component.scss'
 })

@@ -88,13 +88,7 @@
   <app-loading-state *ngIf="loading()"></app-loading-state>
 
   <!-- Empty State -->
-  <div *ngIf="!loading() && !currencyData()" class="empty-state">
-    <div class="empty-icon">
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="12" cy="12" r="10" />
-        <path d="M12 6v6l4 2" />
-      </svg>
-    </div>
-    <p class="empty-text">{{ 'currency.noData' | translate }}</p>
-  </div>
+  <app-empty-state *ngIf="!loading() && !currencyData()" [message]="'currency.noData'"
+    [imageSrc]="'assets/img/transaction-empty.png'">
+  </app-empty-state>
 </div>

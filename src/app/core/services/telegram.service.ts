@@ -79,7 +79,7 @@ export class TelegramService {
 
             const initData = this.tg.initData;
             if (initData) {
-                this.authService.authenticateWithTelegram(initData).subscribe({
+                this.authService.authenticateWithTelegram().subscribe({
                     next: (response) => { },
                     error: (error) => { }
                 });

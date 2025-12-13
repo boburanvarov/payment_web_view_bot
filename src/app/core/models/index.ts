@@ -108,6 +108,32 @@ export interface VerifyCardRequest {
   cardName: string;
 }
 
+// Telegram Authentication interfaces
+export interface TelegramAuthRequest {
+  initData: string;
+}
+
+export interface TelegramUser {
+  id: number;
+  username?: string;
+  first_name: string;
+  last_name?: string;
+  language_code?: string;
+  is_premium?: boolean;
+  allows_write_to_pm?: boolean;
+  photo_url?: string;
+}
+
+export interface TelegramAuthResponse {
+  success: boolean;
+  token: string;
+  issuedAt: string;
+  expiresAt: string;
+  user: TelegramUser;
+  message: string;
+}
+
+
 // Profile interfaces
 export interface PlanSummary {
   code: string;
