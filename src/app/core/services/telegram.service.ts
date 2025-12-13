@@ -140,13 +140,23 @@ export class TelegramService {
 
     enableClosingConfirmation(): void {
         if (this.tg) {
-            this.tg.enableClosingConfirmation();
+            try {
+                this.tg.enableClosingConfirmation();
+                console.log('Telegram closing confirmation enabled');
+            } catch (error) {
+                console.warn('enableClosingConfirmation not supported or failed:', error);
+            }
         }
     }
 
     disableClosingConfirmation(): void {
         if (this.tg) {
-            this.tg.disableClosingConfirmation();
+            try {
+                this.tg.disableClosingConfirmation();
+                console.log('Telegram closing confirmation disabled');
+            } catch (error) {
+                console.warn('disableClosingConfirmation not supported or failed:', error);
+            }
         }
     }
 }
