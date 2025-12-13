@@ -5,6 +5,7 @@ import { BankCardComponent } from '../bank-card/bank-card.component';
 import { ToastComponent, ToastType } from '../toast/toast.component';
 import { Card, AddCardResponse } from '../../../core/models';
 import { CardService } from '../../../core/services/card.service';
+import { TelegramService } from '../../../core/services/telegram.service';
 
 @Component({
     selector: 'app-add-card-modal',
@@ -44,7 +45,8 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
 
     constructor(
         private cardService: CardService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private telegramService: TelegramService
     ) { }
 
     ngOnInit(): void {
@@ -191,6 +193,9 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
         if (this.isFormValid() && !this.isSubmitting) {
             this.isSubmitting = true;
 
+            // Enable closing confirmation for Telegram WebApp
+            this.telegramService.enableClosingConfirmation();
+
             const { cardName, cardNumber, expiryDate } = this.cardForm.value;
             const expiryWithoutSlash = expiryDate?.replace('/', '') || '';
 
@@ -205,6 +210,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
                     if (!response.success) {
                         const message = response.message || "Karta qo'shishda xatolik yuz berdi";
                         this.showToastMessage('error', 'Xatolik', message);
+                        this.telegramService.disableClosingConfirmation();
                         return;
                     }
 
@@ -213,11 +219,13 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
                     this.phoneMask = response.phoneMask || '+998 ** *** ** **';
                     this.showOtpStep = true;
                     this.startTimer();
+                    // Keep closing confirmation enabled until OTP is verified
                 },
                 error: (err: unknown) => {
                     this.isSubmitting = false;
                     console.error('Error adding card:', err);
                     this.showToastMessage('error', 'Xatolik', "Karta qo'shishda xatolik yuz berdi. Iltimos, keyinroq yana urinib ko'ring.");
+                    this.telegramService.disableClosingConfirmation();
                 }
             });
         }
@@ -359,6 +367,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
         }).subscribe({
             next: () => {
                 this.isVerifying = false;
+                this.telegramService.disableClosingConfirmation();
                 this.cardAdded.emit();
                 this.closeModal();
             },
@@ -366,6 +375,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
                 this.isVerifying = false;
                 console.error('Error verifying OTP:', err);
                 this.showToastMessage('error', 'Xatolik', "Tasdiqlash kodini tekshirishda xatolik yuz berdi");
+                this.telegramService.disableClosingConfirmation();
             }
         });
     }
@@ -390,6 +400,7 @@ export class AddCardModalComponent implements OnInit, OnDestroy {
     }
 
     closeModal(): void {
+        this.telegramService.disableClosingConfirmation();
         this.resetForm();
         this.close.emit();
     }

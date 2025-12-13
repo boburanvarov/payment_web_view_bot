@@ -191,6 +191,9 @@
         "deleteConfirm": "Are you sure you want to delete this card?",
         "cardDeleted": "Card deleted"
     },
+    "currency": {
+        "noData": "No currency data found"
+    },
     "language": {
         "title": "Language",
         "uzbek": "O'zbek tili",

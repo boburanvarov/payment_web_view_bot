@@ -7,45 +7,52 @@
         <div class="spacer"></div>
     </div>
 
-    <!-- Period Toggle -->
-    <div class="period-toggle">
-        <button class="toggle-btn" [class.active]="isYearly" (click)="togglePeriod(true)">
-            {{ 'premium.yearly' | translate }}
-            <span class="discount-badge" *ngIf="isYearly">{{ 'premium.discount' | translate }}</span>
-        </button>
-        <button class="toggle-btn" [class.active]="!isYearly" (click)="togglePeriod(false)">
-            {{ 'premium.monthly' | translate }}
-        </button>
-    </div>
+    <!-- Loading State -->
+    <app-loading-state *ngIf="isLoading()"></app-loading-state>
 
-    <!-- Subscription Plans -->
-    <div class="plans-container">
-        <div class="plan-card" *ngFor="let plan of plans" [class.premium]="plan.isPremium">
-            <div class="plan-badge">{{ plan.nameKey | translate }}</div>
+    <!-- Empty State -->
+    <app-empty-state *ngIf="!isLoading() && !plansResponse()" [message]="'premium.noPlansAvailable'"
+        [imageSrc]="'assets/img/transaction-empty.png'">
+    </app-empty-state>
 
-            <div class="plan-price">
-                <span class="amount">{{ formatPrice(getPrice(plan)) }} UZS</span>
-                <span class="period">/ {{ getPeriodLabel() }}</span>
-            </div>
-
-            <p class="plan-description">{{ plan.descriptionKey | translate }}</p>
-
-            <div class="plan-features">
-                <div class="feature-item" *ngFor="let feature of plan.features">
-                    <i class="fas fa-check"></i>
-                    <span>{{ feature.key | translate }}</span>
-                </div>
-            </div>
-
-            <button class="plan-btn" [class.current]="isCurrentPlanForPeriod(plan)"
-                [class.active]="!isCurrentPlanForPeriod(plan)" (click)="selectPlan(plan)">
-                {{ isCurrentPlanForPeriod(plan) ? ('premium.currentPlan' | translate) : ('premium.start' | translate) }}
+    <!-- Content -->
+    <ng-container *ngIf="!isLoading() && plansResponse()">
+        <!-- Period Toggle -->
+        <div class="period-toggle">
+            <button *ngFor="let cycle of cycles" class="toggle-btn" [class.active]="cycle.selected"
+                (click)="togglePeriod(cycle.cycle)">
+                {{ cycle.label }}
+                <span class="discount-badge" *ngIf="cycle.discountLabel">{{ cycle.discountLabel }}</span>
             </button>
         </div>
-    </div>
+
+        <!-- Subscription Plans -->
+        <div class="plans-container">
+            <div class="plan-card" *ngFor="let plan of plans" [class.premium]="plan.highlighted">
+                <div class="plan-badge">{{ plan.badgeText }}</div>
+
+                <div class="plan-price">
+                    <span class="amount">{{ plan.priceLabel }}</span>
+                </div>
+
+                <p class="plan-description">{{ plan.description }}</p>
+
+                <div class="plan-features">
+                    <div class="feature-item" *ngFor="let feature of plan.featureDetails">
+                        <i class="fas fa-check"></i>
+                        <span>{{ feature.description }}</span>
+                    </div>
+                </div>
+
+                <button class="plan-btn" [class.current]="plan.current" [class.active]="!plan.current"
+                    [disabled]="plan.current" (click)="selectPlan(plan)">
+                    {{ plan.ctaText }}
+                </button>
+            </div>
+        </div>
+    </ng-container>
 </div>
 
-<!-- Subscription Modal -->
 <app-subscription-modal [isOpen]="showSubscriptionModal" [plan]="selectedPlanForModal" (close)="onModalClose()"
     (success)="onSubscriptionSuccess()">
 </app-subscription-modal>

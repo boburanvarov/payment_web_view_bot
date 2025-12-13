@@ -191,6 +191,9 @@
         "deleteConfirm": "Вы уверены, что хотите удалить эту карту?",
         "cardDeleted": "Карта удалена"
     },
+    "currency": {
+        "noData": "Данные о валюте не найдены"
+    },
     "language": {
         "title": "Язык",
         "uzbek": "O'zbek tili",

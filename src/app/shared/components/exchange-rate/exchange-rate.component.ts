@@ -4,11 +4,12 @@ import { CurrencyService } from '../../../core/services/currency.service';
 import { CurrencyPair } from '../../../core/models/currency.interfaces';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { LoadingStateComponent } from '../loading-state/loading-state.component';
 
 @Component({
   selector: 'app-exchange-rate',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, LoadingStateComponent],
   templateUrl: './exchange-rate.component.html',
   styleUrl: './exchange-rate.component.scss'
 })
@@ -306,10 +307,7 @@ export class ExchangeRateComponent implements OnInit {
     this.showQuoteDropdown.set(false);
   }
 
-  navigateToAll(): void {
-    // Navigate to all currency rates page
-    console.log('Navigate to all rates');
-  }
+
 
   // Get current base flag and currency
   get currentBaseFlagUrl(): string {

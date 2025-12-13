@@ -10,6 +10,7 @@ import { CardService } from '../../core/services/card.service';
 import { Card } from '../../core/models';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { MoneyPipe } from '../../shared/pipe/money.pipe';
+import { TelegramService } from '../../core/services/telegram.service';
 
 interface SwipeState {
   startX: number;
@@ -70,7 +71,8 @@ export class CardsComponent implements OnInit {
 
   constructor(
     public cardService: CardService,
-    public router: Router
+    public router: Router,
+    private telegramService: TelegramService
   ) {
     this.cards = this.cardService.cards;
     this.totalBalance = this.cardService.totalBalance;
@@ -230,15 +232,20 @@ export class CardsComponent implements OnInit {
 
       this.showDeleteDialog = false;
 
+      // Enable closing confirmation for Telegram WebApp
+      this.telegramService.enableClosingConfirmation();
+
       this.cardService.deleteCardFromAPI(cardId).subscribe({
         next: () => {
           this.swipeStates.splice(deletingIndex, 1);
           this.showToastMessage('success', "Karta o'chirildi!", `${cardName} ${cardNumber} kartasi o'chirildi`);
+          this.telegramService.disableClosingConfirmation();
         },
         error: (err: unknown) => {
           console.error('Error deleting card:', err);
           this.swipeStates.splice(deletingIndex, 1);
           this.showToastMessage('error', "Xatolik", "Kartani o'chirishda xatolik yuz berdi");
+          this.telegramService.disableClosingConfirmation();
         }
       });
 

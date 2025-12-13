@@ -191,6 +191,9 @@
         "deleteConfirm": "Siz haqiqatdan ham bu kartani o'chirmoqchimisiz?",
         "cardDeleted": "Karta o'chirildi"
     },
+    "currency": {
+        "noData": "Valyuta ma'lumotlari topilmadi"
+    },
     "language": {
         "title": "Til",
         "uzbek": "O'zbek tili",

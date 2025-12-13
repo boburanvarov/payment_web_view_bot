@@ -2,7 +2,6 @@
   <!-- Header -->
   <div class="section-header">
     <h3 class="section-title">{{ 'home.currencyRates' | translate }}</h3>
-    <button class="see-all-btn" (click)="navigateToAll()">{{ 'home.seeAll' | translate }}</button>
   </div>
 
   <!-- Currency Converter -->
@@ -68,7 +67,6 @@
   <div class="best-offers-section" *ngIf="currencyData() && currencyData()!.bestOffers.length > 0">
     <div class="section-header">
       <h3 class="section-title">{{ 'home.bestOffers' | translate }}</h3>
-      <button class="see-all-btn" (click)="navigateToAll()">{{ 'home.seeAll' | translate }}</button>
     </div>
     <div class="best-offers-table">
       <div class="table-header">
@@ -87,7 +85,16 @@
   </div>
 
   <!-- Loading State -->
-  <div *ngIf="loading()" class="loading-state">
-    <div class="loader-5"><span></span></div>
+  <app-loading-state *ngIf="loading()"></app-loading-state>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading() && !currencyData()" class="empty-state">
+    <div class="empty-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" />
+      </svg>
+    </div>
+    <p class="empty-text">{{ 'currency.noData' | translate }}</p>
   </div>
 </div>

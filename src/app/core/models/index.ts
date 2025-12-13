@@ -140,3 +140,63 @@ export interface SubscriptionPlan {
   description: string;
 }
 
+// Subscription Plan API Models
+export interface PriceOption {
+  cycle: 'MONTHLY' | 'YEARLY';
+  amount: number;
+  finalAmount: number;
+  discountPercent: number | null;
+  discountLabel: string | null;
+  selected: boolean;
+  label: string;
+}
+
+export interface FeatureDetail {
+  code: string;
+  title: string;
+  description: string;
+  limit: number | null;
+  enabled: boolean;
+}
+
+export interface SubscriptionPlanDetailed {
+  code: string;
+  name: string;
+  badgeText: string;
+  description: string;
+  price: number;
+  originalPrice: number;
+  discountPercent: number | null;
+  discountLabel: string | null;
+  priceLabel: string;
+  cycleLabel: string;
+  currency: string;
+  current: boolean;
+  highlighted: boolean;
+  ctaText: string;
+  features: string[];
+  featureDetails: FeatureDetail[];
+  priceOptions: PriceOption[];
+}
+
+export interface BillingCycle {
+  cycle: 'MONTHLY' | 'YEARLY';
+  label: string;
+  discountLabel: string | null;
+  selected: boolean;
+}
+
+export interface UpgradeHint {
+  show: boolean;
+  badgeText: string | null;
+  message: string | null;
+  actionText: string | null;
+}
+
+export interface SubscriptionPlansResponse {
+  billingCycle: 'MONTHLY' | 'YEARLY';
+  plans: SubscriptionPlanDetailed[];
+  cycles: BillingCycle[];
+  upgradeHint: UpgradeHint;
+}
+
