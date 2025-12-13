@@ -83,31 +83,18 @@ export class TransactionService {
     }
 
     /**
-     * Set the filter type and reload transactions
+     * Build transaction URL based on filters
      */
-    setFilterType(type: TransactionFilterType): void {
-        this.selectedFilterType.set(type);
-        this.loadOverviewTransactions();
-    }
+    private buildTransactionUrl(page: number, size: number): string {
+        const cardId = this.selectedCardId();
+        const filterType = this.selectedFilterType();
 
-    /**
-     * Load overview transactions
-     * API: /api/history/transactions?type=ALL&page=0&size=20&start=YYYY-MM-DD&end=YYYY-MM-DD
-     */
-    loadOverviewTransactions(
-        type?: TransactionFilterType,
-        page: number = 0,
-        size: number = 20
-    ): void {
-        this.overviewLoading.set(true);
+        if (cardId) {
+            return `${environment.apiUrl}/api/history/transactions/${cardId}?page=${page}&size=${size}&period=ALL`;
+        }
 
-        // Use provided type or current selected type
-        const filterType = type ?? this.selectedFilterType();
-
-        // Build URL with query params
         let url = `${environment.apiUrl}/api/history/transactions?type=${filterType}&page=${page}&size=${size}`;
 
-        // Add date range if set
         const startDate = this.selectedStartDate();
         const endDate = this.selectedEndDate();
         if (startDate) {
@@ -117,11 +104,32 @@ export class TransactionService {
             url += `&end=${this.formatDateForApi(endDate)}`;
         }
 
-        // Add cardId if set
-        const cardId = this.selectedCardId();
-        if (cardId) {
-            url += `&cardId=${cardId}`;
+        return url;
+    }
+
+    /**
+     * Set the filter type and reload transactions
+     */
+    setFilterType(type: TransactionFilterType): void {
+        this.selectedFilterType.set(type);
+        this.loadOverviewTransactions();
+    }
+
+    /**
+     * Load overview transactions
+     */
+    loadOverviewTransactions(
+        type?: TransactionFilterType,
+        page: number = 0,
+        size: number = 20
+    ): void {
+        this.overviewLoading.set(true);
+
+        if (type !== undefined) {
+            this.selectedFilterType.set(type);
         }
+
+        const url = this.buildTransactionUrl(page, size);
 
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {
@@ -144,40 +152,22 @@ export class TransactionService {
     }
 
     /**
-     * Load more transactions (next page) - appends to existing data
+     * Load more transactions (next page)
      */
     loadMoreTransactions(): void {
-        // Don't load if already loading or no more data
         if (this.loadingMore() || !this.hasMore()) {
             return;
         }
 
         this.loadingMore.set(true);
         const nextPage = this.currentPage() + 1;
-        const filterType = this.selectedFilterType();
-
-        // Build URL
-        let url = `${environment.apiUrl}/api/history/transactions?type=${filterType}&page=${nextPage}&size=20`;
-
-        const startDate = this.selectedStartDate();
-        const endDate = this.selectedEndDate();
-        if (startDate) {
-            url += `&start=${this.formatDateForApi(startDate)}`;
-        }
-        if (endDate) {
-            url += `&end=${this.formatDateForApi(endDate)}`;
-        }
-        const cardId = this.selectedCardId();
-        if (cardId) {
-            url += `&cardId=${cardId}`;
-        }
+        const url = this.buildTransactionUrl(nextPage, 20);
 
         this.http.get<OverviewReportResponse>(url).pipe(
             tap(data => {
                 this.ngZone.run(() => {
                     const currentReport = this.overviewReport();
                     if (currentReport) {
-                        // Append new transactions to existing
                         const mergedReport: OverviewReportResponse = {
                             ...data,
                             transactions: [...currentReport.transactions, ...data.transactions]
@@ -202,13 +192,12 @@ export class TransactionService {
     }
 
     /**
-     * Load transactions for a specific card
-     * API: /api/cards/transactions/{cardId}?page=0&size=10&period=ALL
+     * Load transactions for a specific card (home page)
      */
     loadCardTransactions(cardId: string, page: number = 0, size: number = 10, period: string = 'ALL'): void {
         this.cardReportLoading.set(true);
         this.selectedCardId.set(cardId);
-        const url = `${environment.apiUrl}/api/cards/transactions/${cardId}?page=${page}&size=${size}&period=${period}`;
+        const url = `${environment.apiUrl}/api/history/transactions/${cardId}?page=${page}&size=${size}&period=${period}`;
 
         this.http.get<HomePageReportResponse>(url).pipe(
             tap(data => {

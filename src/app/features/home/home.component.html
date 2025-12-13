@@ -24,10 +24,10 @@
 
         <!-- Cards carousel -->
         <app-loading-state *ngIf="loading()" [inline]="true"></app-loading-state>
-      <!-- Empty state -->
-      <div *ngIf="!loading() && cards().length === 0">
-        <app-empty-state message="cards.noCards"></app-empty-state>
-      </div>
+        <!-- Empty state -->
+        <div *ngIf="!loading() && cards().length === 0">
+            <app-empty-state message="cards.noCards"></app-empty-state>
+        </div>
         <app-balance-card-carousel *ngIf="!loading() && cards().length > 0" [cards]="cards()"
             [totalBalance]="totalBalance()" [income]="income" [expenses]="expenses"
             (cardSelected)="onCardSelected($event)">
@@ -38,7 +38,7 @@
         <div class="report-section initial-reports"
             *ngIf="!cardReportLoading() && cardReport() && $any(cardReport()).content?.length > 0">
             <app-report-card [reportData]="cardReport()!" [showFilters]="false" [showSeeAll]="true"
-                [maxTransactions]="3">
+                [maxTransactions]="3" [cardId]="getSelectedCardId()">
             </app-report-card>
         </div>
 

@@ -139,4 +139,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         // Reload cards data
         this.cardService.loadCardsFromAPI();
     }
+
+    getSelectedCardId(): string | undefined {
+        return this.transactionService.selectedCardId() || undefined;
+    }
 }

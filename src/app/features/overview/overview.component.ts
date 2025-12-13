@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BottomNavComponent } from '../../shared/components/bottom-nav/bottom-nav.component';
 import { ReportCardComponent } from '../../shared/components/report-card/report-card.component';
 import { LoadingStateComponent } from '../../shared/components/loading-state/loading-state.component';
@@ -20,22 +20,34 @@ export class OverviewComponent implements OnInit, OnDestroy {
   // Local data for template
   overviewData: OverviewReportResponse | null = null;
   isLoading: boolean = true;
+  cardId: string | null = null;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private transactionService: TransactionService
   ) { }
 
   ngOnInit(): void {
-    // Clear any card filter from home page
-    this.transactionService.selectedCardId.set(null);
+    // Get cardId from query params
+    this.route.queryParams.subscribe(params => {
+      this.cardId = params['cardId'] || null;
 
-    // Subscribe to service signals and load data
-    this.isLoading = true;
-    this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
+      if (this.cardId) {
+        // Set card filter in service
+        this.transactionService.selectedCardId.set(this.cardId);
+      } else {
+        // Clear card filter
+        this.transactionService.selectedCardId.set(null);
+      }
 
-    // Watch for data changes
-    this.checkDataLoaded();
+      // Load transactions based on filter
+      this.isLoading = true;
+      this.transactionService.loadOverviewTransactions(TransactionFilterType.ALL, 0, 20);
+
+      // Watch for data changes
+      this.checkDataLoaded();
+    });
   }
 
   private checkDataLoaded(): void {

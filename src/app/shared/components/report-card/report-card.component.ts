@@ -45,6 +45,7 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
     @Input() showSeeAll: boolean = true;
     @Input() maxTransactions?: number;
     @Input() enableInfiniteScroll: boolean = false;
+    @Input() cardId?: string; // Card ID for navigation to overview
 
     @ViewChild('scrollSentinel') scrollSentinel!: ElementRef;
     private intersectionObserver?: IntersectionObserver;
@@ -370,8 +371,14 @@ export class ReportCardComponent implements OnChanges, AfterViewInit, OnDestroy 
         this.selectedTransaction = null;
     }
     onSeeAllClick(): void {
-        console.log('Navigating to overview page');
-        this.router.navigate(['/overview']);
+        console.log('Navigating to overview page with cardId:', this.cardId);
+        if (this.cardId) {
+            // Navigate with cardId as query parameter
+            this.router.navigate(['/overview'], { queryParams: { cardId: this.cardId } });
+        } else {
+            // Navigate without cardId (show all cards)
+            this.router.navigate(['/overview']);
+        }
     }
 
     formatNumber(value: number): string {
