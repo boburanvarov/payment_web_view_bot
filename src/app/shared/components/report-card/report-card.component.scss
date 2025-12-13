@@ -59,6 +59,12 @@
   transition: all 0.2s ease;
   flex-shrink: 0;
 
+  // iOS Safari touch fixes
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  -webkit-touch-callout: none;
+  touch-action: manipulation;
+  user-select: none;
+
   svg {
     width: 16px;
     height: 16px;
