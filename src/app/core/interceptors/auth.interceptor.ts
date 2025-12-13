@@ -17,9 +17,9 @@ export const authInterceptor: HttpInterceptorFn = (
   let token = authService.getAuthToken();
 
   // Fallback to hardcoded token if no stored token (for web development)
-  if (!token) {
-    token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI4MDQzMDk4OSwicGhvbmVOdW1iZXIiOiI5OTg5MTY2Mzc3NDQiLCJleHAiOjE3NjgyNDI0ODksInVzZXJJZCI6MjgwNDMwOTg5LCJpYXQiOjE3NjU2NTA0ODl9.fBxkT4ystsRlgeSZhWoPh9udNreDYH5fa7sh7Bs5GFg';
-  }
+  // if (!token) {
+  //   token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjI4MDQzMDk4OSwicGhvbmVOdW1iZXIiOiI5OTg5MTY2Mzc3NDQiLCJleHAiOjE3NjgyNDI0ODksInVzZXJJZCI6MjgwNDMwOTg5LCJpYXQiOjE3NjU2NTA0ODl9.fBxkT4ystsRlgeSZhWoPh9udNreDYH5fa7sh7Bs5GFg';
+  // }
 
   const authReq = req.clone({
     setHeaders: {
