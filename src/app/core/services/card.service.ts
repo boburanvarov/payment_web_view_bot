@@ -62,29 +62,6 @@ export class CardService {
         };
     }
 
-    addCard(card: Omit<Card, 'id'>): void {
-        const newCard: Card = {
-            ...card,
-            id: this.cards().length + 1
-        };
-        this.cards.set([...this.cards(), newCard]);
-    }
-
-    updateCard(id: number, updates: Partial<Card>): void {
-        const updatedCards = this.cards().map(card =>
-            card.id === id ? { ...card, ...updates } : card
-        );
-        this.cards.set(updatedCards);
-    }
-
-    deleteCard(id: number): void {
-        const updatedCards = this.cards().filter(card => card.id !== id);
-        this.cards.set(updatedCards);
-    }
-
-    getCardById(id: number): Card | undefined {
-        return this.cards().find(card => card.id === id);
-    }
 
     // Add card via API - start process
     addCardToAPI(cardData: AddCardRequest) {
